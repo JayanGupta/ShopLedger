@@ -23,10 +23,16 @@ the browser UI and printable invoice. config.js contains shop, GST, and coupon s
 - lib/store.js: synchronous JSON reads and writes plus audit entries.
 - lib/tax.js: HSN GST resolution and the CGST/SGST split.
 
-## Commands
+## Run and verify
 
-- In a disposable app copy, run `npm install` then `npm start`.
-- Run `node --test` from the repository root.
+- From the repository root, run `node --test`. The invoice suite is
+  `node --test test/invoice.test.js`. The npm test script is a placeholder.
+- For browser checks, copy package.json, server.js, config.js, routes/, lib/,
+  public/, and data/ into a fresh temporary folder. Start from that folder.
+- Run `npm install --no-package-lock`, then `npm start`. For an alternate port
+  on PowerShell, set `$env:PORT = '3100'` before starting.
+- With the seed data, open `/orders/1002/invoice` and the GST Audit tab. Expect
+  invoice total INR 963.90, GST INR 45.90, and zero mismatches across eight orders.
 
 ## Rules
 
