@@ -1,36 +1,24 @@
-# ShopLedger
+# Repository Guidelines
 
-## Stack
-- Node.js app using Express 4 and body-parser for JSON request bodies.
-- Browser UI is served from public/; business data is read from and written to data/db.json.
+## Project Structure & Module Organization
+- `server.js` wires the Express app, static `public/` files, and API routes. `config.js` holds the port, shop settings, tax slabs, inventory defaults, and coupons.
+- `routes/` contains `customers.js`, `orders.js`, `products.js`, and `reports.js`; business logic lives in `lib/` (pricing, tax, invoices, inventory, ledger, reports, dates, coupons, orders, and JSON storage).
+- `public/` contains `index.html`, `css/`, and `js/app.js`. `data/db.json` is the local data store. Tests belong in `test/`.
 
-## Module map
-- routes/customers.js — lists customers and recent settlements; records Khata settlements.
-- routes/orders.js — lists, reads, creates, and cancels orders.
-- routes/products.js — lists products and active coupons.
-- routes/reports.js — dashboard and GST reconciliation, pricing preview, and admin export endpoints.
-- lib/coupons.js — normalizes, validates, lists, and calculates coupon discounts.
-- lib/dates.js — formats today’s date, normalizes date keys, and calculates fiscal year.
-- lib/inventory.js — finds products, checks/reserves/releases stock, and summarizes inventory.
-- lib/invoice.js — computes invoice figures and renders printable HTML invoices.
-- lib/ledger.js — customer balances, Khata charges/reversals, and settlements.
-- lib/orders.js — adds, finds, cancels, and filters orders.
-- lib/pricing.js — subtotal, discount, and checkout total calculations.
-- lib/reports.js — dashboard summary and invoice-to-ledger GST reconciliation.
-- lib/store.js — reads/writes data/db.json and appends audit entries.
-- lib/tax.js — resolves item GST rates/slabs and splits CGST/SGST.
+## Build, Test, and Development Commands
+- `npm install` installs dependencies.
+- `npm start` starts the app with `node server.js` (default port 3000; `PORT` can override it).
+- `node --test` runs the Node.js built-in test suite.
+- There is no build or lint script. The current `npm test` script is a placeholder that exits with an error; use `node --test`.
 
-## Commands
-- Start: `npm start` (package script runs `node server.js`).
-- Tests: `node --test`. No test files are present; package.json's `npm test` script is a placeholder that exits with an error.
+## Coding Style & Naming
+Use CommonJS modules (`require` and `module.exports`), two-space indentation, semicolons, and camelCase for functions and variables. Follow the neighboring file's declaration style: application modules commonly use `var`; tests use `const`. No formatter or linter is configured.
 
-## Rules
-1. Write characterization tests before changing behaviour.
-2. Change only the module(s) the ticket is about.
-3. Tests never read or write data/db.json; use in-memory data.
-4. Add no dependencies.
-5. Make the smallest fix that works.
+## Testing Guidelines
+Add behavior-focused tests under `test/*.test.js` with `node:test` and `node:assert/strict`. Write characterization tests before changing behavior. Keep test data in memory; tests must never read or write `data/db.json`. Cover totals, tax breakdowns, and relevant edge cases.
 
-## Current ticket
-Invoice total and GST breakdown do not match what the customer was billed.
-Allowed files: lib/invoice.js (lib/tax.js only if truly needed).
+## Commit & Pull Request Guidelines
+Recent history uses short, descriptive, mostly lowercase subjects (for example, `invoice page for accountant` and `support hsn gst slabs and coupon maxDiscount caps`); no strict prefix convention is evident. PRs should explain cause and fix, list test results, link the issue, and include screenshots when UI changes need visual review.
+
+## Data & Configuration
+Treat `data/db.json` as application data, not a test fixture. Keep shop details, tax settings, coupon rules, and the admin key in `config.js`; do not add real credentials to the repository.
