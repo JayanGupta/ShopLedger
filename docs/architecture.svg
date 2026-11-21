@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#536579"/></marker>
+    <marker id="flowarrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#2563eb"/></marker>
+    <style>
+      text{font-family:Arial,sans-serif;fill:#172033}
+      .title{font-size:24px;font-weight:bold}.sub{font-size:13px;fill:#506176}
+      .head{font-size:16px;font-weight:bold}.label{font-size:13px}.small{font-size:12px}
+      .box{fill:#fff;stroke:#91a0b2;stroke-width:1.5}.group{fill:#f5f8fc;stroke:#aab7c6;stroke-width:1.5}
+      .flow{fill:none;stroke:#2563eb;stroke-width:2.5;marker-end:url(#flowarrow)}
+      .link{fill:none;stroke:#536579;stroke-width:1.5;marker-end:url(#arrow)}
+      .step{fill:#2563eb;stroke:#fff;stroke-width:2}.steptext{font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle}
+    </style>
+  </defs>
+  <rect width="1200" height="800" fill="#f8fafc"/>
+  <text x="32" y="38" class="title">ShopLedger · application architecture</text>
+  <text x="32" y="60" class="sub">Runtime modules, data store, and numbered order placement path</text>
+
+  <!-- Browser -->
+  <rect x="32" y="92" width="220" height="120" rx="10" class="box"/>
+  <text x="50" y="120" class="head">Browser UI · public/</text>
+  <text x="50" y="146" class="label">index.html · css/style.css</text>
+  <text x="50" y="168" class="label">js/app.js</text>
+  <text x="50" y="192" class="small">Cart submits POST /api/orders</text>
+
+  <!-- server -->
+  <rect x="300" y="92" width="280" height="120" rx="10" class="box"/>
+  <text x="320" y="120" class="head">server.js · Express</text>
+  <text x="320" y="146" class="label">JSON body parser + static public/</text>
+  <text x="320" y="168" class="label">Mounts four routers at /api</text>
+  <text x="320" y="192" class="small">Also serves /orders/:id/invoice</text>
+  <path d="M252 152 L300 152" class="flow"/>
+  <text x="256" y="138" class="small" fill="#2563eb">HTTP</text>
+
+  <!-- Routes group -->
+  <rect x="625" y="80" width="260" height="260" rx="12" class="group"/>
+  <text x="645" y="106" class="head">routes/ · mounted at /api</text>
+  <rect x="645" y="120" width="220" height="42" rx="6" class="box"/>
+  <text x="660" y="146" class="label">products.js · /products, /coupons</text>
+  <rect x="645" y="172" width="220" height="52" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="660" y="194" class="label">orders.js · /orders</text><text x="660" y="212" class="small">POST create / POST :id/cancel</text>
+  <rect x="645" y="234" width="220" height="42" rx="6" class="box"/>
+  <text x="660" y="260" class="label">customers.js · /customers</text>
+  <rect x="645" y="286" width="220" height="42" rx="6" class="box"/>
+  <text x="660" y="312" class="label">reports.js · /reports, /pricing</text>
+  <path d="M580 152 L625 152" class="flow"/>
+
+  <!-- lib group -->
+  <rect x="920" y="80" width="250" height="480" rx="12" class="group"/>
+  <text x="940" y="106" class="head">lib/ · business logic</text>
+  <rect x="940" y="120" width="210" height="52" rx="7" fill="#fff4d6" stroke="#d97706" stroke-width="2"/>
+  <text x="955" y="143" class="label" font-weight="bold">inventory.js ★</text>
+  <text x="955" y="162" class="small">find · getSellableStock · check</text>
+  <rect x="940" y="182" width="210" height="52" rx="7" fill="#fff4d6" stroke="#d97706" stroke-width="2"/>
+  <text x="955" y="205" class="label" font-weight="bold">orders.js ★</text>
+  <text x="955" y="224" class="small">add · get · cancel · list</text>
+  <rect x="940" y="244" width="210" height="42" rx="7" class="box"/><text x="955" y="270" class="label">store.js · read/write/audit</text>
+  <rect x="940" y="296" width="210" height="42" rx="7" class="box"/><text x="955" y="322" class="label">pricing.js · subtotal/totals</text>
+  <rect x="940" y="348" width="210" height="42" rx="7" class="box"/><text x="955" y="374" class="label">coupons.js · validate/discount</text>
+  <rect x="940" y="400" width="210" height="42" rx="7" class="box"/><text x="955" y="426" class="label">ledger.js · Khata/settlement</text>
+  <rect x="940" y="452" width="210" height="42" rx="7" class="box"/><text x="955" y="478" class="label">tax.js · GST rate/split</text>
+  <rect x="940" y="504" width="210" height="42" rx="7" class="box"/><text x="955" y="530" class="label">reports.js · summary/recon</text>
+
+  <!-- other existing modules -->
+  <rect x="625" y="378" width="260" height="182" rx="12" class="group"/>
+  <text x="645" y="404" class="head">Other existing modules</text>
+  <rect x="645" y="418" width="220" height="42" rx="6" class="box"/><text x="660" y="444" class="label">invoice.js · compute/render</text>
+  <rect x="645" y="470" width="220" height="42" rx="6" class="box"/><text x="660" y="496" class="label">dates.js · today/date keys</text>
+  <rect x="645" y="522" width="220" height="30" rx="6" class="box"/><text x="660" y="543" class="small">config.js · shop, tax, coupons, port</text>
+  <path d="M865 439 C900 439 900 525 940 525" class="link"/>
+
+  <!-- config and storage -->
+  <rect x="32" y="270" width="220" height="70" rx="9" class="box"/>
+  <text x="50" y="298" class="head">config.js</text><text x="50" y="322" class="small">port · shop · tax · inventory · coupons</text>
+  <path d="M252 305 C540 305 570 348 920 365" class="link"/>
+  <path d="M252 317 C535 340 690 362 920 420" class="link"/>
+  <path d="M252 290 C530 280 740 140 920 140" class="link"/>
+  <path d="M252 330 C510 440 730 475 920 475" class="link"/>
+  <rect x="32" y="380" width="220" height="92" rx="9" class="box"/>
+  <text x="50" y="408" class="head">data/db.json</text>
+  <text x="50" y="432" class="small">products · orders · customers</text>
+  <text x="50" y="452" class="small">settlements · auditLog · counters</text>
+  <path d="M252 425 C500 425 700 265 940 265" class="link"/>
+
+  <!-- order flow -->
+  <rect x="32" y="590" width="1138" height="165" rx="12" fill="#eef4ff" stroke="#9cb8e8" stroke-width="1.5"/>
+  <text x="52" y="620" class="head">Order placement · POST /api/orders</text>
+  <rect x="52" y="640" width="190" height="82" rx="8" class="box"/>
+  <circle cx="68" cy="653" r="12" class="step"/><text x="68" y="658" class="steptext">1</text>
+  <text x="86" y="662" class="label">app.js sends cart</text><text x="66" y="690" class="small">POST /api/orders</text>
+  <path d="M242 681 L270 681" class="flow"/>
+  <rect x="270" y="640" width="190" height="82" rx="8" class="box"/>
+  <circle cx="286" cy="653" r="12" class="step"/><text x="286" y="658" class="steptext">2</text>
+  <text x="304" y="662" class="label">routes/orders.js</text><text x="284" y="690" class="small">resolve lines, validate</text>
+  <path d="M460 681 L488 681" class="flow"/>
+  <rect x="488" y="640" width="190" height="82" rx="8" fill="#fff4d6" stroke="#d97706" stroke-width="2"/>
+  <circle cx="504" cy="653" r="12" class="step"/><text x="504" y="658" class="steptext">3</text>
+  <text x="522" y="662" class="label">inventory.check()</text><text x="502" y="690" class="small">sellable = stock − reserved</text>
+  <path d="M678 681 L706 681" class="flow"/>
+  <rect x="706" y="640" width="190" height="82" rx="8" class="box"/>
+  <circle cx="722" cy="653" r="12" class="step"/><text x="722" y="658" class="steptext">4</text>
+  <text x="740" y="662" class="label">pricing + coupon</text><text x="720" y="690" class="small">tax.js · optional Khata</text>
+  <path d="M896 681 L924 681" class="flow"/>
+  <rect x="924" y="640" width="220" height="82" rx="8" class="box"/>
+  <circle cx="940" cy="653" r="12" class="step"/><text x="940" y="658" class="steptext">5</text>
+  <text x="958" y="662" class="label">reserve · orders.add</text><text x="938" y="690" class="small">audit + store.write(db.json)</text>
+  <text x="52" y="743" class="small" fill="#8a4b00">★ Amber highlight = ticket modules. Order item lines use id + qty.</text>
+
+  <!-- legend -->
+  <rect x="974" y="574" width="196" height="34" rx="7" fill="#fff4d6" stroke="#d97706" stroke-width="1.5"/>
+  <text x="988" y="596" class="small">Ticket module highlight</text>
+</svg>
