@@ -4,31 +4,31 @@ const assert = require('node:assert/strict');
 const invoice = require('../lib/invoice');
 const pricing = require('../lib/pricing');
 
-test('CURRENT BEHAVIOUR: #1001 applies 5% and 12% GST with no coupon', () => {
+test('Invoice matches 5% and 12% HSN slabs for #1001', () => {
   const order = {
     id: 1001,
     coupon: '',
     items: [
-      { id: 1, name: 'Rice', sku: 'RICE', price: 1000, qty: 1, hsn: '1006', gstRate: 5 },
-      { id: 2, name: 'Ghee', sku: 'GHEE', price: 500, qty: 1, hsn: '0405', gstRate: 12 }
+      { id: 1, name: 'Rice', sku: 'RICE', price: 90, qty: 1, hsn: '1006' },
+      { id: 2, name: 'Ghee', sku: 'GHEE', price: 520, qty: 1, hsn: '0405' }
     ]
   };
 
   const checkout = pricing.computeTotals(order.items, order.coupon);
   assert.deepEqual(
     { subtotal: checkout.subtotal, discount: checkout.discount, tax: checkout.tax, total: checkout.total },
-    { subtotal: 1500, discount: 0, tax: 110, total: 1610 }
+    { subtotal: 610, discount: 0, tax: 66.9, total: 676.9 }
   );
   assert.deepEqual(invoice.computeInvoiceFigures(order), {
-    subtotal: 1500,
+    subtotal: 610,
     discount: 0,
-    tax: 110,
-    cgst: 55,
-    sgst: 55,
-    total: 1610,
+    tax: 66.9,
+    cgst: 33.45,
+    sgst: 33.45,
+    total: 676.9,
     rows: [
-      { name: 'Rice', sku: 'RICE', hsn: '1006', qty: 1, price: 1000, gstPercent: 5, line: 1000, lineTax: 50 },
-      { name: 'Ghee', sku: 'GHEE', hsn: '0405', qty: 1, price: 500, gstPercent: 12, line: 500, lineTax: 60 }
+      { name: 'Rice', sku: 'RICE', hsn: '1006', qty: 1, price: 90, gstPercent: 5, line: 90, lineTax: 4.5 },
+      { name: 'Ghee', sku: 'GHEE', hsn: '0405', qty: 1, price: 520, gstPercent: 12, line: 520, lineTax: 62.4 }
     ]
   });
 });
@@ -38,26 +38,24 @@ test('Invoice applies checkout SAVE10 discount and post-discount GST for #1002',
     id: 1002,
     coupon: 'SAVE10',
     items: [
-      { id: 3, name: 'Tea', sku: 'TEA', price: 1200, qty: 1, hsn: '0902', gstRate: 18 },
-      { id: 1, name: 'Rice', sku: 'RICE', price: 300, qty: 1, hsn: '1006', gstRate: 5 }
+      { id: 1, name: 'Rice', sku: 'RICE', price: 1020, qty: 1, hsn: '1006' }
     ]
   };
 
   const checkout = pricing.computeTotals(order.items, order.coupon);
   assert.deepEqual(
     { subtotal: checkout.subtotal, discount: checkout.discount, tax: checkout.tax, total: checkout.total },
-    { subtotal: 1500, discount: 150, tax: 207.9, total: 1557.9 }
+    { subtotal: 1020, discount: 102, tax: 45.9, total: 963.9 }
   );
   assert.deepEqual(invoice.computeInvoiceFigures(order), {
-    subtotal: 1500,
-    discount: 150,
-    tax: 207.9,
-    cgst: 103.95,
-    sgst: 103.95,
-    total: 1557.9,
+    subtotal: 1020,
+    discount: 102,
+    tax: 45.9,
+    cgst: 22.95,
+    sgst: 22.95,
+    total: 963.9,
     rows: [
-      { name: 'Tea', sku: 'TEA', hsn: '0902', qty: 1, price: 1200, gstPercent: 18, line: 1200, lineTax: 194.4 },
-      { name: 'Rice', sku: 'RICE', hsn: '1006', qty: 1, price: 300, gstPercent: 5, line: 300, lineTax: 13.5 }
+      { name: 'Rice', sku: 'RICE', hsn: '1006', qty: 1, price: 1020, gstPercent: 5, line: 1020, lineTax: 45.9 }
     ]
   });
 });
@@ -67,24 +65,24 @@ test('Invoice applies the SAVE10 cap and post-discount GST for #1004', () => {
     id: 1004,
     coupon: 'SAVE10',
     items: [
-      { id: 4, name: 'Coffee', sku: 'COFFEE', price: 2240, qty: 1, hsn: '0901', gstRate: 18 }
+      { id: 1, name: 'Rice', sku: 'RICE', price: 2240, qty: 1, hsn: '1006' }
     ]
   };
 
   const checkout = pricing.computeTotals(order.items, order.coupon);
   assert.deepEqual(
     { subtotal: checkout.subtotal, discount: checkout.discount, tax: checkout.tax, total: checkout.total },
-    { subtotal: 2240, discount: 150, tax: 376.2, total: 2466.2 }
+    { subtotal: 2240, discount: 150, tax: 104.5, total: 2194.5 }
   );
   assert.deepEqual(invoice.computeInvoiceFigures(order), {
     subtotal: 2240,
     discount: 150,
-    tax: 376.2,
-    cgst: 188.1,
-    sgst: 188.1,
-    total: 2466.2,
+    tax: 104.5,
+    cgst: 52.25,
+    sgst: 52.25,
+    total: 2194.5,
     rows: [
-      { name: 'Coffee', sku: 'COFFEE', hsn: '0901', qty: 1, price: 2240, gstPercent: 18, line: 2240, lineTax: 376.2 }
+      { name: 'Rice', sku: 'RICE', hsn: '1006', qty: 1, price: 2240, gstPercent: 5, line: 2240, lineTax: 104.5 }
     ]
   });
 });
@@ -94,33 +92,31 @@ test('CURRENT BEHAVIOUR: #1008 applies 18% GST and no coupon', () => {
     id: 1008,
     coupon: '',
     items: [
-      { id: 5, name: 'Coffee blend', sku: 'COFFEE-B', price: 1200, qty: 1, hsn: '0901', gstRate: 18 },
-      { id: 6, name: 'Syrup', sku: 'SYRUP', price: 800, qty: 1, hsn: '2106', gstRate: 18 }
+      { id: 5, name: 'Tea', sku: 'TEA', price: 500, qty: 1, hsn: '0902' }
     ]
   };
 
   const checkout = pricing.computeTotals(order.items, order.coupon);
   assert.deepEqual(
     { subtotal: checkout.subtotal, discount: checkout.discount, tax: checkout.tax, total: checkout.total },
-    { subtotal: 2000, discount: 0, tax: 360, total: 2360 }
+    { subtotal: 500, discount: 0, tax: 90, total: 590 }
   );
   assert.deepEqual(invoice.computeInvoiceFigures(order), {
-    subtotal: 2000,
+    subtotal: 500,
     discount: 0,
-    tax: 360,
-    cgst: 180,
-    sgst: 180,
-    total: 2360,
+    tax: 90,
+    cgst: 45,
+    sgst: 45,
+    total: 590,
     rows: [
-      { name: 'Coffee blend', sku: 'COFFEE-B', hsn: '0901', qty: 1, price: 1200, gstPercent: 18, line: 1200, lineTax: 216 },
-      { name: 'Syrup', sku: 'SYRUP', hsn: '2106', qty: 1, price: 800, gstPercent: 18, line: 800, lineTax: 144 }
+      { name: 'Tea', sku: 'TEA', hsn: '0902', qty: 1, price: 500, gstPercent: 18, line: 500, lineTax: 90 }
     ]
   });
 });
 
-test('invoice matches checkout for HSN slabs and capped SAVE10 applied before tax', () => {
+test('invoice matches checkout for mixed HSN slabs and capped SAVE10 before tax', () => {
   const order = {
-    id: 1004,
+    id: 1010,
     coupon: 'SAVE10',
     items: [
       { id: 1, name: 'Rice', sku: 'RICE', price: 1000, qty: 1, hsn: '1006' },
