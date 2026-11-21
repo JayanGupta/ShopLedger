@@ -1,0 +1,11 @@
+# Change Log
+
+## 2026-11-21
+
+- Fixed order cancellation so cancelled items are restored to physical stock.
+- Corrected stock validation to allow selling the last sellable unit and to check combined quantities for repeated product lines.
+- Reject invalid, fractional, zero, and negative order quantities instead of silently converting them to one.
+- Validate settlement amounts as finite positive numbers and store numeric, rounded ledger totals.
+- Unified invoice tax and coupon calculations with the order pricing logic so invoices use the same line-level GST and discount rules.
+- Normalize supported order dates into chronological keys for filtering and newest-first sorting; invalid dates are excluded from bounded date searches.
+- Removed the committed admin export key. Admin export now remains disabled until `ADMIN_KEY` is configured in the environment.
