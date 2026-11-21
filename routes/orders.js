@@ -40,8 +40,10 @@ router.post('/orders', function (req, res) {
     if (!p) {
       return res.status(400).json({ error: 'Unknown product ID ' + body.items[i].id });
     }
-    var q = parseInt(body.items[i].qty, 10);
-    if (!q || q < 1) q = 1;
+    var q = Number(body.items[i].qty);
+    if (!Number.isSafeInteger(q) || q < 1) {
+      return res.status(400).json({ error: 'Each item quantity must be a positive whole number' });
+    }
 
     // Note: hsn is stored on line items; tax slab is resolved via lib/tax.js
     items.push({
