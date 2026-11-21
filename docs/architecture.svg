@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<style>text{font-family:Arial,sans-serif;fill:#152838}.title{font-size:30px;font-weight:bold}.head{font-size:21px;font-weight:bold}.small{font-size:16px}.box{fill:#f2f8f5;stroke:#167b5a;stroke-width:2}.focus{fill:#fff1d6;stroke:#c67500;stroke-width:3}.arrow{stroke:#345;stroke-width:2;fill:none;marker-end:url(#a)}</style>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#345"/></marker></defs>
+<rect width="1200" height="720" fill="white"/><text x="42" y="50" class="title">ShopLedger — architecture and order flow</text>
+<rect class="box" x="40" y="95" width="215" height="92" rx="10"/><text class="head" x="60" y="130">Browser UI</text><text class="small" x="60" y="158">public/</text>
+<rect class="box" x="330" y="95" width="235" height="92" rx="10"/><text class="head" x="350" y="130">Express server</text><text class="small" x="350" y="158">server.js · routes/</text>
+<rect class="box" x="650" y="95" width="245" height="92" rx="10"/><text class="head" x="670" y="130">Store</text><text class="small" x="670" y="158">lib/store.js ↔ data/db.json</text>
+<path class="arrow" d="M255 140 H330"/><path class="arrow" d="M565 140 H650"/>
+<rect class="box" x="330" y="255" width="235" height="115" rx="10"/><text class="head" x="350" y="288">Order route</text><text class="small" x="350" y="315">inventory · orders · ledger</text><text class="small" x="350" y="342">pricing · coupons · tax</text>
+<path class="arrow" d="M447 187 V255"/><path class="arrow" d="M565 310 L650 185"/>
+<rect class="focus" x="650" y="255" width="245" height="115" rx="10"/><text class="head" x="670" y="288">Invoice · Ticket 1</text><text class="small" x="670" y="315">lib/invoice.js</text><text class="small" x="670" y="342">HTML invoice and figures</text>
+<path class="arrow" d="M565 168 L650 272"/>
+<rect class="box" x="945" y="255" width="205" height="115" rx="10"/><text class="head" x="965" y="288">Reports</text><text class="small" x="965" y="315">lib/reports.js</text><text class="small" x="965" y="342">GST reconciliation</text><path class="arrow" d="M945 315 H895"/>
+<rect class="box" x="945" y="95" width="205" height="92" rx="10"/><text class="head" x="965" y="130">Configuration</text><text class="small" x="965" y="158">config.js</text><path class="arrow" d="M1048 187 V255"/>
+<text x="42" y="440" class="head">Placing an order</text>
+<text x="42" y="480" class="small">1. UI posts items → 2. Route reads database and resolves products → 3. Inventory and coupon checks</text>
+<text x="42" y="515" class="small">4. Pricing applies discount and GST → 5. Optional Khata charge; stock reserved; order and audit added</text>
+<text x="42" y="550" class="small">6. Store writes database → 7. Route returns order. Invoice requests separately render the stored order.</text>
+<text x="42" y="630" class="small">The browser, routes and modules are shown at their existing boundaries. Arrows represent calls or data flow.</text>
+</svg>
