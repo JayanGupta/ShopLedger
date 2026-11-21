@@ -34,4 +34,3 @@ test('checkout counts repeated SKU lines toward the same sellable stock', () => 
   assert.equal(inventory.check([product], lines).ok, true);
   assert.equal(inventory.check([product], [...lines, { id: 1, qty: 1 }]).ok, false);
 });
-

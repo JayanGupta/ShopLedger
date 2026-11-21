@@ -59,4 +59,3 @@ test('an invalid settlement does not modify the Khata account', () => {
   assert.equal(db.nextSettlementId, 501);
   assert.deepEqual(db.settlements, []);
 });
-

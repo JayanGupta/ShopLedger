@@ -67,4 +67,3 @@ test('#1004 printable figures match the capped checkout and line GST', () => {
   assert.equal(printed.rows[0].gstPercent, 5);
   assert.equal(printed.rows[0].lineTax, 104.5);
 });
-
