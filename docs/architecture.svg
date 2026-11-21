@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 570" role="img" aria-labelledby="title description">
+  <title id="title">ShopLedger architecture and order flow</title>
+  <desc id="description">Six steps trace checkout from the browser to the JSON store. Ticket 1 modules are outlined in amber.</desc>
+  <style>
+    text { font-family: system-ui, sans-serif; fill: #e2e8f0; font-size: 15px }
+    .title { font-size: 27px; font-weight: 700 }
+    .section { font-size: 19px; font-weight: 650 }
+    .card { fill: #182b42; stroke: #55708b }
+    .ticket { stroke: #fbbf24; stroke-width: 2 }
+    .arrow { stroke: #94a3b8; stroke-width: 2; fill: none; marker-end: url(#arrow) }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="900" height="570" fill="#0f1d30"/>
+  <text class="title" x="30" y="43">ShopLedger</text>
+  <text x="30" y="72">Order creation and invoice reconciliation</text>
+  <text x="650" y="72" style="fill:#fbbf24">Amber outline = Ticket #1</text>
+  <g>
+    <rect class="card" x="30" y="102" width="255" height="95" rx="8"/>
+    <text class="section" x="45" y="130">1. Browser checkout</text>
+    <text x="45" y="158">public/index.html + js/app.js</text>
+    <text x="45" y="180">Sends POST /api/orders</text>
+    <rect class="card" x="322" y="102" width="255" height="95" rx="8"/>
+    <text class="section" x="337" y="130">2. Express routes</text>
+    <text x="337" y="158">server.js → routes/orders.js</text>
+    <text x="337" y="180">Loads data and validates stock</text>
+    <rect class="card ticket" x="614" y="102" width="255" height="95" rx="8"/>
+    <text class="section" x="629" y="130">3. Pricing and GST</text>
+    <text x="629" y="158">lib/pricing.js, coupons.js, tax.js</text>
+    <text x="629" y="180">Applies config.js coupon/GST rules</text>
+    <rect class="card" x="614" y="234" width="255" height="95" rx="8"/>
+    <text class="section" x="629" y="262">4. Stock and credit</text>
+    <text x="629" y="290">lib/inventory.js + lib/ledger.js</text>
+    <text x="629" y="312">Charges Khata if selected</text>
+    <rect class="card" x="322" y="234" width="255" height="95" rx="8"/>
+    <text class="section" x="337" y="262">5. Save the order</text>
+    <text x="337" y="290">lib/orders.js → lib/store.js</text>
+    <text x="337" y="312">Records order totals and audit</text>
+    <rect class="card" x="30" y="234" width="255" height="95" rx="8"/>
+    <text class="section" x="45" y="262">6. JSON database</text>
+    <text x="45" y="290">data/db.json</text>
+    <text x="45" y="312">Route returns HTTP 201</text>
+    <path class="arrow" d="M285 150H319 M577 150H611 M742 197V231 M614 282H580 M322 282H288"/>
+    <rect class="card" x="30" y="385" width="255" height="135" rx="8"/>
+    <text class="section" x="45" y="416">Printable invoice</text>
+    <text x="45" y="445">GET /orders/:id/invoice</text>
+    <text x="45" y="469">server.js loads saved order</text>
+    <rect class="card ticket" x="322" y="385" width="255" height="135" rx="8"/>
+    <text class="section" x="337" y="416">Invoice calculation</text>
+    <text x="337" y="445">lib/invoice.js</text>
+    <text x="337" y="469">Figures feed HTML and GST Audit</text>
+    <rect class="card" x="614" y="385" width="255" height="135" rx="8"/>
+    <text class="section" x="629" y="416">GST Audit</text>
+    <text x="629" y="445">routes/reports.js → lib/reports.js</text>
+    <text x="629" y="469">Compares computed invoice totals</text>
+    <text x="629" y="493">with stored order figures</text>
+    <path class="arrow" d="M157 329V382 M285 452H319 M577 452H611"/>
+  </g>
+</svg>
