@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+<title id="title">ShopLedger architecture and order lifecycle</title>
+<desc id="desc">The browser calls Express routers. Checkout updates stock and Khata before writing one JSON file. Cancellation misses normal order lines because release looks for productId instead of id.</desc>
+<style>
+text{font:15px sans-serif;fill:#20364a}.heading{font-size:24px;font-weight:bold}.title{font-size:34px;font-weight:bold}.file{font-family:monospace;font-size:15px;font-weight:bold}.small{font-size:14px}.ticket{fill:#8b370a;font-weight:bold}.num{fill:white;font-size:14px;font-weight:bold;text-anchor:middle}.label{font-size:13px;font-weight:bold;letter-spacing:1px;fill:#536977}
+</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#526f82"/></marker></defs>
+<rect x="0" y="0" width="1200" height="800" rx="0" fill="#f4f7f8" stroke="none"/>
+<text x="30" y="51" class="title">ShopLedger architecture</text>
+<rect x="805" y="24" width="20" height="20" rx="4" fill="#ffead3" stroke="#b26028"/>
+<text x="837" y="40" class="small">Ticket scope: inventory.js and orders.js cancel()</text>
+<rect x="26" y="76" width="554" height="694" rx="9" fill="white" stroke="#c9d5db"/>
+<rect x="596" y="76" width="578" height="694" rx="9" fill="white" stroke="#c9d5db"/>
+<text x="48" y="116" class="heading">Application map</text>
+<text x="617" y="116" class="heading">Placing an order</text>
+<rect x="48" y="137" width="215" height="84" rx="9" fill="#edf5f8" stroke="none"/>
+<text x="61" y="162" class="file">public/</text>
+<text x="61" y="185" class="small">Browser UI · index.html</text>
+<text x="61" y="205" class="small">js/app.js · css/style.css</text>
+<path d="M263 179H294" stroke="#526f82" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<rect x="299" y="137" width="258" height="84" rx="9" fill="#edf5f8" stroke="none"/>
+<text x="312" y="162" class="file">server.js</text>
+<text x="312" y="185" class="small">Express · static files · JSON</text>
+<text x="312" y="205" class="small">Printable invoice via invoice.render</text>
+<path d="M425 221V243" stroke="#526f82" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="48" y="248" class="label">ROUTES MOUNTED UNDER /api</text>
+<text x="48" y="277" class="file">routes/products.js</text>
+<text x="243" y="277" class="small">Catalog, sellable stock and coupons</text>
+<text x="48" y="303" class="file">routes/orders.js</text>
+<text x="243" y="303" class="small">Place, list, retrieve and cancel orders</text>
+<text x="48" y="329" class="file">routes/customers.js</text>
+<text x="243" y="329" class="small">Khata accounts and settlements</text>
+<text x="48" y="355" class="file">routes/reports.js</text>
+<text x="243" y="355" class="small">Dashboard, GST checks, preview and export</text>
+<path d="M48 374H557" stroke="#526f82" stroke-width="2" fill="none"/>
+<text x="48" y="402" class="label">LIBRARY MODULES</text>
+<rect x="43" y="414" width="514" height="23" rx="9" fill="#ffead3" stroke="none"/>
+<text x="48" y="431" class="file ticket">lib/inventory.js</text>
+<text x="222" y="431" class="small">Stock checks, deductions and releases</text>
+<text x="48" y="456" class="file">lib/orders.js</text>
+<text x="222" y="456" class="small">Order records and lookup</text>
+<rect x="426" y="439" width="128" height="22" rx="9" fill="#ffead3" stroke="none"/>
+<text x="439" y="456" class="file ticket">cancel()</text>
+<text x="48" y="481" class="file">lib/ledger.js</text>
+<text x="222" y="481" class="small">Credit charges, reversals and settlements</text>
+<text x="48" y="506" class="file">lib/pricing.js</text>
+<text x="222" y="506" class="small">Order totals and proportional discounts</text>
+<text x="48" y="531" class="file">lib/coupons.js</text>
+<text x="222" y="531" class="small">Coupon validation and discounts</text>
+<text x="48" y="556" class="file">lib/tax.js</text>
+<text x="222" y="556" class="small">HSN rates and CGST/SGST split</text>
+<text x="48" y="581" class="file">lib/dates.js</text>
+<text x="222" y="581" class="small">Date formatting and date keys</text>
+<text x="48" y="606" class="file">lib/invoice.js</text>
+<text x="222" y="606" class="small">Printable invoice figures and HTML</text>
+<text x="48" y="631" class="file">lib/reports.js</text>
+<text x="222" y="631" class="small">Dashboard totals and GST reconciliation</text>
+<text x="48" y="656" class="file">lib/store.js</text>
+<text x="222" y="656" class="small">Read, audit and write the JSON database</text>
+<rect x="44" y="678" width="513" height="76" rx="9" fill="#edf5f8" stroke="none"/>
+<text x="56" y="705" class="file">config.js</text>
+<text x="201" y="705" class="small">Shop, GST, coupons and inventory settings</text>
+<text x="56" y="735" class="file">data/db.json</text>
+<text x="201" y="735" class="small">Products, accounts, orders, payments, audit, IDs</text>
+<path d="M637 153V567" stroke="#526f82" stroke-width="2" fill="none"/>
+<circle cx="637" cy="155" r="13" fill="#245b70"/>
+<text x="637" y="160" class="num">1</text>
+<text x="663" y="159" class="file">Submit the cart</text>
+<text x="663" y="180" class="small">getSelectedCartItems() → POST /api/orders</text>
+<text x="663" y="199" class="small">server.js dispatches to routes/orders.js.</text>
+<circle cx="637" cy="223" r="13" fill="#245b70"/>
+<text x="637" y="228" class="num">2</text>
+<text x="663" y="227" class="file">Load the database and resolve products</text>
+<text x="663" y="248" class="small">store.read() → inventory.find() by item.id</text>
+<text x="663" y="267" class="small">Saved lines use id, sku, name, hsn, price and qty.</text>
+<circle cx="637" cy="291" r="13" fill="#245b70"/>
+<text x="637" y="296" class="num">3</text>
+<text x="663" y="295" class="file">Check each line against sellable stock</text>
+<text x="663" y="316" class="small">inventory.check() rejects qty ≥ max(0, stock − reserved).</text>
+<text x="663" y="335" class="small">Repeated product IDs are checked independently.</text>
+<circle cx="637" cy="359" r="13" fill="#245b70"/>
+<text x="637" y="364" class="num">4</text>
+<text x="663" y="363" class="file">Price the order</text>
+<text x="663" y="384" class="small">pricing.subtotal() → coupons.validate() for a supplied code.</text>
+<text x="663" y="403" class="small">pricing.computeTotals() discounts lines, then applies HSN tax.</text>
+<circle cx="637" cy="427" r="13" fill="#245b70"/>
+<text x="637" y="432" class="num">5</text>
+<text x="663" y="431" class="file">Charge the customer for Khata sales</text>
+<text x="663" y="452" class="small">ledger.chargeOrderToKhata() checks the credit limit,</text>
+<text x="663" y="471" class="small">then updates totalBilled and balance.</text>
+<circle cx="637" cy="495" r="13" fill="#245b70"/>
+<text x="637" y="500" class="num">6</text>
+<text x="663" y="499" class="file">Deduct stock and add the order</text>
+<text x="663" y="520" class="small">inventory.reserve() subtracts qty from stock. orders.add()</text>
+<text x="663" y="539" class="small">assigns the next ID, dates the order and appends it.</text>
+<circle cx="637" cy="563" r="13" fill="#245b70"/>
+<text x="637" y="568" class="num">7</text>
+<text x="663" y="567" class="file">Save and respond</text>
+<text x="663" y="588" class="small">store.appendAudit() logs ORDER_CREATED. store.write()</text>
+<text x="663" y="607" class="small">rewrites data/db.json. The route returns HTTP 201 and the order.</text>
+<rect x="617" y="631" width="536" height="123" rx="9" fill="#fff5eb" stroke="#d99b69"/>
+<text x="632" y="655" class="label">SEPARATE ACTION · POST /api/orders/:id/cancel</text>
+<text x="632" y="680" class="file ticket">lib/orders.js cancel() → inventory.release()</text>
+<text x="632" y="702" class="small">release() looks for item.productId. Saved lines have id, so it skips them.</text>
+<text x="632" y="722" class="small">Even on a match it lowers reserved. It never restores physical stock.</text>
+<text x="632" y="742" class="small">Cancellation marks the order, reverses linked Khata debt and is saved.</text>
+</svg>
