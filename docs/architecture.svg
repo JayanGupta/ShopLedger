@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">ShopLedger architecture and order placement flow</title>
+  <desc id="desc">Verified modules, routers, data store, and order placement sequence for ShopLedger.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#475569"/></marker>
+  </defs>
+  <rect width="1200" height="800" fill="#f8fafc"/>
+  <text x="32" y="38" font-family="Arial,sans-serif" font-size="23" font-weight="700" fill="#0f172a">ShopLedger — architecture &amp; order placement</text>
+  <text x="32" y="60" font-family="Arial,sans-serif" font-size="12" fill="#475569">Node / Express POS, Khata ledger, GST invoicing • verified against repository source</text>
+
+  <g font-family="Arial,sans-serif">
+    <rect x="30" y="76" width="210" height="67" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="44" y="101" font-size="16" font-weight="700" fill="#1e3a8a">Browser UI: public/</text>
+    <text x="44" y="123" font-size="12" fill="#1e3a8a">POS, orders, customer screens</text>
+
+    <rect x="283" y="76" width="245" height="67" rx="8" fill="#e2e8f0" stroke="#475569"/>
+    <text x="297" y="101" font-size="16" font-weight="700" fill="#0f172a">server.js</text>
+    <text x="297" y="123" font-size="12" fill="#334155">Express app, static UI, router mounts</text>
+
+    <rect x="946" y="76" width="224" height="67" rx="8" fill="#fef3c7" stroke="#d97706"/>
+    <text x="960" y="101" font-size="16" font-weight="700" fill="#78350f">config.js</text>
+    <text x="960" y="123" font-size="12" fill="#78350f">port, shop, GST slabs, coupons</text>
+  </g>
+  <path d="M240 109 H277" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M528 109 H940" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 5"/>
+
+  <text x="30" y="169" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#0f172a">Routers (mounted at /api unless noted)</text>
+  <g font-family="Arial,sans-serif">
+    <rect x="30" y="179" width="270" height="72" rx="7" fill="#fff" stroke="#94a3b8"/>
+    <text x="42" y="201" font-size="14" font-weight="700" fill="#0f172a">routes/products.js</text>
+    <text x="42" y="222" font-size="12" fill="#334155">GET /products • GET /coupons</text>
+    <text x="42" y="240" font-size="12" fill="#334155">catalog and coupon list</text>
+
+    <rect x="316" y="179" width="270" height="72" rx="7" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="328" y="201" font-size="14" font-weight="700" fill="#1e3a8a">routes/orders.js</text>
+    <text x="328" y="222" font-size="12" fill="#1e3a8a">GET/POST /orders • cancel</text>
+    <text x="328" y="240" font-size="12" fill="#1e3a8a">checkout and order history</text>
+
+    <rect x="602" y="179" width="270" height="72" rx="7" fill="#fff" stroke="#94a3b8"/>
+    <text x="614" y="201" font-size="14" font-weight="700" fill="#0f172a">routes/customers.js</text>
+    <text x="614" y="222" font-size="12" fill="#334155">GET /customers</text>
+    <text x="614" y="240" font-size="12" fill="#334155">POST /customers/:id/settle</text>
+
+    <rect x="888" y="179" width="282" height="72" rx="7" fill="#fff" stroke="#94a3b8"/>
+    <text x="900" y="201" font-size="14" font-weight="700" fill="#0f172a">routes/reports.js</text>
+    <text x="900" y="222" font-size="12" fill="#334155">dashboard • GST reconciliation</text>
+    <text x="900" y="240" font-size="12" fill="#334155">pricing preview • admin export</text>
+  </g>
+
+  <text x="30" y="277" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#0f172a">lib/ modules</text>
+  <g font-family="Arial,sans-serif">
+    <rect x="30" y="287" width="216" height="70" rx="7" fill="#fff" stroke="#cbd5e1"/>
+    <text x="42" y="308" font-size="14" font-weight="700" fill="#0f172a">lib/coupons.js</text>
+    <text x="42" y="330" font-size="12" fill="#334155">validate • calculateDiscount</text>
+    <text x="42" y="346" font-size="12" fill="#334155">normalizeCode • getCoupon</text>
+
+    <rect x="260" y="287" width="216" height="70" rx="7" fill="#fff" stroke="#cbd5e1"/>
+    <text x="272" y="308" font-size="14" font-weight="700" fill="#0f172a">lib/dates.js</text>
+    <text x="272" y="330" font-size="12" fill="#334155">today • normalizeDateKey</text>
+    <text x="272" y="346" font-size="12" fill="#334155">getFiscalYear</text>
+
+    <rect x="490" y="287" width="216" height="70" rx="7" fill="#fff" stroke="#cbd5e1"/>
+    <text x="502" y="308" font-size="14" font-weight="700" fill="#0f172a">lib/inventory.js</text>
+    <text x="502" y="330" font-size="12" fill="#334155">check • reserve • release</text>
+    <text x="502" y="346" font-size="12" fill="#334155">find • summarize</text>
+
+    <rect x="720" y="287" width="216" height="70" rx="7" fill="#fae8ff" stroke="#a21caf" stroke-width="2"/>
+    <text x="732" y="308" font-size="14" font-weight="700" fill="#701a75">lib/invoice.js • Ticket 1</text>
+    <text x="732" y="330" font-size="12" fill="#701a75">computeInvoiceFigures</text>
+    <text x="732" y="346" font-size="12" fill="#701a75">render</text>
+
+    <rect x="950" y="287" width="220" height="70" rx="7" fill="#fff" stroke="#cbd5e1"/>
+    <text x="962" y="308" font-size="14" font-weight="700" fill="#0f172a">lib/ledger.js</text>
+    <text x="962" y="330" font-size="12" fill="#334155">chargeOrderToKhata</text>
+    <text x="962" y="346" font-size="12" fill="#334155">recordSettlement</text>
+
+    <rect x="30" y="369" width="216" height="70" rx="7" fill="#fff" stroke="#cbd5e1"/>
+    <text x="42" y="390" font-size="14" font-weight="700" fill="#0f172a">lib/orders.js</text>
+    <text x="42" y="412" font-size="12" fill="#334155">add • get • cancel • list</text>
+    <text x="42" y="428" font-size="12" fill="#334155">order records</text>
+
+    <rect x="260" y="369" width="216" height="70" rx="7" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="272" y="390" font-size="14" font-weight="700" fill="#1e3a8a">lib/pricing.js</text>
+    <text x="272" y="412" font-size="12" fill="#1e3a8a">subtotal • discount</text>
+    <text x="272" y="428" font-size="12" fill="#1e3a8a">computeTotals</text>
+
+    <rect x="490" y="369" width="216" height="70" rx="7" fill="#fff" stroke="#cbd5e1"/>
+    <text x="502" y="390" font-size="14" font-weight="700" fill="#0f172a">lib/reports.js</text>
+    <text x="502" y="412" font-size="12" fill="#334155">getDashboardSummary</text>
+    <text x="502" y="428" font-size="12" fill="#334155">getGstReconciliation</text>
+
+    <rect x="720" y="369" width="216" height="70" rx="7" fill="#fff" stroke="#cbd5e1"/>
+    <text x="732" y="390" font-size="14" font-weight="700" fill="#0f172a">lib/store.js</text>
+    <text x="732" y="412" font-size="12" fill="#334155">read • write • appendAudit</text>
+    <text x="732" y="428" font-size="12" fill="#334155">JSON persistence</text>
+
+    <rect x="950" y="369" width="220" height="70" rx="7" fill="#fff" stroke="#cbd5e1"/>
+    <text x="962" y="390" font-size="14" font-weight="700" fill="#0f172a">lib/tax.js</text>
+    <text x="962" y="412" font-size="12" fill="#334155">getRateForItem</text>
+    <text x="962" y="428" font-size="12" fill="#334155">splitCgstSgst</text>
+  </g>
+
+  <text x="30" y="466" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#0f172a">Numbered order-placement flow</text>
+  <g font-family="Arial,sans-serif">
+    <rect x="30" y="480" width="212" height="86" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+    <circle cx="50" cy="500" r="13" fill="#1d4ed8"/><text x="46" y="505" font-size="13" font-weight="700" fill="#fff">1</text>
+    <text x="70" y="504" font-size="13" font-weight="700" fill="#1e3a8a">Browser public/</text>
+    <text x="42" y="530" font-size="12" fill="#1e3a8a">POST /api/orders</text>
+    <text x="42" y="548" font-size="12" fill="#1e3a8a">items + coupon</text>
+
+    <rect x="270" y="480" width="212" height="86" rx="8" fill="#fff" stroke="#94a3b8"/>
+    <circle cx="290" cy="500" r="13" fill="#475569"/><text x="286" y="505" font-size="13" font-weight="700" fill="#fff">2</text>
+    <text x="310" y="504" font-size="13" font-weight="700" fill="#0f172a">routes/orders.js</text>
+    <text x="282" y="530" font-size="12" fill="#334155">resolve products</text>
+    <text x="282" y="548" font-size="12" fill="#334155">normalize coupon</text>
+
+    <rect x="510" y="480" width="212" height="86" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+    <circle cx="530" cy="500" r="13" fill="#1d4ed8"/><text x="526" y="505" font-size="13" font-weight="700" fill="#fff">3</text>
+    <text x="550" y="504" font-size="13" font-weight="700" fill="#1e3a8a">Pricing &amp; tax</text>
+    <text x="522" y="530" font-size="12" fill="#1e3a8a">coupons.validate</text>
+    <text x="522" y="548" font-size="12" fill="#1e3a8a">pricing.computeTotals</text>
+
+    <rect x="750" y="480" width="212" height="86" rx="8" fill="#fff" stroke="#94a3b8"/>
+    <circle cx="770" cy="500" r="13" fill="#475569"/><text x="766" y="505" font-size="13" font-weight="700" fill="#fff">4</text>
+    <text x="790" y="504" font-size="13" font-weight="700" fill="#0f172a">Reserve &amp; record</text>
+    <text x="762" y="530" font-size="12" fill="#334155">inventory.check/reserve</text>
+    <text x="762" y="548" font-size="12" fill="#334155">orders.add • Khata if chosen</text>
+
+    <rect x="990" y="480" width="180" height="86" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+    <circle cx="1010" cy="500" r="13" fill="#15803d"/><text x="1006" y="505" font-size="13" font-weight="700" fill="#fff">5</text>
+    <text x="1030" y="504" font-size="13" font-weight="700" fill="#14532d">Persist</text>
+    <text x="1002" y="530" font-size="12" fill="#14532d">appendAudit</text>
+    <text x="1002" y="548" font-size="12" fill="#14532d">write data/db.json</text>
+  </g>
+  <g fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)">
+    <path d="M242 522 H264"/><path d="M482 522 H504"/><path d="M722 522 H744"/><path d="M962 522 H984"/>
+  </g>
+
+  <rect x="30" y="594" width="500" height="116" rx="8" fill="#f1f5f9" stroke="#64748b"/>
+  <text x="46" y="619" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#0f172a">data/db.json</text>
+  <text x="46" y="643" font-family="Arial,sans-serif" font-size="12" fill="#334155">lib/store.js reads/writes JSON and ensures these structures:</text>
+  <text x="46" y="666" font-family="Arial,sans-serif" font-size="12" fill="#334155">products • orders • customers • settlements • auditLog</text>
+  <text x="46" y="689" font-family="Arial,sans-serif" font-size="12" fill="#334155">nextOrderId • nextSettlementId</text>
+
+  <rect x="550" y="594" width="620" height="116" rx="8" fill="#fff" stroke="#cbd5e1"/>
+  <text x="566" y="619" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#0f172a">Invoice route</text>
+  <text x="566" y="643" font-family="Arial,sans-serif" font-size="12" fill="#334155">GET /orders/:id/invoice → store.read → orders.get → invoice.render</text>
+  <text x="566" y="666" font-family="Arial,sans-serif" font-size="12" fill="#334155">lib/invoice.js uses pricing.computeTotals and tax.getRateForItem</text>
+  <text x="566" y="689" font-family="Arial,sans-serif" font-size="12" fill="#334155">Ticket 1 highlight: invoice total, line discount, taxable value, and GST</text>
+
+  <rect x="30" y="735" width="18" height="18" rx="3" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="56" y="749" font-family="Arial,sans-serif" font-size="12" fill="#334155">order flow / checkout</text>
+  <rect x="240" y="735" width="18" height="18" rx="3" fill="#fae8ff" stroke="#a21caf" stroke-width="2"/>
+  <text x="266" y="749" font-family="Arial,sans-serif" font-size="12" fill="#334155">Ticket 1 invoice module</text>
+  <rect x="470" y="735" width="18" height="18" rx="3" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="496" y="749" font-family="Arial,sans-serif" font-size="12" fill="#334155">JSON persistence</text>
+  <line x1="690" y1="744" x2="730" y2="744" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="740" y="749" font-family="Arial,sans-serif" font-size="12" fill="#334155">request / data flow</text>
+</svg>
