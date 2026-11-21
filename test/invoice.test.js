@@ -1,100 +1,79 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const invoice = require('../lib/invoice');
-const pricing = require('../lib/pricing');
+var test = require('node:test');
+var assert = require('node:assert/strict');
+var invoice = require('../lib/invoice');
+var pricing = require('../lib/pricing');
 
-// These fixtures model saved order lines and leave the optional gstRate unset.
-const cases = [
+function comparableFigures(totals, fields) {
+  return fields.reduce(function (figures, field) {
+    figures[field] = totals[field];
+    return figures;
+  }, {});
+}
+
+// These are in-memory copies of the ticket orders. Tests never load or write db.json.
+var orders = [
   {
-    name: '#1001 invoice uses 18% for 5% and 12% items',
-    order: {
-      id: 1001,
-      coupon: '',
-      items: [
-        { name: 'Rice', price: 90, qty: 1, hsn: '1006' },
-        { name: 'Ghee', price: 260, qty: 2, hsn: '0405' }
-      ]
-    },
-    invoiceTotals: { subtotal: 610, discount: 0, tax: 109.8, cgst: 54.9, sgst: 54.9, total: 719.8 },
-    invoiceRows: [
-      { gstPercent: 18, line: 90, lineTax: 16.2 },
-      { gstPercent: 18, line: 520, lineTax: 93.6 }
+    id: 1001,
+    items: [
+      { id: 8, name: 'Assam CTC Masala Chai 250g', sku: 'BEV-001', hsn: '0902', price: 140, qty: 2 },
+      { id: 2, name: 'Unpolished Toor Dal 1kg', sku: 'GRN-002', hsn: '0713', price: 165, qty: 2 }
     ],
-    checkoutTotals: { subtotal: 610, discount: 0, tax: 66.9, cgst: 33.45, sgst: 33.45, total: 676.9 },
-    checkoutRates: [5, 12]
+    coupon: '', subtotal: 610, discount: 0, tax: 66.9, total: 676.9
   },
   {
-    name: '#1002 invoice applies SAVE10 after GST',
-    order: {
-      id: 1002,
-      coupon: 'SAVE10',
-      items: [
-        { name: 'Rice', price: 640, qty: 1, hsn: '1006' },
-        { name: 'Sunflower oil', price: 190, qty: 2, hsn: '1512' }
-      ]
-    },
-    invoiceTotals: { subtotal: 1020, discount: 120.36, tax: 183.6, cgst: 91.8, sgst: 91.8, total: 1083.24 },
-    invoiceRows: [
-      { gstPercent: 18, line: 640, lineTax: 115.2 },
-      { gstPercent: 18, line: 380, lineTax: 68.4 }
+    id: 1002,
+    items: [
+      { id: 1, name: 'Indrayani Basmati Rice 5kg', sku: 'GRN-001', hsn: '1006', price: 640, qty: 1 },
+      { id: 4, name: 'Cold-Pressed Sunflower Oil 1L', sku: 'OIL-001', hsn: '1512', price: 190, qty: 2 }
     ],
-    checkoutTotals: { subtotal: 1020, discount: 102, tax: 45.9, cgst: 22.95, sgst: 22.95, total: 963.9 },
-    checkoutRates: [5, 5]
+    coupon: 'SAVE10', subtotal: 1020, discount: 102, tax: 45.9, total: 963.9
   },
   {
-    name: '#1004 invoice ignores the SAVE10 cap on a 2240 subtotal',
-    order: {
-      id: 1004,
-      coupon: 'SAVE10',
-      items: [
-        { name: 'Rice', price: 640, qty: 3, hsn: '1006' },
-        { name: 'Pulses', price: 160, qty: 2, hsn: '0713' }
-      ]
-    },
-    invoiceTotals: { subtotal: 2240, discount: 264.32, tax: 403.2, cgst: 201.6, sgst: 201.6, total: 2378.88 },
-    invoiceRows: [
-      { gstPercent: 18, line: 1920, lineTax: 345.6 },
-      { gstPercent: 18, line: 320, lineTax: 57.6 }
+    id: 1004,
+    items: [
+      { id: 5, name: 'Cold-Pressed Groundnut Oil 5L', sku: 'OIL-002', hsn: '1508', price: 1120, qty: 2 }
     ],
-    checkoutTotals: { subtotal: 2240, discount: 150, tax: 104.5, cgst: 52.25, sgst: 52.25, total: 2194.5 },
-    checkoutRates: [5, 5]
+    coupon: 'SAVE10', subtotal: 2240, discount: 150, tax: 104.5, total: 2194.5
   },
   {
-    name: '#1008 invoice matches checkout for 18% items without a coupon',
-    order: {
-      id: 1008,
-      coupon: '',
-      items: [
-        { name: 'Tea', price: 250, qty: 2, hsn: '0902' },
-        { name: 'Coffee', price: 150, qty: 1, hsn: '0901' }
-      ]
-    },
-    invoiceTotals: { subtotal: 650, discount: 0, tax: 117, cgst: 58.5, sgst: 58.5, total: 767 },
-    invoiceRows: [
-      { gstPercent: 18, line: 500, lineTax: 90 },
-      { gstPercent: 18, line: 150, lineTax: 27 }
+    id: 1007,
+    items: [
+      { id: 6, name: 'A2 Gir Cow Ghee 500ml', sku: 'DRY-001', hsn: '0405', price: 450, qty: 2 },
+      { id: 4, name: 'Cold-Pressed Sunflower Oil 1L', sku: 'OIL-001', hsn: '1512', price: 190, qty: 2 }
     ],
-    checkoutTotals: { subtotal: 650, discount: 0, tax: 117, cgst: 58.5, sgst: 58.5, total: 767 },
-    checkoutRates: [18, 18]
+    coupon: '', subtotal: 1280, discount: 0, tax: 127, total: 1407
+  },
+  {
+    id: 1008,
+    items: [
+      { id: 8, name: 'Assam CTC Masala Chai 250g', sku: 'BEV-001', hsn: '0902', price: 140, qty: 1 },
+      { id: 12, name: 'Kokum Sherbet Concentrate 750ml', sku: 'BEV-003', hsn: '2106', price: 180, qty: 2 }
+    ],
+    coupon: '', subtotal: 500, discount: 0, tax: 90, total: 590
   }
 ];
 
-function billedFigures({ subtotal, discount, tax, cgst, sgst, total }) {
-  return { subtotal, discount, tax, cgst, sgst, total };
-}
+var invoiceFields = ['subtotal', 'discount', 'tax', 'cgst', 'sgst', 'total'];
+var ledgerFields = ['subtotal', 'discount', 'tax', 'total'];
 
-for (const scenario of cases) {
-  test('CURRENT BEHAVIOUR: ' + scenario.name, function () {
-    const order = scenario.order;
-    const figures = invoice.computeInvoiceFigures(order);
-    const checkout = pricing.computeTotals(order.items, order.coupon);
+test('invoice figures match checkout ledger figures for ticket orders', async function (t) {
+  for (var order of orders) {
+    await t.test('order #' + order.id, function () {
+      var checkout = pricing.computeTotals(order.items, order.coupon);
+      var invoiceFigures = invoice.computeInvoiceFigures(order);
+      assert.deepEqual(comparableFigures(invoiceFigures, invoiceFields), comparableFigures(checkout, invoiceFields));
+      assert.deepEqual(comparableFigures(order, ledgerFields), comparableFigures(checkout, ledgerFields));
+    });
+  }
+});
 
-    assert.deepEqual(billedFigures(figures), scenario.invoiceTotals);
-    assert.deepEqual(
-      figures.rows.map(({ gstPercent, line, lineTax }) => ({ gstPercent, line, lineTax })),
-      scenario.invoiceRows
-    );
-    assert.deepEqual(billedFigures(checkout), scenario.checkoutTotals);
-    assert.deepEqual(checkout.lines.map((line) => line.gstPercent), scenario.checkoutRates);
-  });
-}
+test('render omits the Accountant Reconciliation Notice when totals match', function () {
+  var html = invoice.render(orders[0]);
+  assert.equal(html.includes('Accountant Reconciliation Notice'), false);
+});
+
+test('render includes the Accountant Reconciliation Notice when the stored total differs', function () {
+  var order = Object.assign({}, orders[0], { total: orders[0].total + 1 });
+  var html = invoice.render(order);
+  assert.equal(html.includes('Accountant Reconciliation Notice'), true);
+});
