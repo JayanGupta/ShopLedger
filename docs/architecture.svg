@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">ShopLedger architecture and order flow</title>
+  <desc id="desc">Browser UI sends API requests through Express routers to library modules and a JSON data store. Numbered arrows show the order-placement flow.</desc>
+  <style>
+    text{font-family:Arial,sans-serif;fill:#182235}.title{font-size:25px;font-weight:bold}.sub{font-size:13px;fill:#526175}.box{fill:#f8fafc;stroke:#64748b;stroke-width:1.5}.ticket{fill:#fff1f2;stroke:#e11d48;stroke-width:2}.data{fill:#f0fdf4;stroke:#16a34a;stroke-width:1.5}.head{font-size:16px;font-weight:bold}.body{font-size:12px}.small{font-size:11px}.arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}.flow{stroke:#2563eb;stroke-width:2.5;fill:none;marker-end:url(#bluearrow)}.num{font-size:13px;font-weight:bold;fill:#1d4ed8}.legend{font-size:12px}
+  </style>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#334155"/></marker><marker id="bluearrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#2563eb"/></marker></defs>
+  <rect width="1200" height="800" fill="#ffffff"/>
+  <text x="40" y="42" class="title">ShopLedger: Express POS, Khata, GST invoice architecture</text>
+  <text x="40" y="64" class="sub">Numbered blue arrows trace a placed order. Red modules are central to ticket #1: invoice GST mismatch.</text>
+
+  <rect x="45" y="105" width="190" height="135" rx="8" class="box"/><text x="65" y="133" class="head">Browser UI</text><text x="65" y="157" class="body">public/index.html</text><text x="65" y="177" class="body">public/js/app.js</text><text x="65" y="197" class="body">public/css/style.css</text><text x="65" y="221" class="small">POS · orders · Khata · GST audit</text>
+  <rect x="300" y="105" width="190" height="135" rx="8" class="box"/><text x="320" y="133" class="head">server.js</text><text x="320" y="157" class="body">Express + bodyParser</text><text x="320" y="177" class="body">static public/</text><text x="320" y="197" class="body">/api routers; /orders/:id/invoice</text>
+  <rect x="555" y="105" width="185" height="135" rx="8" class="box"/><text x="575" y="133" class="head">routes/</text><text x="575" y="157" class="body">products.js</text><text x="575" y="176" class="body">orders.js</text><text x="575" y="195" class="body">customers.js</text><text x="575" y="214" class="body">reports.js</text>
+  <rect x="805" y="105" width="160" height="135" rx="8" class="box"/><text x="825" y="133" class="head">config.js</text><text x="825" y="157" class="body">shop · port</text><text x="825" y="176" class="body">HSN GST slabs</text><text x="825" y="195" class="body">coupon rules/caps</text>
+  <rect x="1015" y="105" width="145" height="135" rx="8" class="data"/><text x="1035" y="133" class="head">data/db.json</text><text x="1035" y="157" class="body">products</text><text x="1035" y="176" class="body">orders</text><text x="1035" y="195" class="body">customers/audit</text>
+
+  <rect x="65" y="330" width="205" height="310" rx="8" class="box"/><text x="85" y="358" class="head">lib/ domain modules</text><text x="85" y="385" class="body">coupons.js — validate/calculateDiscount</text><text x="85" y="407" class="body">dates.js — date helpers</text><text x="85" y="429" class="body">inventory.js — check/reserve/release</text><text x="85" y="451" class="ticket body">invoice.js — computeInvoiceFigures</text><text x="85" y="473" class="body">ledger.js — Khata balances</text><text x="85" y="495" class="body">orders.js — add/get/cancel/list</text><text x="85" y="517" class="ticket body">pricing.js — computeTotals</text><text x="85" y="539" class="body">reports.js — dashboard/reconciliation</text><text x="85" y="561" class="body">store.js — read/write JSON</text><text x="85" y="583" class="ticket body">tax.js — HSN GST rate/split</text>
+  <rect x="355" y="350" width="310" height="160" rx="8" class="ticket"/><text x="375" y="380" class="head">Ticket boundary: billed vs invoice figures</text><text x="375" y="409" class="body">Checkout: pricing.computeTotals(items, coupon)</text><text x="375" y="431" class="body">• coupon cap → proportional discount → HSN GST</text><text x="375" y="460" class="body">Invoice: invoice.computeInvoiceFigures(order)</text><text x="375" y="482" class="body">• printable GST invoice at /orders/:id/invoice</text>
+  <rect x="745" y="350" width="330" height="160" rx="8" class="box"/><text x="765" y="380" class="head">Reports and views</text><text x="765" y="409" class="body">reports.getGstReconciliation(db)</text><text x="765" y="432" class="body">compares stored order totals vs invoice figures</text><text x="765" y="461" class="body">public GST Audit opens invoice links</text><text x="765" y="484" class="body">server.js invokes invoice.render(order)</text>
+
+  <path d="M235 172 L300 172" class="arrow"/><path d="M490 172 L555 172" class="arrow"/><path d="M740 172 L805 172" class="arrow"/><path d="M965 172 L1015 172" class="arrow"/>
+  <path d="M645 240 L210 330" class="arrow"/><path d="M270 485 L1015 205" class="arrow"/><path d="M740 206 L745 350" class="arrow"/>
+
+  <path d="M235 150 L300 150" class="flow"/><text x="261" y="142" class="num">1</text><text x="243" y="132" class="small">POST /api/orders</text>
+  <path d="M490 195 L555 195" class="flow"/><text x="515" y="218" class="num">2</text><text x="500" y="232" class="small">orders route</text>
+  <path d="M575 240 L220 330" class="flow"/><text x="392" y="275" class="num">3</text><text x="406" y="291" class="small">validate, price, tax, stock</text>
+  <path d="M270 600 L1015 215" class="flow"/><text x="650" y="395" class="num">4</text><text x="662" y="412" class="small">store.write(order + audit)</text>
+  <path d="M1075 240 L870 350" class="flow"/><text x="980" y="297" class="num">5</text><text x="989" y="315" class="small">GST audit/invoice</text>
+
+  <rect x="780" y="650" width="350" height="88" rx="8" fill="#f8fafc" stroke="#cbd5e1"/><text x="800" y="678" class="head">Legend</text><rect x="800" y="692" width="18" height="14" class="box"/><text x="826" y="704" class="legend">existing module</text><rect x="940" y="692" width="18" height="14" class="ticket"/><text x="966" y="704" class="legend">ticket module</text><path d="M805 724 L840 724" class="flow"/><text x="850" y="728" class="legend">numbered order flow</text>
+  <text x="45" y="750" class="small">Verified labels: source file inventory and exported/route function names were checked before this diagram was created.</text>
+</svg>
