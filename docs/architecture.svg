@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title description">
+  <title id="title">ShopLedger architecture</title>
+  <desc id="description">The browser connects to the Express server, which mounts four API routers. The routers use ten library modules. The store reads and writes data/db.json. Orange identifies inventory and order cancellation. Eight numbered cards show checkout from the cart request through the saved order response.</desc>
+  <defs>
+    <style>
+      text { font: 14px sans-serif; fill: #18283b; }
+      .title { font-size: 36px; font-weight: 700; }
+      .heading { font-size: 20px; font-weight: 700; }
+      .file { font: 700 15px monospace; }
+      .path { font: 12px monospace; }
+      .detail { font-size: 13px; fill: #465b70; }
+      .small { font-size: 12px; fill: #465b70; }
+      .step-title { font-size: 14px; font-weight: 700; }
+      .step-number { font-size: 13px; font-weight: 700; fill: #fff; text-anchor: middle; }
+      .panel { fill: #ecf2f8; stroke: #c3d2e1; }
+      .card { fill: #fff; stroke: #c3d2e1; }
+      .focus { fill: #fff0de; stroke: #c56b24; }
+      .focus-text { fill: #873b13; }
+      .link { fill: none; stroke: #58738d; stroke-width: 1.5; }
+      .sequence { fill: none; stroke: #1d58a5; stroke-width: 1.5; }
+    </style>
+    <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 8 4 0 8Z" fill="#58738d"/>
+    </marker>
+    <marker id="next" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 8 4 0 8Z" fill="#1d58a5"/>
+    </marker>
+    <circle id="badge" r="11" fill="#1d58a5"/>
+  </defs>
+
+  <rect width="1200" height="800" fill="#f7f9fc"/>
+  <text class="title" x="32" y="54">ShopLedger architecture</text>
+  <text x="33" y="80">Point of sale, Khata credit ledger, and GST invoicing</text>
+
+  <g aria-label="Legend">
+    <rect x="856" y="30" width="312" height="57" rx="8" class="card"/>
+    <rect x="872" y="43" width="17" height="12" rx="3" class="focus"/>
+    <text class="small" x="900" y="53">Ticket scope: inventory and cancellation</text>
+    <path class="sequence" d="M872 70h17" marker-end="url(#next)"/>
+    <text class="small" x="900" y="74">Order placement sequence</text>
+  </g>
+
+  <g aria-label="Browser, server, and routers">
+    <rect x="32" y="110" width="252" height="66" rx="8" class="card"/>
+    <text class="file" x="48" y="135">public/</text>
+    <text class="detail" x="48" y="157">Browser UI · HTML, CSS and JS</text>
+    <path class="link" d="M158 176v21" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <text class="small" x="169" y="191">HTTP</text>
+
+    <rect x="32" y="198" width="252" height="74" rx="8" class="card"/>
+    <text class="file" x="48" y="222">server.js</text>
+    <text class="detail" x="48" y="241">Express · static files and JSON</text>
+    <text class="path" x="48" y="258">GET /orders/:id/invoice</text>
+    <path class="link" d="M284 254h31" marker-end="url(#arrow)"/>
+    <path class="link" d="M158 272v27" marker-end="url(#arrow)"/>
+    <text class="path" x="169" y="289">/api</text>
+
+    <rect x="32" y="300" width="252" height="206" rx="8" class="panel"/>
+    <text class="heading" x="48" y="328">routes/</text>
+    <text class="file" x="48" y="353">products.js</text>
+    <text class="detail" x="48" y="369">Catalog and active coupons</text>
+    <text class="file" x="48" y="394">orders.js</text>
+    <text class="detail" x="48" y="410">List, read, place, and cancel orders</text>
+    <text class="file" x="48" y="435">customers.js</text>
+    <text class="detail" x="48" y="451">Khata accounts and settlements</text>
+    <text class="file" x="48" y="476">reports.js</text>
+    <text class="detail" x="48" y="492">Dashboard, GST, preview, and export</text>
+    <path class="link" d="M284 376h31" marker-end="url(#arrow)"/>
+  </g>
+
+  <g aria-label="Library modules">
+    <rect x="316" y="110" width="852" height="318" rx="8" class="panel"/>
+    <text class="heading" x="332" y="139">lib/</text>
+    <text class="detail" x="376" y="138">Business logic and persistence</text>
+
+    <rect x="332" y="154" width="268" height="54" rx="6" class="focus"/>
+    <text class="file focus-text" x="344" y="176">inventory.js</text>
+    <text class="path focus-text" x="344" y="195">check() · reserve() · release()</text>
+    <rect x="608" y="154" width="268" height="54" rx="6" class="card"/>
+    <text class="file" x="620" y="176">orders.js</text>
+    <text class="path" x="620" y="195">add() · get() · list()</text>
+    <rect x="785" y="166" width="79" height="23" rx="5" class="focus"/>
+    <text class="path focus-text" x="795" y="182">cancel()</text>
+    <rect x="884" y="154" width="268" height="54" rx="6" class="card"/>
+    <text class="file" x="896" y="176">ledger.js</text>
+    <text class="detail" x="896" y="195">Khata charges, reversals, settlements</text>
+
+    <rect x="332" y="215" width="268" height="54" rx="6" class="card"/>
+    <text class="file" x="344" y="237">pricing.js</text>
+    <text class="path" x="344" y="256">subtotal() · computeTotals()</text>
+    <rect x="608" y="215" width="268" height="54" rx="6" class="card"/>
+    <text class="file" x="620" y="237">coupons.js</text>
+    <text class="path" x="620" y="256">normalizeCode() · validate()</text>
+    <rect x="884" y="215" width="268" height="54" rx="6" class="card"/>
+    <text class="file" x="896" y="237">tax.js</text>
+    <text class="path" x="896" y="256">getRateForItem() · splitCgstSgst()</text>
+
+    <rect x="332" y="276" width="268" height="54" rx="6" class="card"/>
+    <text class="file" x="344" y="298">reports.js</text>
+    <text class="detail" x="344" y="317">Dashboard and GST reconciliation</text>
+    <rect x="608" y="276" width="268" height="54" rx="6" class="card"/>
+    <text class="file" x="620" y="298">invoice.js</text>
+    <text class="path" x="620" y="317">render() · computeInvoiceFigures()</text>
+    <rect x="884" y="276" width="268" height="54" rx="6" class="card"/>
+    <text class="file" x="896" y="298">dates.js</text>
+    <text class="path" x="896" y="317">today() · normalizeDateKey()</text>
+
+    <rect x="332" y="337" width="544" height="75" rx="6" class="focus"/>
+    <text class="path focus-text" x="344" y="360">POST /api/orders/:id/cancel → orders.cancel() → inventory.release()</text>
+    <text class="detail" x="344" y="381">Release looks for productId. Saved lines use id, so release skips them.</text>
+    <text class="detail" x="344" y="399">On a match, release lowers reserved. Physical stock is never restored.</text>
+    <rect x="884" y="337" width="268" height="75" rx="6" class="card"/>
+    <text class="file" x="896" y="361">store.js</text>
+    <text class="path" x="896" y="381">read() · write() · appendAudit()</text>
+    <text class="detail" x="896" y="399">Synchronous JSON file I/O</text>
+  </g>
+
+  <g aria-label="Configuration and data">
+    <path class="link" d="M560 447v-18" marker-end="url(#arrow)"/>
+    <rect x="316" y="448" width="560" height="58" rx="8" class="card"/>
+    <text class="file" x="332" y="471">config.js</text>
+    <text class="detail" x="332" y="491">Shop identity, port, GST rates, inventory defaults, coupons, and export key</text>
+    <path class="link" d="M1018 412v35" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <rect x="884" y="448" width="284" height="58" rx="8" class="card"/>
+    <text class="file" x="896" y="468">data/db.json</text>
+    <text class="small" x="896" y="485">Products, customers, orders, settlements,</text>
+    <text class="small" x="896" y="499">audit log, and ID counters</text>
+  </g>
+
+  <g aria-label="Eight steps for placing an order">
+    <rect x="32" y="526" width="1136" height="250" rx="10" class="panel"/>
+    <text class="heading" x="48" y="555">Placing an order</text>
+    <text class="detail" x="220" y="554">Successful checkout</text>
+
+    <g class="sequence" marker-end="url(#next)">
+      <path d="M307 612h21"/><path d="M589 612h21"/><path d="M871 612h21"/>
+      <path d="M1023 655v23"/>
+      <path d="M893 721h-21"/><path d="M611 721h-21"/><path d="M329 721h-21"/>
+    </g>
+
+    <g aria-label="1. Submit the cart">
+      <rect x="48" y="570" width="258" height="84" rx="7" class="card"/>
+      <use href="#badge" x="68" y="589"/><text class="step-number" x="68" y="594">1</text>
+      <text class="step-title" x="87" y="594">Submit the cart</text>
+      <text class="path" x="60" y="616">getSelectedCartItems()</text>
+      <text class="path" x="60" y="635">POST /api/orders → server.js</text>
+    </g>
+    <g aria-label="2. Load and resolve products">
+      <rect x="330" y="570" width="258" height="84" rx="7" class="card"/>
+      <use href="#badge" x="350" y="589"/><text class="step-number" x="350" y="594">2</text>
+      <text class="step-title" x="369" y="594">Load and resolve products</text>
+      <text class="path" x="342" y="616">routes/orders.js → store.read()</text>
+      <text class="small" x="342" y="635">inventory.find() gets each product by id.</text>
+    </g>
+    <g aria-label="3. Check sellable stock">
+      <rect x="612" y="570" width="258" height="84" rx="7" class="card"/>
+      <use href="#badge" x="632" y="589"/><text class="step-number" x="632" y="594">3</text>
+      <text class="step-title" x="651" y="594">Check sellable stock</text>
+      <text class="path" x="624" y="614">inventory.check()</text>
+      <text class="small" x="624" y="631">Sellable = max(0, stock − reserved)</text>
+      <text class="small" x="624" y="647">Reject qty ≥ sellable on each line.</text>
+    </g>
+    <g aria-label="4. Price the order">
+      <rect x="894" y="570" width="258" height="84" rx="7" class="card"/>
+      <use href="#badge" x="914" y="589"/><text class="step-number" x="914" y="594">4</text>
+      <text class="step-title" x="933" y="594">Price the order</text>
+      <text class="path" x="906" y="614">coupons.validate()</text>
+      <text class="path" x="906" y="631">pricing.computeTotals()</text>
+      <text class="small" x="906" y="647">Apportion discount. Apply GST by HSN.</text>
+    </g>
+    <g aria-label="5. Charge Khata if selected">
+      <rect x="894" y="679" width="258" height="84" rx="7" class="card"/>
+      <use href="#badge" x="914" y="698"/><text class="step-number" x="914" y="703">5</text>
+      <text class="step-title" x="933" y="703">Charge Khata if selected</text>
+      <text class="path" x="906" y="725">ledger.chargeOrderToKhata()</text>
+      <text class="small" x="906" y="744">Check account and credit limit, then bill.</text>
+    </g>
+    <g aria-label="6. Deduct stock and add the order">
+      <rect x="612" y="679" width="258" height="84" rx="7" class="card"/>
+      <use href="#badge" x="632" y="698"/><text class="step-number" x="632" y="703">6</text>
+      <text class="step-title" x="651" y="703">Deduct stock and add order</text>
+      <text class="path" x="624" y="721">inventory.reserve()</text>
+      <text class="path" x="624" y="737">orders.add()</text>
+      <text class="small" x="624" y="755">Subtract qty from stock and assign an ID.</text>
+    </g>
+    <g aria-label="7. Save the JSON file">
+      <rect x="330" y="679" width="258" height="84" rx="7" class="card"/>
+      <use href="#badge" x="350" y="698"/><text class="step-number" x="350" y="703">7</text>
+      <text class="step-title" x="369" y="703">Save the JSON file</text>
+      <text class="path" x="342" y="723">store.appendAudit() → write()</text>
+      <text class="small" x="342" y="740">Save stock, order, ID counter, audit,</text>
+      <text class="small" x="342" y="755">and any Khata balance update.</text>
+    </g>
+    <g aria-label="8. Return the saved order">
+      <rect x="48" y="679" width="258" height="84" rx="7" class="card"/>
+      <use href="#badge" x="68" y="698"/><text class="step-number" x="68" y="703">8</text>
+      <text class="step-title" x="87" y="703">Return the saved order</text>
+      <text class="path" x="60" y="725">HTTP 201 · order JSON</text>
+      <text class="small" x="60" y="744">Refresh stock and balances.</text>
+    </g>
+  </g>
+</svg>
