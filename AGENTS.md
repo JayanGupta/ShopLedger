@@ -23,7 +23,7 @@
 
 ## Commands
 - Start the app: `node server.js` (equivalent to the configured `npm start`).
-- Run tests: `node --test` (Node's built-in test runner; no test files are currently present).
+- Run tests: `node --test` (Node.js built-in test runner; tests are in `test/invoice.test.js`).
 
 ## Rules
 1. Write characterization tests before changing behaviour.
