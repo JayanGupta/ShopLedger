@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 465" role="img" aria-labelledby="title">
+  <title id="title">ShopLedger order and invoice flow</title>
+  <style>
+    text { font-family: system-ui, sans-serif; fill: #172c29 }
+    .box { fill: white; stroke: #9cbab0; stroke-width: 1.5 }
+    .ticket { fill: #c9f1dc; stroke: #247957; stroke-width: 2 }
+    .heading { font-size: 17px; font-weight: 700 }
+    .sub { font-size: 14px }
+    .edge { stroke: #4e7467; stroke-width: 2; fill: none; marker-end: url(#arrow) }
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#4e7467"/></marker></defs>
+  <rect width="950" height="465" fill="#f0f7f3"/>
+  <text x="32" y="44" font-size="26" font-weight="700">ShopLedger · order and invoice flow</text>
+  <path class="edge" d="M287 111H345 M600 111H658 M795 157V195 M658 239H600 M345 239H287 M160 283V334 M287 374H345 M600 374H658"/>
+  <rect class="box" x="32" y="76" width="255" height="81" rx="10"/>
+  <text class="heading" x="48" y="104">1. POS browser UI</text>
+  <text class="sub" x="48" y="131">public/js/app.js sends order</text>
+  <rect class="box" x="345" y="76" width="255" height="81" rx="10"/>
+  <text class="heading" x="361" y="104">2. Order API</text>
+  <text class="sub" x="361" y="131">server.js → routes/orders.js</text>
+  <rect class="box" x="658" y="76" width="260" height="81" rx="10"/>
+  <text class="heading" x="674" y="104">3. Read data and check stock</text>
+  <text class="sub" x="674" y="131">lib/store.js · lib/inventory.js</text>
+  <rect class="box" x="658" y="195" width="260" height="88" rx="10"/>
+  <text class="heading" x="674" y="222">4. Compute checkout</text>
+  <text class="sub" x="674" y="245">lib/pricing.js · lib/coupons.js</text>
+  <text class="sub" x="674" y="266">lib/tax.js reads config.js</text>
+  <rect class="box" x="345" y="195" width="255" height="88" rx="10"/>
+  <text class="heading" x="361" y="222">5. Charge, reserve, record</text>
+  <text class="sub" x="361" y="245">lib/ledger.js for Khata</text>
+  <text class="sub" x="361" y="266">lib/inventory.js · lib/orders.js</text>
+  <rect class="box" x="32" y="195" width="255" height="88" rx="10"/>
+  <text class="heading" x="48" y="223">6. Save order and audit</text>
+  <text class="sub" x="48" y="250">lib/store.js → data/db.json</text>
+  <rect class="box" x="32" y="334" width="255" height="81" rx="10"/>
+  <text class="heading" x="48" y="362">Later: read stored order</text>
+  <text class="sub" x="48" y="389">lib/store.js · lib/orders.js</text>
+  <rect class="ticket" x="345" y="334" width="255" height="81" rx="10"/>
+  <text class="heading" x="361" y="362">Ticket 1 · lib/invoice.js</text>
+  <text class="sub" x="361" y="389">Computes invoice figures</text>
+  <rect class="box" x="658" y="334" width="260" height="81" rx="10"/>
+  <text class="heading" x="674" y="362">Invoice HTML and GST Audit</text>
+  <text class="sub" x="674" y="389">server.js · lib/reports.js</text>
+</svg>
