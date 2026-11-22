@@ -1,0 +1,196 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">ShopLedger architecture and order placement flow</title>
+  <desc id="desc">Architecture diagram showing the public browser interface, Express server, routes, library modules, configuration, JSON database, and the numbered order placement flow.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 Z" fill="#52606d"/>
+    </marker>
+    <marker id="flowArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 Z" fill="#1f6feb"/>
+    </marker>
+    <style>
+      .bg { fill:#f6f8fa; }
+      .title { font:500 24px Arial, sans-serif; fill:#17202a; }
+      .subtitle { font:400 13px Arial, sans-serif; fill:#52606d; }
+      .section { font:500 15px Arial, sans-serif; fill:#17202a; }
+      .node { fill:#ffffff; stroke:#9aa5b1; stroke-width:1.4; rx:8; }
+      .nodeText { font:400 12px Arial, sans-serif; fill:#17202a; }
+      .nodeSub { font:400 12px Arial, sans-serif; fill:#52606d; }
+      .route { fill:#edf4ff; stroke:#6b9be8; stroke-width:1.4; rx:8; }
+      .highlight { fill:#fff2cc; stroke:#c58b00; stroke-width:2; rx:8; }
+      .data { fill:#eef7ee; stroke:#62a36b; stroke-width:1.4; rx:8; }
+      .connector { stroke:#52606d; stroke-width:1.5; fill:none; marker-end:url(#arrow); }
+      .dashed { stroke-dasharray:5 4; }
+      .flowBox { fill:#eef5ff; stroke:#1f6feb; stroke-width:1.4; rx:8; }
+      .flowNum { fill:#1f6feb; }
+      .flowNumText { font:500 12px Arial, sans-serif; fill:#ffffff; text-anchor:middle; }
+      .flowText { font:400 12px Arial, sans-serif; fill:#17202a; }
+      .legendText { font:400 12px Arial, sans-serif; fill:#52606d; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1200" height="800"/>
+  <text class="title" x="30" y="36">ShopLedger architecture</text>
+  <text class="subtitle" x="30" y="59">Node/Express POS, Khata ledger and GST invoicing · verified repository surfaces only</text>
+
+  <text class="section" x="30" y="88">Browser UI</text>
+  <rect class="node" x="30" y="100" width="220" height="145"/>
+  <text class="nodeText" x="48" y="126">public/</text>
+  <text class="nodeSub" x="48" y="148">index.html</text>
+  <text class="nodeSub" x="48" y="168">js/app.js</text>
+  <text class="nodeSub" x="48" y="188">css/style.css</text>
+  <text class="nodeSub" x="48" y="218">POS · Orders · Khata · Audit</text>
+
+  <text class="section" x="290" y="88">Application entry point</text>
+  <rect class="node" x="290" y="100" width="240" height="145"/>
+  <text class="nodeText" x="308" y="126">server.js</text>
+  <text class="nodeSub" x="308" y="148">Express app + bodyParser.json()</text>
+  <text class="nodeSub" x="308" y="168">static public/</text>
+  <text class="nodeSub" x="308" y="188">mounts /api routers</text>
+  <text class="nodeSub" x="308" y="208">GET /orders/:id/invoice</text>
+  <text class="nodeSub" x="308" y="228">invoice.render(order)</text>
+
+  <text class="section" x="570" y="88">routes/</text>
+  <rect class="route" x="570" y="100" width="150" height="65"/>
+  <text class="nodeText" x="585" y="126">products.js</text>
+  <text class="nodeSub" x="585" y="147">/products · /coupons</text>
+  <rect class="route" x="740" y="100" width="150" height="65"/>
+  <text class="nodeText" x="755" y="126">orders.js</text>
+  <text class="nodeSub" x="755" y="147">/orders · cancel</text>
+  <rect class="route" x="570" y="180" width="150" height="65"/>
+  <text class="nodeText" x="585" y="206">customers.js</text>
+  <text class="nodeSub" x="585" y="227">/customers · settle</text>
+  <rect class="route" x="740" y="180" width="150" height="65"/>
+  <text class="nodeText" x="755" y="206">reports.js</text>
+  <text class="nodeSub" x="755" y="227">dashboard · pricing</text>
+
+  <text class="section" x="930" y="88">Configuration</text>
+  <rect class="node" x="930" y="100" width="230" height="145"/>
+  <text class="nodeText" x="948" y="126">config.js</text>
+  <text class="nodeSub" x="948" y="148">shop · port · adminKey</text>
+  <text class="nodeSub" x="948" y="168">tax.hsnSlabs</text>
+  <text class="nodeSub" x="948" y="188">inventory defaults</text>
+  <text class="nodeSub" x="948" y="208">coupon definitions</text>
+
+  <path class="connector" d="M250 172 L290 172"/>
+  <path class="connector" d="M530 172 L570 132"/>
+  <path class="connector" d="M530 172 L740 132"/>
+  <path class="connector" d="M530 172 L570 212"/>
+  <path class="connector" d="M530 172 L740 212"/>
+  <path class="connector dashed" d="M890 132 L930 172"/>
+
+  <text class="section" x="30" y="278">lib/ business modules</text>
+  <rect class="node" x="30" y="292" width="160" height="62"/>
+  <text class="nodeText" x="44" y="318">store.js</text>
+  <text class="nodeSub" x="44" y="338">read · write · audit</text>
+  <rect class="node" x="205" y="292" width="160" height="62"/>
+  <text class="nodeText" x="219" y="318">orders.js</text>
+  <text class="nodeSub" x="219" y="338">add · get · cancel · list</text>
+  <rect class="node" x="380" y="292" width="160" height="62"/>
+  <text class="nodeText" x="394" y="318">pricing.js</text>
+  <text class="nodeSub" x="394" y="338">subtotal · computeTotals</text>
+  <rect class="highlight" x="555" y="292" width="160" height="62"/>
+  <text class="nodeText" x="569" y="318">tax.js</text>
+  <text class="nodeSub" x="569" y="338">getRateForItem · split GST</text>
+  <rect class="node" x="730" y="292" width="160" height="62"/>
+  <text class="nodeText" x="744" y="318">coupons.js</text>
+  <text class="nodeSub" x="744" y="338">validate · calculateDiscount</text>
+
+  <rect class="node" x="30" y="370" width="160" height="62"/>
+  <text class="nodeText" x="44" y="396">inventory.js</text>
+  <text class="nodeSub" x="44" y="416">find · check · reserve</text>
+  <rect class="node" x="205" y="370" width="160" height="62"/>
+  <text class="nodeText" x="219" y="396">ledger.js</text>
+  <text class="nodeSub" x="219" y="416">Khata · settlements</text>
+  <rect class="node" x="380" y="370" width="160" height="62"/>
+  <text class="nodeText" x="394" y="396">dates.js</text>
+  <text class="nodeSub" x="394" y="416">today · date keys</text>
+  <rect class="highlight" x="555" y="370" width="160" height="62"/>
+  <text class="nodeText" x="569" y="396">invoice.js</text>
+  <text class="nodeSub" x="569" y="416">computeInvoiceFigures · render</text>
+  <rect class="node" x="730" y="370" width="160" height="62"/>
+  <text class="nodeText" x="744" y="396">reports.js</text>
+  <text class="nodeSub" x="744" y="416">dashboard · reconciliation</text>
+
+  <path class="connector dashed" d="M645 245 L635 292"/>
+  <path class="connector dashed" d="M815 245 L810 292"/>
+  <path class="connector dashed" d="M815 245 L635 370"/>
+  <path class="connector dashed" d="M890 212 L810 370"/>
+  <path class="connector dashed" d="M930 205 L890 205"/>
+
+  <text class="section" x="930" y="278">Persistence</text>
+  <rect class="data" x="930" y="292" width="230" height="140"/>
+  <text class="nodeText" x="948" y="318">data/db.json</text>
+  <text class="nodeSub" x="948" y="342">products</text>
+  <text class="nodeSub" x="948" y="360">customers · orders</text>
+  <text class="nodeSub" x="948" y="378">settlements · auditLog</text>
+  <text class="nodeSub" x="948" y="400">nextOrderId · nextSettlementId</text>
+  <path class="connector" d="M890 323 L930 350"/>
+  <path class="connector" d="M190 323 L930 390"/>
+
+  <rect class="highlight" x="930" y="455" width="230" height="58"/>
+  <text class="nodeText" x="948" y="480">Ticket 1 focus</text>
+  <text class="nodeSub" x="948" y="500">lib/invoice.js · lib/tax.js</text>
+
+  <text class="section" x="30" y="468">Numbered flow: placing an order (POST /api/orders)</text>
+  <path class="connector" d="M635 354 L635 450"/>
+  <path class="connector" d="M635 432 L635 450"/>
+
+  <rect class="flowBox" x="30" y="500" width="135" height="88"/>
+  <circle class="flowNum" cx="48" cy="520" r="12"/><text class="flowNumText" x="48" y="524">1</text>
+  <text class="flowText" x="68" y="522">Browser</text><text class="flowText" x="44" y="548">public/js/app.js</text><text class="flowText" x="44" y="568">POST /api/orders</text>
+  <path class="connector" style="stroke:#1f6feb;marker-end:url(#flowArrow)" d="M165 544 L180 544"/>
+
+  <rect class="flowBox" x="180" y="500" width="135" height="88"/>
+  <circle class="flowNum" cx="198" cy="520" r="12"/><text class="flowNumText" x="198" y="524">2</text>
+  <text class="flowText" x="218" y="522">routes/orders.js</text><text class="flowText" x="194" y="548">store.read()</text><text class="flowText" x="194" y="568">resolve items</text>
+  <path class="connector" style="stroke:#1f6feb;marker-end:url(#flowArrow)" d="M315 544 L330 544"/>
+
+  <rect class="flowBox" x="330" y="500" width="135" height="88"/>
+  <circle class="flowNum" cx="348" cy="520" r="12"/><text class="flowNumText" x="348" y="524">3</text>
+  <text class="flowText" x="368" y="522">inventory.check</text><text class="flowText" x="344" y="548">pricing.subtotal</text><text class="flowText" x="344" y="568">stock gate</text>
+  <path class="connector" style="stroke:#1f6feb;marker-end:url(#flowArrow)" d="M465 544 L480 544"/>
+
+  <rect class="flowBox" x="480" y="500" width="135" height="88"/>
+  <circle class="flowNum" cx="498" cy="520" r="12"/><text class="flowNumText" x="498" y="524">4</text>
+  <text class="flowText" x="518" y="522">coupons.validate</text><text class="flowText" x="494" y="548">pricing.computeTotals</text><text class="flowText" x="494" y="568">discount + GST</text>
+  <path class="connector" style="stroke:#1f6feb;marker-end:url(#flowArrow)" d="M615 544 L630 544"/>
+
+  <rect class="flowBox" x="630" y="500" width="135" height="88"/>
+  <circle class="flowNum" cx="648" cy="520" r="12"/><text class="flowNumText" x="648" y="524">5</text>
+  <text class="flowText" x="668" y="522">tax.getRateForItem</text><text class="flowText" x="644" y="548">HSN slab</text><text class="flowText" x="644" y="568">CGST + SGST split</text>
+  <path class="connector" style="stroke:#1f6feb;marker-end:url(#flowArrow)" d="M765 544 L780 544"/>
+
+  <rect class="flowBox" x="780" y="500" width="135" height="88"/>
+  <circle class="flowNum" cx="798" cy="520" r="12"/><text class="flowNumText" x="798" y="524">6</text>
+  <text class="flowText" x="818" y="522">ledger (Khata?)</text><text class="flowText" x="794" y="548">chargeOrderToKhata</text><text class="flowText" x="794" y="568">credit check</text>
+  <path class="connector" style="stroke:#1f6feb;marker-end:url(#flowArrow)" d="M915 544 L930 544"/>
+
+  <rect class="flowBox" x="930" y="500" width="110" height="88"/>
+  <circle class="flowNum" cx="948" cy="520" r="12"/><text class="flowNumText" x="948" y="524">7</text>
+  <text class="flowText" x="968" y="522">reserve</text><text class="flowText" x="944" y="548">orders.add</text><text class="flowText" x="944" y="568">create order</text>
+  <path class="connector" style="stroke:#1f6feb;marker-end:url(#flowArrow)" d="M1040 544 L1055 544"/>
+
+  <rect class="flowBox" x="1055" y="500" width="105" height="88"/>
+  <circle class="flowNum" cx="1073" cy="520" r="12"/><text class="flowNumText" x="1073" y="524">8</text>
+  <text class="flowText" x="1093" y="522">audit +</text><text class="flowText" x="1069" y="548">store.write</text><text class="flowText" x="1069" y="568">db.json</text>
+
+  <text class="section" x="30" y="635">Invoice path</text>
+  <rect class="node" x="30" y="650" width="270" height="75"/>
+  <text class="nodeText" x="48" y="677">GET /orders/:id/invoice</text>
+  <text class="nodeSub" x="48" y="699">server.js → orders.get → invoice.render</text>
+  <path class="connector" d="M300 687 L340 687"/>
+  <rect class="highlight" x="340" y="650" width="260" height="75"/>
+  <text class="nodeText" x="358" y="677">lib/invoice.js (Ticket 1)</text>
+  <text class="nodeSub" x="358" y="699">computeInvoiceFigures → HTML invoice</text>
+  <path class="connector dashed" d="M600 687 L640 687"/>
+  <rect class="highlight" x="640" y="650" width="230" height="75"/>
+  <text class="nodeText" x="658" y="677">lib/tax.js (if needed)</text>
+  <text class="nodeSub" x="658" y="699">checkout GST slab resolver</text>
+
+  <text class="section" x="930" y="635">Legend</text>
+  <rect class="node" x="930" y="650" width="230" height="75"/>
+  <rect class="route" x="945" y="665" width="18" height="14"/><text class="legendText" x="973" y="677">route / HTTP surface</text>
+  <rect class="highlight" x="945" y="687" width="18" height="14"/><text class="legendText" x="973" y="699">Ticket 1 focus</text>
+  <rect class="data" x="945" y="709" width="18" height="14"/><text class="legendText" x="973" y="721">persistent data</text>
+</svg>
