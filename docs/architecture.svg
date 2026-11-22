@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#f4f7f5"/>
+  <text x="28" y="36" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#12241c">ShopLedger architecture</text>
+  <text x="28" y="58" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#3d5248">Browser, server, routes, lib, config, and data/db.json. Amber modules are the ticket scope.</text>
+
+  <rect x="28" y="78" width="760" height="58" rx="6" fill="#e7f3ec" stroke="#1e6b45" stroke-width="1.5"/>
+  <text x="44" y="102" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#12241c">Browser UI  public/</text>
+  <text x="44" y="122" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#244036">index.html and js/app.js: POS, order history, khata settlements, GST audit</text>
+
+  <rect x="28" y="152" width="760" height="52" rx="6" fill="#ffffff" stroke="#6d8a7c" stroke-width="1.5"/>
+  <text x="44" y="174" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#12241c">server.js</text>
+  <text x="44" y="194" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#244036">Express. Static public/. Mounts /api. GET /orders/:id/invoice renders the tax invoice.</text>
+
+  <rect x="28" y="220" width="184" height="64" rx="6" fill="#e7f3ec" stroke="#1e6b45" stroke-width="1.5"/>
+  <text x="40" y="246" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#12241c">routes/products.js</text>
+  <text x="40" y="266" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#244036">GET /products, /coupons</text>
+
+  <rect x="220" y="220" width="184" height="64" rx="6" fill="#f8e7cf" stroke="#a86b1f" stroke-width="2"/>
+  <text x="232" y="244" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#12241c">routes/orders.js</text>
+  <text x="232" y="264" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5a3d12">create, list, cancel</text>
+
+  <rect x="412" y="220" width="184" height="64" rx="6" fill="#f8e7cf" stroke="#a86b1f" stroke-width="2"/>
+  <text x="424" y="244" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#12241c">routes/customers.js</text>
+  <text x="424" y="264" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5a3d12">POST khata settlement</text>
+
+  <rect x="604" y="220" width="184" height="64" rx="6" fill="#e7f3ec" stroke="#1e6b45" stroke-width="1.5"/>
+  <text x="616" y="246" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#12241c">routes/reports.js</text>
+  <text x="616" y="266" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#244036">dashboard, GST recon</text>
+
+  <rect x="28" y="302" width="148" height="78" rx="6" fill="#e7f3ec" stroke="#1e6b45" stroke-width="1.5"/>
+  <text x="40" y="332" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#12241c">lib/store.js</text>
+  <text x="40" y="352" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#244036">read / write</text>
+  <text x="40" y="368" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#244036">data/db.json</text>
+
+  <rect x="184" y="302" width="148" height="78" rx="6" fill="#f8e7cf" stroke="#a86b1f" stroke-width="2"/>
+  <text x="196" y="332" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#12241c">lib/inventory.js</text>
+  <text x="196" y="352" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5a3d12">check, reserve</text>
+  <text x="196" y="368" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5a3d12">release</text>
+
+  <rect x="340" y="302" width="148" height="78" rx="6" fill="#e7f3ec" stroke="#1e6b45" stroke-width="1.5"/>
+  <text x="352" y="332" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#12241c">lib/pricing.js</text>
+  <text x="352" y="352" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#244036">computeTotals</text>
+  <text x="352" y="368" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#244036">discount then GST</text>
+
+  <rect x="496" y="302" width="148" height="78" rx="6" fill="#e7f3ec" stroke="#1e6b45" stroke-width="1.5"/>
+  <text x="508" y="332" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#12241c">lib/tax.js</text>
+  <text x="508" y="352" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#244036">HSN slab rate</text>
+  <text x="508" y="368" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#244036">CGST + SGST</text>
+
+  <rect x="652" y="302" width="136" height="78" rx="6" fill="#e7f3ec" stroke="#1e6b45" stroke-width="1.5"/>
+  <text x="664" y="332" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#12241c">lib/coupons.js</text>
+  <text x="664" y="352" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#244036">validate</text>
+  <text x="664" y="368" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#244036">cap discount</text>
+
+  <rect x="28" y="394" width="148" height="78" rx="6" fill="#f8e7cf" stroke="#a86b1f" stroke-width="2"/>
+  <text x="40" y="424" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#12241c">lib/orders.js</text>
+  <text x="40" y="444" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5a3d12">list, cancel</text>
+  <text x="40" y="460" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5a3d12">add, get</text>
+
+  <rect x="184" y="394" width="148" height="78" rx="6" fill="#f8e7cf" stroke="#a86b1f" stroke-width="2"/>
+  <text x="196" y="424" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#12241c">lib/dates.js</text>
+  <text x="196" y="444" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5a3d12">normalizeDateKey</text>
+  <text x="196" y="460" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5a3d12">DD/MM/YYYY today</text>
+
+  <rect x="340" y="394" width="148" height="78" rx="6" fill="#f8e7cf" stroke="#a86b1f" stroke-width="2"/>
+  <text x="352" y="424" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#12241c">lib/ledger.js</text>
+  <text x="352" y="444" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5a3d12">charge khata</text>
+  <text x="352" y="460" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5a3d12">recordSettlement</text>
+
+  <rect x="496" y="394" width="148" height="78" rx="6" fill="#f8e7cf" stroke="#a86b1f" stroke-width="2"/>
+  <text x="508" y="424" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#12241c">lib/invoice.js</text>
+  <text x="508" y="444" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5a3d12">computeInvoiceFigures</text>
+  <text x="508" y="460" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5a3d12">render HTML</text>
+
+  <rect x="652" y="394" width="136" height="78" rx="6" fill="#e7f3ec" stroke="#1e6b45" stroke-width="1.5"/>
+  <text x="664" y="424" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#12241c">lib/reports.js</text>
+  <text x="664" y="444" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#244036">dashboard</text>
+  <text x="664" y="460" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#244036">GST recon</text>
+
+  <rect x="28" y="490" width="370" height="58" rx="6" fill="#ffffff" stroke="#6d8a7c" stroke-width="1.5"/>
+  <text x="44" y="514" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#12241c">config.js</text>
+  <text x="44" y="534" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#244036">Shop profile, HSN slabs, coupon rules</text>
+
+  <rect x="410" y="490" width="378" height="58" rx="6" fill="#ffffff" stroke="#6d8a7c" stroke-width="1.5"/>
+  <text x="426" y="514" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#12241c">data/db.json</text>
+  <text x="426" y="534" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#244036">products, customers, orders, settlements</text>
+
+  <text x="28" y="576" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#244036">Invoice path (not part of checkout): GET /orders/:id/invoice calls orders.get, then invoice.render, which uses pricing.computeTotals.</text>
+
+  <rect x="820" y="78" width="352" height="470" rx="6" fill="#ffffff" stroke="#c5d5cc" stroke-width="1.5"/>
+  <text x="836" y="106" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#12241c">Placing an order</text>
+  <text x="836" y="136" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#12241c">1. public/js/app.js POSTs /api/orders.</text>
+  <text x="836" y="162" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#12241c">2. server.js hands the body to routes/orders.js.</text>
+  <text x="836" y="188" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#12241c">3. store.read loads data/db.json.</text>
+  <text x="836" y="214" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#12241c">4. inventory.find and inventory.check.</text>
+  <text x="836" y="240" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#12241c">5. coupons.validate, then pricing.computeTotals</text>
+  <text x="852" y="260" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#12241c">(lib/tax.js slab on each line).</text>
+  <text x="836" y="286" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#12241c">6. ledger.chargeOrderToKhata when the</text>
+  <text x="852" y="306" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#12241c">payment mode is khata.</text>
+  <text x="836" y="332" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#12241c">7. inventory.reserve, then orders.add.</text>
+  <text x="836" y="358" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#12241c">8. store.appendAudit and store.write.</text>
+  <text x="836" y="396" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#12241c">Legend</text>
+  <rect x="836" y="412" width="18" height="18" rx="3" fill="#e7f3ec" stroke="#1e6b45"/>
+  <text x="862" y="426" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#12241c">Module, not in the ticket scope</text>
+  <rect x="836" y="444" width="18" height="18" rx="3" fill="#f8e7cf" stroke="#a86b1f" stroke-width="2"/>
+  <text x="862" y="458" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#12241c">Ticket scope (fix only these)</text>
+  <rect x="836" y="476" width="18" height="18" rx="3" fill="#ffffff" stroke="#6d8a7c"/>
+  <text x="862" y="490" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#12241c">Config and the JSON database</text>
+  <text x="836" y="524" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#3d5248">Names above match files on disk.</text>
+</svg>
