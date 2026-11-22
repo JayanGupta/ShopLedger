@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="840" viewBox="0 0 1200 840" role="img" aria-labelledby="title desc">
+  <title id="title">ShopLedger application architecture and order flow</title>
+  <desc id="desc">Source-level architecture map and numbered order placement flow. Inventory and order cancellation are highlighted as ticket modules.</desc>
+  <defs>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#15803d"/></marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker>
+    <style>
+      text{font-family:Arial,Helvetica,sans-serif;fill:#172033}
+      .title{font-size:25px;font-weight:700}.subtitle{font-size:13px;fill:#52627a}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.section{font-size:15px;font-weight:700}
+      .box{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}.ui{fill:#eff6ff;stroke:#93c5fd}.backend{fill:#f5f3ff;stroke:#c4b5fd}
+      .data{fill:#ecfdf5;stroke:#86efac}.config{fill:#fff7ed;stroke:#fdba74}
+      .ticket{fill:#fff1cc;stroke:#d97706;stroke-width:2}.cancel{fill:#fee2e2;stroke:#dc2626;stroke-width:2}
+      .label{font-size:13px;font-weight:700}.small{font-size:12px;fill:#475569}.tiny{font-size:12px;fill:#52627a}
+      .flowcard{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}.num{fill:#2563eb}.numtext{font-size:13px;font-weight:700;fill:#fff;text-anchor:middle}
+      .flowline{stroke:#2563eb;stroke-width:2;fill:none;marker-end:url(#arrowBlue)}
+      .persist{stroke:#15803d;stroke-width:2;fill:none;marker-end:url(#arrowGreen)}
+      .dep{stroke:#64748b;stroke-width:1.6;stroke-dasharray:5 4;fill:none;marker-end:url(#arrowGray)}
+      .rule{stroke:#dbe3ed;stroke-width:1}
+    </style>
+  </defs>
+  <rect width="1200" height="840" fill="#f1f5f9"/>
+  <text x="28" y="38" class="title">ShopLedger · Application Architecture</text>
+  <text x="29" y="61" class="subtitle">Source-level map · blue = request flow · green = persistence · amber/red = ticket focus</text>
+
+  <!-- Architecture map -->
+  <rect x="20" y="82" width="565" height="733" rx="12" class="panel"/>
+  <text x="40" y="110" class="section">APPLICATION COMPONENTS</text>
+
+  <rect x="38" y="126" width="155" height="153" rx="9" class="ui"/>
+  <text x="51" y="150" class="label">Browser UI · public/</text>
+  <text x="51" y="176" class="small">index.html</text>
+  <text x="51" y="197" class="small">js/app.js</text>
+  <text x="51" y="218" class="small">css/style.css</text>
+  <text x="51" y="249" class="tiny">Cart / POS / reports</text>
+  <text x="51" y="266" class="tiny">XHR via XMLHttpRequest</text>
+
+  <rect x="207" y="126" width="174" height="153" rx="9" class="backend"/>
+  <text x="220" y="150" class="label">Express · server.js</text>
+  <text x="220" y="174" class="small">JSON parser + static UI</text>
+  <text x="220" y="198" class="small">Mounts routers at /api:</text>
+  <text x="220" y="219" class="small">routes/products.js</text>
+  <text x="220" y="238" class="small">routes/orders.js</text>
+  <text x="220" y="257" class="small">routes/customers.js</text>
+  <text x="220" y="276" class="small">routes/reports.js</text>
+
+  <rect x="397" y="126" width="170" height="443" rx="9" class="panel"/>
+  <text x="411" y="150" class="label">Business logic · lib/</text>
+  <rect x="408" y="163" width="148" height="31" rx="5" class="box"/><text x="418" y="184" class="small">store.js · read/write/audit</text>
+  <rect x="408" y="201" width="148" height="35" rx="5" class="box"/><text x="418" y="216" class="small" style="font-weight:700">orders.js · add/get/list</text><text x="418" y="231" class="tiny">cancel() highlighted below</text>
+  <rect x="408" y="243" width="148" height="35" rx="5" class="ticket"/><text x="418" y="258" class="small" style="font-weight:700">inventory.js</text><text x="418" y="273" class="tiny">find/check/reserve/release</text>
+  <rect x="408" y="285" width="148" height="31" rx="5" class="box"/><text x="418" y="306" class="small">pricing.js · totals</text>
+  <rect x="408" y="323" width="148" height="31" rx="5" class="box"/><text x="418" y="344" class="small">tax.js · GST / HSN</text>
+  <rect x="408" y="361" width="148" height="31" rx="5" class="box"/><text x="418" y="382" class="small">coupons.js · discounts</text>
+  <rect x="408" y="399" width="148" height="31" rx="5" class="box"/><text x="418" y="420" class="small">ledger.js · Khata</text>
+  <rect x="408" y="437" width="148" height="31" rx="5" class="box"/><text x="418" y="458" class="small">invoice.js · HTML invoice</text>
+  <rect x="408" y="475" width="148" height="31" rx="5" class="box"/><text x="418" y="496" class="small">reports.js · summaries</text>
+  <rect x="408" y="513" width="148" height="31" rx="5" class="box"/><text x="418" y="534" class="small">dates.js · date helpers</text>
+
+  <rect x="38" y="298" width="343" height="101" rx="9" class="config"/>
+  <text x="52" y="323" class="label">config.js</text>
+  <text x="52" y="346" class="small">Shop / port · GST slabs · coupons</text>
+  <text x="52" y="367" class="small">Inventory defaults · admin key</text>
+  <text x="52" y="387" class="tiny">Required by server and configured modules</text>
+
+  <rect x="38" y="418" width="343" height="119" rx="9" class="data"/>
+  <text x="52" y="444" class="label">data/db.json</text>
+  <text x="52" y="467" class="small">products · customers · orders</text>
+  <text x="52" y="488" class="small">settlements · auditLog · ID counters</text>
+  <text x="52" y="513" class="tiny">lib/store.js reads / writes this file</text>
+
+  <rect x="38" y="555" width="343" height="230" rx="9" class="panel"/>
+  <text x="52" y="581" class="label">Ticket focus · actual inventory behavior</text>
+  <rect x="52" y="595" width="314" height="74" rx="7" class="ticket"/>
+  <text x="64" y="617" class="small" style="font-weight:700">inventory.js</text>
+  <text x="64" y="638" class="small">check: requested qty may equal sellable stock</text>
+  <text x="64" y="657" class="small">reserve: stock -= qty</text>
+  <rect x="52" y="679" width="314" height="90" rx="7" class="cancel"/>
+  <text x="64" y="701" class="small" style="font-weight:700">orders.js · cancel() only is ticket focus</text>
+  <text x="64" y="722" class="small">Calls inventory.release(order.items)</text>
+  <text x="64" y="743" class="small">release matches order-line id and adds qty to stock</text>
+  <text x="64" y="762" class="small">cancelled status guard prevents a repeat release</text>
+
+  <!-- Edges between component groups -->
+  <path d="M193 202 H207" class="flowline"/>
+  <path d="M381 202 H397" class="dep"/>
+  <path d="M556 179 H578 V477 H381" class="persist"/>
+  <text x="211" y="294" class="tiny">HTTP /api</text>
+
+  <!-- Numbered placement sequence -->
+  <rect x="600" y="82" width="580" height="733" rx="12" class="panel"/>
+  <text x="620" y="110" class="section">ORDER PLACEMENT · POST /api/orders</text>
+  <text x="620" y="132" class="subtitle">Route, module calls, state changes, and response</text>
+
+  <rect x="626" y="151" width="528" height="78" rx="9" class="flowcard ui"/>
+  <circle cx="653" cy="190" r="15" class="num"/><text x="653" y="195" class="numtext">1</text>
+  <text x="681" y="180" class="label">public/js/app.js · getSelectedCartItems()</text>
+  <text x="681" y="202" class="small">Builds cart lines with id and qty; sends customer, payment mode, coupon</text>
+  <path d="M890 230 V247" class="flowline"/>
+
+  <rect x="626" y="250" width="528" height="90" rx="9" class="flowcard backend"/>
+  <circle cx="653" cy="295" r="15" class="num"/><text x="653" y="300" class="numtext">2</text>
+  <text x="681" y="278" class="label">routes/orders.js · POST /orders</text>
+  <text x="681" y="300" class="small">store.read() · inventory.find() · resolve product fields</text>
+  <text x="681" y="322" class="small">Validate cart and stock; prepare order lines (id, qty)</text>
+  <path d="M890 341 V358" class="flowline"/>
+
+  <rect x="626" y="361" width="528" height="121" rx="9" class="flowcard"/>
+  <circle cx="653" cy="421" r="15" class="num"/><text x="653" y="426" class="numtext">3</text>
+  <text x="681" y="385" class="label">Business calculations</text>
+  <text x="681" y="407" class="small">inventory.check() · pricing.subtotal()/computeTotals()</text>
+  <text x="681" y="429" class="small">coupons.normalizeCode()/validate() · tax.getRateForItem()</text>
+  <text x="681" y="451" class="small">Khata payment: ledger.chargeOrderToKhata()</text>
+  <text x="681" y="472" class="tiny">All functions verified in lib/ source</text>
+  <path d="M890 483 V500" class="flowline"/>
+
+  <rect x="626" y="503" width="528" height="105" rx="9" class="flowcard data"/>
+  <circle cx="653" cy="555" r="15" fill="#15803d"/><text x="653" y="560" class="numtext">4</text>
+  <text x="681" y="528" class="label">Commit changes, then persist</text>
+  <text x="681" y="550" class="small">inventory.reserve() deducts product stock · orders.add() appends order</text>
+  <text x="681" y="572" class="small">store.appendAudit() · store.write() → data/db.json</text>
+  <path d="M890 609 V626" class="flowline"/>
+
+  <rect x="626" y="629" width="528" height="68" rx="9" class="flowcard ui"/>
+  <circle cx="653" cy="663" r="15" class="num"/><text x="653" y="668" class="numtext">5</text>
+  <text x="681" y="657" class="label">201 response · frontend refresh</text>
+  <text x="681" y="680" class="small">Show order / invoice link; reload products, dashboard, customers</text>
+
+  <rect x="626" y="715" width="528" height="74" rx="8" class="cancel"/>
+  <text x="642" y="739" class="small" style="font-weight:700">Cancel path · POST /api/orders/:id/cancel → orders.cancel()</text>
+  <text x="642" y="760" class="small">Marks cancelled; calls inventory.release(); reverses Khata debit when applicable</text>
+  <text x="642" y="780" class="small">Release matches item id; cancellation restores stock once</text>
+
+  <!-- Legend -->
+  <line x1="29" y1="824" x2="63" y2="824" class="flowline"/><text x="70" y="829" class="tiny">request / processing</text>
+  <line x1="211" y1="824" x2="245" y2="824" class="persist"/><text x="252" y="829" class="tiny">persistence</text>
+  <line x1="350" y1="824" x2="384" y2="824" class="dep"/><text x="391" y="829" class="tiny">dependency</text>
+  <rect x="502" y="813" width="18" height="18" rx="3" class="ticket"/><text x="527" y="829" class="tiny">ticket module · inventory</text>
+  <rect x="708" y="813" width="18" height="18" rx="3" class="cancel"/><text x="733" y="829" class="tiny">ticket module · orders.cancel() only</text>
+</svg>
