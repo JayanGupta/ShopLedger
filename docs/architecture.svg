@@ -4,17 +4,17 @@
   <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#597584"/></marker></defs>
   <style>text{font-family:Arial,sans-serif;fill:#163242;font-size:14px}.title{font-size:28px;font-weight:bold}.head{font-size:17px;font-weight:bold}.box{fill:#edf6fa;stroke:#9cb7c5;stroke-width:1.5}.ticket{fill:#fff1d1;stroke:#c78618;stroke-width:2}.flow{fill:none;stroke:#597584;stroke-width:2;marker-end:url(#arrow)}.small{font-size:13px}</style>
   <rect width="1200" height="800" fill="#fff"/>
-  <text x="35" y="42" class="title">ShopLedger Â· checkout, invoices and Khata</text>
-  <text x="35" y="68">Verified from source Â· Ticket 1: Invoice &amp; GST mismatch Â· verified architecture after the fix</text>
+  <text x="35" y="42" class="title">ShopLedger · checkout, invoices and Khata</text>
+  <text x="35" y="68">Verified from source · Ticket 1: Invoice &amp; GST mismatch · verified architecture after the fix</text>
   <rect x="35" y="90" width="345" height="78" rx="8" class="box"/>
-  <text x="52" y="115" class="head">Browser UI Â· public/</text>
-  <text x="52" y="137">index.html Â· js/app.js Â· css/style.css</text>
-  <text x="52" y="157" class="small">1. Place order â†’ POST /api/orders</text>
+  <text x="52" y="115" class="head">Browser UI · public/</text>
+  <text x="52" y="137">index.html · js/app.js · css/style.css</text>
+  <text x="52" y="157" class="small">1. Place order → POST /api/orders</text>
   <path d="M380 129 H428" class="flow"/>
   <rect x="438" y="90" width="335" height="78" rx="8" class="box"/>
-  <text x="455" y="115" class="head">server.js Â· Express + body-parser</text>
+  <text x="455" y="115" class="head">server.js · Express + body-parser</text>
   <text x="455" y="137">Static UI + /api routers</text>
-  <text x="455" y="157" class="small">GET /orders/:id/invoice â†’ invoice.render</text>
+  <text x="455" y="157" class="small">GET /orders/:id/invoice → invoice.render</text>
   <rect x="825" y="90" width="340" height="78" rx="8" class="box"/>
   <text x="842" y="115" class="head">config.js</text>
   <text x="842" y="137">Port, shop, HSN slabs, coupons, stock</text>
@@ -23,7 +23,7 @@
   <rect x="35" y="207" width="264" height="90" rx="8" class="box"/>
   <text x="50" y="233" class="head">routes/products.js</text>
   <text x="50" y="255">Products + active coupons</text>
-  <text x="50" y="276" class="small">store Â· inventory Â· tax Â· coupons</text>
+  <text x="50" y="276" class="small">store · inventory · tax · coupons</text>
   <rect x="319" y="207" width="264" height="90" rx="8" class="box"/>
   <text x="334" y="233" class="head">routes/orders.js</text>
   <text x="334" y="255">2. Resolve + validate order</text>
@@ -31,61 +31,61 @@
   <rect x="603" y="207" width="264" height="90" rx="8" class="box"/>
   <text x="618" y="233" class="head">routes/customers.js</text>
   <text x="618" y="255">List customers + settle Khata</text>
-  <text x="618" y="276" class="small">store Â· ledger</text>
+  <text x="618" y="276" class="small">store · ledger</text>
   <rect x="887" y="207" width="278" height="90" rx="8" class="box"/>
   <text x="902" y="233" class="head">routes/reports.js</text>
   <text x="902" y="255">Dashboard, GST audit, preview, export</text>
-  <text x="902" y="276" class="small">store Â· reports Â· pricing Â· coupons</text>
-  <text x="35" y="330" class="head">Business modules Â· lib/</text>
+  <text x="902" y="276" class="small">store · reports · pricing · coupons</text>
+  <text x="35" y="330" class="head">Business modules · lib/</text>
   <path d="M451 297 V344" class="flow"/>
   <rect x="35" y="355" width="264" height="86" rx="8" class="box"/>
   <text x="50" y="380" class="head">inventory.js</text>
-  <text x="50" y="402">3. find/check â†’ 6. reserve</text>
-  <text x="50" y="422" class="small">release Â· getSellableStock Â· summarize</text>
+  <text x="50" y="402">3. find/check → 6. reserve</text>
+  <text x="50" y="422" class="small">release · getSellableStock · summarize</text>
   <rect x="319" y="355" width="264" height="86" rx="8" class="box"/>
   <text x="334" y="380" class="head">pricing.js</text>
   <text x="334" y="402">4. subtotal / computeTotals</text>
   <text x="334" y="422" class="small">Uses coupons + tax; line rounding</text>
   <rect x="603" y="355" width="264" height="86" rx="8" class="box"/>
   <text x="618" y="380" class="head">coupons.js</text>
-  <text x="618" y="402">normalizeCode Â· validate</text>
-  <text x="618" y="422" class="small">calculateDiscount Â· min/cap/active rules</text>
+  <text x="618" y="402">normalizeCode · validate</text>
+  <text x="618" y="422" class="small">calculateDiscount · min/cap/active rules</text>
   <rect x="887" y="355" width="278" height="86" rx="8" class="box"/>
   <text x="902" y="380" class="head">tax.js</text>
-  <text x="902" y="402">getRateForItem Â· getSlabPercent</text>
-  <text x="902" y="422" class="small">HSN / explicit rate Â· splitCgstSgst</text>
+  <text x="902" y="402">getRateForItem · getSlabPercent</text>
+  <text x="902" y="422" class="small">HSN / explicit rate · splitCgstSgst</text>
   <rect x="35" y="462" width="264" height="86" rx="8" class="box"/>
   <text x="50" y="487" class="head">ledger.js</text>
   <text x="50" y="509">5. chargeOrderToKhata (if credit)</text>
-  <text x="50" y="529" class="small">Customers Â· settlements Â· debit reversal</text>
+  <text x="50" y="529" class="small">Customers · settlements · debit reversal</text>
   <rect x="319" y="462" width="264" height="86" rx="8" class="box"/>
   <text x="334" y="487" class="head">orders.js</text>
-  <text x="334" y="509">7. add Â· get Â· list Â· cancel</text>
+  <text x="334" y="509">7. add · get · list · cancel</text>
   <text x="334" y="529" class="small">Uses dates, inventory, ledger</text>
   <rect x="603" y="462" width="264" height="86" rx="8" class="box"/>
   <text x="618" y="487" class="head">dates.js</text>
-  <text x="618" y="509">today Â· normalizeDateKey</text>
-  <text x="618" y="529" class="small">DD/MM/YYYY Â· getFiscalYear</text>
+  <text x="618" y="509">today · normalizeDateKey</text>
+  <text x="618" y="529" class="small">DD/MM/YYYY · getFiscalYear</text>
   <rect x="887" y="462" width="278" height="86" rx="8" class="ticket"/>
-  <text x="902" y="487" class="head">invoice.js Â· TICKET 1</text>
-  <text x="902" y="509">computeInvoiceFigures Â· render</text>
+  <text x="902" y="487" class="head">invoice.js · TICKET 1</text>
+  <text x="902" y="509">computeInvoiceFigures · render</text>
   <text x="902" y="529" class="small">Uses pricing.computeTotals after fix</text>
   <rect x="35" y="570" width="264" height="86" rx="8" class="box"/>
   <text x="50" y="595" class="head">reports.js</text>
   <text x="50" y="617">getDashboardSummary</text>
-  <text x="50" y="637" class="small">getGstReconciliation â†’ invoice totals</text>
+  <text x="50" y="637" class="small">getGstReconciliation → invoice totals</text>
   <rect x="319" y="570" width="264" height="86" rx="8" class="box"/>
   <text x="334" y="595" class="head">store.js</text>
-  <text x="334" y="617">2. read â†’ 8. appendAudit/write</text>
+  <text x="334" y="617">2. read → 8. appendAudit/write</text>
   <text x="334" y="637" class="small">Synchronous JSON filesystem access</text>
   <path d="M583 613 H639" class="flow"/>
   <rect x="650" y="570" width="515" height="86" rx="8" class="box"/>
-  <text x="667" y="595" class="head">data/db.json Â· persisted state</text>
+  <text x="667" y="595" class="head">data/db.json · persisted state</text>
   <text x="667" y="617">Products, orders, customers, settlements, auditLog, next IDs</text>
   <text x="667" y="637" class="small">Order saves items + coupon + subtotal/discount/tax/total; HTTP 201 returns it</text>
   <path d="M451 548 V562" class="flow"/>
   <rect x="35" y="694" width="18" height="18" class="ticket"/><text x="64" y="709">Amber = ticket module</text>
   <rect x="285" y="694" width="18" height="18" class="box"/><text x="314" y="709">Blue = existing supporting module</text>
-  <text x="35" y="744">Order path: 1 browser â†’ 2 router/read â†’ 3 stock check â†’ 4 pricing â†’ 5 Khata â†’ 6 stock deduction â†’ 7 add â†’ 8 persist</text>
+  <text x="35" y="744">Order path: 1 browser → 2 router/read → 3 stock check → 4 pricing → 5 Khata → 6 stock deduction → 7 add → 8 persist</text>
   <text x="35" y="774" class="small">Tests use in-memory fixtures only. Production data/db.json is never used by tests. No external fonts or images.</text>
 </svg>
