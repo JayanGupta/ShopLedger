@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-label="ShopLedger architecture diagram">
+<title>ShopLedger architecture</title>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/></marker>
+<marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker>
+<marker id="aho" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker>
+</defs>
+<rect x="0" y="0" width="1200" height="700" rx="9" fill="#ffffff" stroke="#ffffff" stroke-width="1.5"/>
+<text x="24" y="38" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="24" fill="#0f172a" font-weight="700">ShopLedger: how the app is built</text>
+<text x="24" y="62" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">Web page → server → routes → business logic (lib) → one JSON file as the database</text>
+<rect x="24" y="84" width="400" height="64" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="36" y="110" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">Web page (public/)</text>
+<text x="36" y="131" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">POS · Order History · Khata · GST Audit tabs</text>
+<circle cx="408" cy="84" r="12" fill="#2563eb"/>
+<text x="408" y="89" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">1</text>
+<rect x="464" y="84" width="400" height="64" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="476" y="110" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">server.js</text>
+<text x="476" y="131" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">Express server on port 3000</text>
+<path d="M424,116 L460,116" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M664,148 L664,166" fill="none" stroke="#94a3b8" stroke-width="2"/>
+<path d="M120,166 L774,166" stroke="#94a3b8" stroke-width="2" fill="none"/>
+<path d="M120,166 L120,184" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="24" y="186" width="186" height="64" rx="9" fill="#eef2ff" stroke="#818cf8" stroke-width="1.5"/>
+<text x="36" y="212" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">routes/products.js</text>
+<text x="36" y="233" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">products, coupons</text>
+<path d="M338,166 L338,184" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="242" y="186" width="186" height="64" rx="9" fill="#eef2ff" stroke="#818cf8" stroke-width="1.5"/>
+<text x="254" y="212" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">routes/orders.js</text>
+<text x="254" y="233" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">place / cancel orders</text>
+<circle cx="412" cy="186" r="12" fill="#2563eb"/>
+<text x="412" y="191" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">2</text>
+<path d="M556,166 L556,184" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="460" y="186" width="186" height="64" rx="9" fill="#eef2ff" stroke="#818cf8" stroke-width="1.5"/>
+<text x="472" y="212" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">routes/customers.js</text>
+<text x="472" y="233" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">Khata balances</text>
+<path d="M774,166 L774,184" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="678" y="186" width="186" height="64" rx="9" fill="#eef2ff" stroke="#818cf8" stroke-width="1.5"/>
+<text x="690" y="212" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">routes/reports.js</text>
+<text x="690" y="233" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">dashboard, GST audit</text>
+<rect x="24" y="296" width="160" height="64" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="36" y="322" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">lib/inventory.js</text>
+<text x="36" y="343" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">checks stock</text>
+<circle cx="168" cy="296" r="12" fill="#2563eb"/>
+<text x="168" y="301" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">3</text>
+<rect x="192" y="296" width="160" height="64" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="204" y="322" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">lib/coupons.js</text>
+<text x="204" y="343" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">discounts</text>
+<circle cx="336" cy="296" r="12" fill="#2563eb"/>
+<text x="336" y="301" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">4</text>
+<rect x="360" y="296" width="160" height="64" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="372" y="322" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">lib/pricing.js</text>
+<text x="372" y="343" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">bill maths</text>
+<circle cx="504" cy="296" r="12" fill="#2563eb"/>
+<text x="504" y="301" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">4</text>
+<rect x="528" y="296" width="160" height="64" rx="9" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5" stroke-dasharray="7 5"/>
+<text x="540" y="322" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">lib/tax.js</text>
+<text x="540" y="343" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">GST rates</text>
+<circle cx="672" cy="296" r="12" fill="#2563eb"/>
+<text x="672" y="301" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">4</text>
+<rect x="696" y="296" width="160" height="64" rx="9" fill="#fff7ed" stroke="#ea580c" stroke-width="3.5"/>
+<text x="708" y="322" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">lib/invoice.js</text>
+<text x="708" y="343" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#9a3412">invoice maths ⚠</text>
+<rect x="24" y="388" width="160" height="64" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="36" y="414" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">lib/orders.js</text>
+<text x="36" y="435" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">saves the order</text>
+<circle cx="168" cy="388" r="12" fill="#2563eb"/>
+<text x="168" y="393" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">6</text>
+<rect x="192" y="388" width="160" height="64" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="204" y="414" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">lib/ledger.js</text>
+<text x="204" y="435" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">Khata credit</text>
+<circle cx="336" cy="388" r="12" fill="#2563eb"/>
+<text x="336" y="393" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">5</text>
+<rect x="360" y="388" width="160" height="64" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="372" y="414" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">lib/dates.js</text>
+<text x="372" y="435" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">date helpers</text>
+<rect x="528" y="388" width="160" height="64" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="540" y="414" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">lib/reports.js</text>
+<text x="540" y="435" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">GST audit table</text>
+<rect x="696" y="388" width="160" height="64" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="708" y="414" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">lib/store.js</text>
+<text x="708" y="435" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">reads / writes db</text>
+<circle cx="840" cy="388" r="12" fill="#2563eb"/>
+<text x="840" y="393" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">6</text>
+<path d="M335,250 L335,272 L104,272 L104,292" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#ahb)"/>
+<path d="M335,272 L272,272 L272,292" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#ahb)"/>
+<path d="M335,272 L440,272 L440,292" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#ahb)"/>
+<path d="M864,126 L880,126 L880,328 L860,328" fill="none" stroke="#ea580c" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#aho)"/>
+<rect x="24" y="488" width="400" height="64" rx="9" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+<text x="36" y="514" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">config.js</text>
+<text x="36" y="535" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">settings: GST rate per HSN code, coupons</text>
+<rect x="464" y="488" width="400" height="64" rx="9" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+<text x="476" y="514" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0f172a" font-weight="700">data/db.json</text>
+<text x="476" y="535" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#475569">the database: products, customers, orders</text>
+<circle cx="848" cy="488" r="12" fill="#2563eb"/>
+<text x="848" y="493" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">6</text>
+<path d="M776,452 L776,484" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#ahb)"/>
+<rect x="24" y="584" width="840" height="92" rx="9" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+<text x="40" y="614" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" fill="#0f172a" font-weight="700">The bug (Ticket 1)</text>
+<text x="40" y="640" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#475569">The bill is calculated in lib/pricing.js (correct).</text>
+<text x="40" y="662" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#475569">The invoice is re-calculated in lib/invoice.js with different, wrong rules.</text>
+<rect x="900" y="84" width="276" height="300" rx="9" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="918" y="114" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" fill="#0f172a" font-weight="700">Placing an order</text>
+<circle cx="930" cy="148" r="12" fill="#2563eb"/>
+<text x="930" y="153" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">1</text>
+<text x="952" y="153" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#0f172a">Web page sends the order</text>
+<circle cx="930" cy="186" r="12" fill="#2563eb"/>
+<text x="930" y="191" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">2</text>
+<text x="952" y="191" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#0f172a">routes/orders.js receives it</text>
+<circle cx="930" cy="224" r="12" fill="#2563eb"/>
+<text x="930" y="229" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">3</text>
+<text x="952" y="229" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#0f172a">inventory.js checks stock</text>
+<circle cx="930" cy="262" r="12" fill="#2563eb"/>
+<text x="930" y="267" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">4</text>
+<text x="952" y="267" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#0f172a">pricing.js: coupon + GST</text>
+<circle cx="930" cy="300" r="12" fill="#2563eb"/>
+<text x="930" y="305" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">5</text>
+<text x="952" y="305" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#0f172a">ledger.js: Khata (if credit)</text>
+<circle cx="930" cy="338" r="12" fill="#2563eb"/>
+<text x="930" y="343" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">6</text>
+<text x="952" y="343" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#0f172a">orders.js + store.js save it</text>
+<rect x="900" y="404" width="276" height="272" rx="9" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="918" y="434" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" fill="#0f172a" font-weight="700">Legend</text>
+<rect x="918" y="459" width="36" height="22" rx="9" fill="#fff7ed" stroke="#ea580c" stroke-width="3.5"/>
+<text x="966" y="475" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#0f172a">Ticket 1 file: invoice.js</text>
+<rect x="918" y="495" width="36" height="22" rx="9" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5" stroke-dasharray="7 5"/>
+<text x="966" y="511" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#0f172a">tax.js: only if needed</text>
+<rect x="918" y="531" width="36" height="22" rx="9" fill="#eef2ff" stroke="#818cf8" stroke-width="1.5"/>
+<text x="966" y="547" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#0f172a">Route (API)</text>
+<rect x="918" y="567" width="36" height="22" rx="9" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+<text x="966" y="583" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#0f172a">Settings and data</text>
+<circle cx="936" cy="614" r="12" fill="#2563eb"/>
+<text x="936" y="619" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">#</text>
+<text x="966" y="619" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#0f172a">Order step</text>
+<path d="M918,650 L952,650" fill="none" stroke="#ea580c" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#aho)"/>
+<text x="966" y="655" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#0f172a">Invoice page request</text>
+</svg>
