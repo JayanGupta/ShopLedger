@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+<title id="title">ShopLedger architecture and order placement</title>
+<desc id="desc">Verified source module map, numbered order flow, and cancellation inventory mismatch. Orange marks inventory.js and only the cancel function in orders.js.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#64748b"/></marker></defs>
+<style>text{font-family:Arial,Helvetica,sans-serif;fill:#172b4d;font-size:13px}.title{font-size:26px;font-weight:bold}.h{font-size:16px;font-weight:bold}.small{font-size:12px}.box{fill:#fff;stroke:#b7c9dd;stroke-width:1.5}.ticket{fill:#fff1dd;stroke:#c67516;stroke-width:2}.line{fill:none;stroke:#64748b;stroke-width:1.5;marker-end:url(#arrow)}.muted{fill:#52647b}.num{font-weight:bold;fill:#1856a0}</style>
+<rect width="1200" height="800" fill="#f3f6fb"/>
+<text x="24" y="36" class="title">ShopLedger · source architecture</text>
+<rect x="825" y="19" width="18" height="18" class="ticket"/><text x="851" y="33">Ticket scope</text><rect x="965" y="19" width="18" height="18" class="box"/><text x="991" y="33">Other code / data</text>
+<text x="24" y="58" class="muted">Current implementation • numbered flow below • router cards list direct lib dependencies</text>
+<rect x="24" y="77" width="255" height="104" rx="8" class="box"/>
+<text x="38" y="101" class="h">Browser UI · public/</text><text x="38" y="122">index.html · css/style.css</text><text x="38" y="142">js/app.js · getSelectedCartItems()</text><text x="38" y="163">POS, orders, Khata, inventory audit</text>
+<path d="M279 124H321" class="line"/>
+<rect x="324" y="77" width="300" height="104" rx="8" class="box"/>
+<text x="338" y="101" class="h">server.js · Express</text><text x="338" y="122">JSON parsing · static public/ · /api routers</text><text x="338" y="142">GET /orders/:id/invoice</text><text x="338" y="163">store.read() → orders.get() → invoice.render()</text>
+<rect x="647" y="77" width="250" height="104" rx="8" class="box"/><text x="661" y="101" class="h">config.js</text><text x="661" y="122">Port, shop, GST, coupons, inventory</text><text x="661" y="142" class="small">Used by server, routes/reports, and lib:</text><text x="661" y="163" class="small">inventory, tax, coupons, invoice</text>
+<rect x="920" y="77" width="256" height="104" rx="8" class="box"/><text x="934" y="101" class="h">data/db.json ↔ lib/store.js</text><text x="934" y="122">Products, orders, customers, settlements</text><text x="934" y="142">Audit log + next IDs</text><text x="934" y="163">Synchronous whole-file read / write</text>
+<path d="M474 181V198H165V211M474 198H455V211M474 198H745V211M745 198H1035V211" class="line"/>
+<rect x="24" y="214" width="276" height="107" rx="7" class="box"/><text x="36" y="237" class="h">routes/products.js</text><text x="36" y="258">GET /products · /coupons</text><text x="36" y="280">lib: store, inventory, tax, coupons</text><text x="36" y="303" class="muted">Catalog + sellable quantities</text>
+<rect x="316" y="214" width="276" height="107" rx="7" class="box"/><text x="328" y="237" class="h">routes/orders.js</text><text x="328" y="258">GET /orders, /orders/:id</text><text x="328" y="278">POST /orders, /orders/:id/cancel</text><text x="328" y="297" class="small">lib: store, inventory, pricing, coupons,</text><text x="328" y="313" class="small">orders, ledger</text>
+<rect x="608" y="214" width="276" height="107" rx="7" class="box"/><text x="620" y="237" class="h">routes/customers.js</text><text x="620" y="258">GET /customers</text><text x="620" y="278">POST /customers/:id/settle</text><text x="620" y="303">lib: store, ledger</text>
+<rect x="900" y="214" width="276" height="107" rx="7" class="box"/><text x="912" y="237" class="h">routes/reports.js</text><text x="912" y="257" class="small">GET /reports/dashboard, /admin/export</text><text x="912" y="274" class="small">GET /reports/gst-reconciliation</text><text x="912" y="291" class="small">POST /pricing/preview</text><text x="912" y="311" class="small">lib: store, reports, pricing, coupons</text>
+<text x="24" y="345" class="h">lib/ · all ten modules</text>
+<rect x="24" y="357" width="220" height="82" rx="6" class="ticket"/><text x="36" y="378" class="h">inventory.js</text><text x="36" y="398">find, check, reserve, release</text><text x="36" y="419">getSellableStock, summarize</text>
+<rect x="257" y="357" width="220" height="82" rx="6" class="box"/><text x="269" y="378" class="h">orders.js</text><text x="269" y="398">add, get, list → dates</text><rect x="266" y="405" width="202" height="27" rx="4" class="ticket"/><text x="273" y="423">cancel → inventory, ledger</text>
+<rect x="490" y="357" width="220" height="82" rx="6" class="box"/><text x="502" y="378" class="h">pricing.js</text><text x="502" y="398">subtotal, discount, computeTotals</text><text x="502" y="419">→ coupons, tax</text>
+<rect x="723" y="357" width="220" height="82" rx="6" class="box"/><text x="735" y="378" class="h">coupons.js</text><text x="735" y="398">normalizeCode, validate</text><text x="735" y="419">calculateDiscount → config</text>
+<rect x="956" y="357" width="220" height="82" rx="6" class="box"/><text x="968" y="378" class="h">tax.js</text><text x="968" y="398">getRateForItem, getSlabPercent</text><text x="968" y="419">splitCgstSgst → config</text>
+<rect x="24" y="450" width="220" height="82" rx="6" class="box"/><text x="36" y="471" class="h">ledger.js</text><text x="36" y="491">chargeOrderToKhata,</text><text x="36" y="507">reverseOrderDebit,</text><text x="36" y="524">recordSettlement → dates</text>
+<rect x="257" y="450" width="220" height="82" rx="6" class="box"/><text x="269" y="471" class="h">invoice.js</text><text x="269" y="491">computeInvoiceFigures, render</text><text x="269" y="512">→ config (separate calculation)</text>
+<rect x="490" y="450" width="220" height="82" rx="6" class="box"/><text x="502" y="471" class="h">reports.js</text><text x="502" y="491">getDashboardSummary</text><text x="502" y="507">getGstReconciliation</text><text x="502" y="524">→ inventory, ledger, invoice</text>
+<rect x="723" y="450" width="220" height="82" rx="6" class="box"/><text x="735" y="471" class="h">dates.js</text><text x="735" y="491">today, normalizeDateKey</text><text x="735" y="512">getFiscalYear</text>
+<rect x="956" y="450" width="220" height="82" rx="6" class="box"/><text x="968" y="471" class="h">store.js</text><text x="968" y="491">read, write, appendAudit</text><text x="968" y="512">↔ data/db.json</text>
+<text x="24" y="558" class="h">Placing an order · successful path (calls orchestrated by routes/orders.js)</text>
+<rect x="24" y="570" width="1152" height="122" rx="7" class="box"/>
+<text x="38" y="593"><tspan class="num">1</tspan> public/js/app.js → POST /api/orders → server.js → routes/orders.js → store.read()</text>
+<text x="38" y="615"><tspan class="num">2</tspan> inventory.find() → build items → inventory.check()     <tspan class="num">3</tspan> pricing.subtotal() → coupons.normalizeCode(), validate() → pricing.computeTotals()</text>
+<text x="38" y="637"><tspan class="num">4</tspan> ledger.findCustomer(); if Khata: chargeOrderToKhata()     <tspan class="num">5</tspan> inventory.reserve(): stock -= qty     <tspan class="num">6</tspan> orders.add(): nextOrderId++, append order</text>
+<text x="38" y="659"><tspan class="num">7</tspan> store.appendAudit() → store.write(): persist stock, order, IDs, audit, Khata totals/balance → HTTP 201 order → browser</text>
+<text x="38" y="681" class="small">Saved item fields: id, sku, name, hsn, price, qty. Product inventory fields: id, stock, reserved. Sellable = max(0, stock − reserved).</text>
+<rect x="24" y="705" width="1152" height="74" rx="7" class="ticket"/>
+<text x="38" y="726" class="h">Ticket detail · current behavior, not intended behavior</text>
+<text x="38" y="747">check() rejects qty ≥ sellable. cancel() marks cancelled → release() looks for item.productId, but saved items use id: no stock restored.</text>
+<text x="38" y="768">Even with a match, release() reduces reserved, never adds stock. cancel() also reverses Khata debit; the route audits and writes the database.</text>
+</svg>
