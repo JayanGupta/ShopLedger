@@ -147,7 +147,7 @@
     <rect class="ticket" x="704" y="630" width="444" height="111" rx="8"/>
     <text class="name ticket-text" x="720" y="653">Cancellation</text>
     <text class="detail" x="720" y="674">POST /api/orders/:id/cancel calls orders.cancel(),</text>
-    <text class="detail" x="720" y="693">which calls inventory.release() and reverses Khata if applicable.</text>
+    <text class="detail" x="720" y="693">which calls inventory.restoreStock() and reverses Khata if applicable.</text>
     <text class="detail" x="720" y="712">release() looks for productId, but saved lines carry id.</text>
     <text class="detail" x="720" y="731">It reduces reserved on a match. Physical stock stays deducted.</text>
   </g>
