@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><title>ShopLedger architecture and order flow</title><rect width="1200" height="800" fill="#f7faf8"/><g font-family="sans-serif" fill="#142b24">
+<defs><marker id="tip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#578174"/></marker></defs>
+<text x="32" y="43" font-size="32">ShopLedger  /  Order flow and printable invoices</text>
+<rect x="32" y="80" width="302" height="105" rx="10" fill="#ffffff" stroke="#578174"/>
+<text x="46" y="109" font-size="20">Browser UI</text>
+<text x="46" y="136" font-size="15">public/index.html</text>
+<text x="46" y="158" font-size="15">public/js/app.js · public/css/style.css</text>
+<rect x="416" y="80" width="380" height="105" rx="10" fill="#ffffff" stroke="#578174"/>
+<text x="430" y="109" font-size="20">server.js</text>
+<text x="430" y="136" font-size="15">Serves static files and mounts /api</text>
+<text x="430" y="158" font-size="15">GET /orders/:id/invoice → invoice.render</text>
+<path d="M334 132 L416 132" fill="none" stroke="#578174" stroke-width="2" marker-end="url(#tip)"/>
+<rect x="866" y="80" width="302" height="105" rx="10" fill="#ffffff" stroke="#578174"/>
+<text x="880" y="109" font-size="20">config.js</text>
+<text x="880" y="136" font-size="15">Shop settings, tax and coupons</text>
+<text x="880" y="158" font-size="15">Port and inventory configuration</text>
+<rect x="32" y="242" width="340" height="155" rx="10" fill="#ffffff" stroke="#578174"/>
+<text x="46" y="271" font-size="20">API routers</text>
+<text x="46" y="298" font-size="15">routes/products.js · catalog and coupons</text>
+<text x="46" y="320" font-size="15">routes/orders.js · POST /orders (1)</text>
+<text x="46" y="342" font-size="15">routes/customers.js · Khata</text>
+<text x="46" y="364" font-size="15">routes/reports.js · audit and previews</text>
+<path d="M520 185 L308 242" fill="none" stroke="#578174" stroke-width="2" marker-end="url(#tip)"/>
+<rect x="422" y="242" width="365" height="155" rx="10" fill="#ffffff" stroke="#578174"/>
+<text x="436" y="271" font-size="20">Checkout</text>
+<text x="436" y="298" font-size="15">(2) lib/inventory.js · find / check</text>
+<text x="436" y="320" font-size="15">(3) lib/coupons.js · validate</text>
+<text x="436" y="342" font-size="15">(4) lib/pricing.js · computeTotals</text>
+<text x="436" y="364" font-size="15">       lib/tax.js · resolve rate and split GST</text>
+<path d="M372 315 L422 315" fill="none" stroke="#578174" stroke-width="2" marker-end="url(#tip)"/>
+<path d="M966 185 L734 242" fill="none" stroke="#578174" stroke-width="2" marker-end="url(#tip)"/>
+<rect x="843" y="242" width="325" height="155" rx="10" fill="#caf2db" stroke="#578174"/>
+<text x="857" y="271" font-size="20">Printable invoice</text>
+<text x="857" y="298" font-size="15">lib/invoice.js · render</text>
+<text x="857" y="320" font-size="15">computeInvoiceFigures uses checkout</text>
+<text x="857" y="342" font-size="15">pricing after the Ticket 1 fix.</text>
+<path d="M720 185 L890 242" fill="none" stroke="#578174" stroke-width="2" marker-end="url(#tip)"/>
+<path d="M843 325 L787 325" fill="none" stroke="#578174" stroke-width="2" marker-end="url(#tip)"/>
+<rect x="422" y="457" width="365" height="150" rx="10" fill="#ffffff" stroke="#578174"/>
+<text x="436" y="486" font-size="20">Order updates</text>
+<text x="436" y="513" font-size="15">(5) lib/ledger.js · debit Khata if needed</text>
+<text x="436" y="535" font-size="15">(6) lib/inventory.js · reserve</text>
+<text x="436" y="557" font-size="15">(7) lib/orders.js · add</text>
+<text x="436" y="579" font-size="15">       lib/dates.js · today</text>
+<path d="M602 397 L602 457" fill="none" stroke="#578174" stroke-width="2" marker-end="url(#tip)"/>
+<rect x="32" y="457" width="340" height="150" rx="10" fill="#ffffff" stroke="#578174"/>
+<text x="46" y="486" font-size="20">Reporting</text>
+<text x="46" y="513" font-size="15">lib/reports.js · dashboard and GST audit</text>
+<text x="46" y="535" font-size="15">Compares invoices to the stored ledger.</text>
+<rect x="843" y="457" width="325" height="150" rx="10" fill="#ffffff" stroke="#578174"/>
+<text x="857" y="486" font-size="20">Persistence</text>
+<text x="857" y="513" font-size="15">lib/store.js · read before validation</text>
+<text x="857" y="535" font-size="15">(8) appendAudit and write</text>
+<text x="857" y="557" font-size="15">data/db.json · shared JSON database</text>
+<path d="M787 530 L843 530" fill="none" stroke="#578174" stroke-width="2" marker-end="url(#tip)"/>
+<text x="32" y="692" font-size="20">Order creation follows steps 1–8. Green identifies the Ticket 1 production module.</text>
+</g></svg>
