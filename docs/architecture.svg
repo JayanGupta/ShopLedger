@@ -1,0 +1,209 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title description">
+  <title id="title">ShopLedger architecture</title>
+  <desc id="description">The browser uses the Express entry point and four API routers. A numbered lane shows order placement, pricing and storage. The adjacent invoice lane depicts pre-fix behavior for Ticket 1.</desc>
+  <defs>
+    <style>
+      text { font-family: system-ui, "Segoe UI", Arial, sans-serif; font-size: 13px; fill: #18283b; }
+      .heading { font-size: 34px; font-weight: 750; letter-spacing: -1px; }
+      .section { font-size: 18px; font-weight: 700; }
+      .label { font-size: 14px; font-weight: 700; }
+      .small { font-size: 12px; }
+      .muted { fill: #465a70; }
+      .blue { fill: #145991; }
+      .purple { fill: #65338b; }
+      .white { fill: #fff; }
+      .surface { fill: #fff; stroke: #c8d5e4; }
+      .checkout-panel { fill: #eef5fc; stroke: #bdcfe3; }
+      .invoice-panel { fill: #f8f4fb; stroke: #d9cbe6; }
+      .checkout-card { fill: #fff; stroke: #a9c4df; }
+      .ticket-card { fill: #f0e3fa; stroke: #8750ac; stroke-width: 1.5; }
+      .flow { fill: none; stroke-width: 1.8; }
+      .checkout-flow { stroke: #17629f; }
+      .invoice-flow { stroke: #754299; }
+      .dependency { stroke: #586d84; stroke-dasharray: 4 3; }
+      .structure { stroke: #586d84; }
+    </style>
+    <marker id="arrow-blue" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#17629f"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#754299"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#586d84"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="800" fill="#f7f9fc"/>
+  <text x="32" y="49" class="heading">ShopLedger architecture</text>
+  <text x="34" y="74" class="muted">Point of sale, Khata credit ledger and printable GST invoices</text>
+  <g aria-label="Legend">
+    <path d="M748 66 H775" class="flow checkout-flow" marker-end="url(#arrow-blue)"/>
+    <text x="784" y="70" class="small">Checkout flow</text>
+    <path d="M885 66 H912" class="flow invoice-flow" marker-end="url(#arrow-purple)"/>
+    <text x="921" y="70" class="small">Invoice flow</text>
+    <path d="M1012 66 H1039" class="flow dependency" marker-end="url(#arrow-gray)"/>
+    <text x="1048" y="70" class="small">Calculation dependency</text>
+  </g>
+
+  <g aria-label="Browser, Express entry point and API routers">
+    <rect x="32" y="98" width="205" height="100" rx="10" class="surface"/>
+    <text x="47" y="125" class="label">public/ · Browser UI</text>
+    <text x="47" y="146" class="small">index.html · css/style.css</text>
+    <text x="47" y="164" class="small">js/app.js</text>
+    <text x="47" y="182" class="small muted">POS, stock, orders, Khata, reports</text>
+    <path d="M237 148 H268" class="flow structure" marker-end="url(#arrow-gray)"/>
+
+    <rect x="268" y="98" width="190" height="100" rx="10" class="surface"/>
+    <text x="283" y="125" class="label">server.js · Express</text>
+    <text x="283" y="146" class="small">Serves public/ and parses JSON</text>
+    <text x="283" y="164" class="small">Mounts API routers</text>
+    <text x="283" y="182" class="small muted">Handles invoice GET directly</text>
+    <path d="M458 148 H490" class="flow structure" marker-end="url(#arrow-gray)"/>
+
+    <rect x="490" y="98" width="678" height="100" rx="10" class="surface"/>
+    <text x="504" y="118" class="small muted">ROUTERS MOUNTED AT /api</text>
+    <rect x="502" y="127" width="156" height="58" rx="7" class="checkout-card"/>
+    <text x="512" y="150" class="label">routes/orders.js</text>
+    <text x="512" y="171" class="small muted">Create, list, get, cancel</text>
+    <rect x="668" y="127" width="156" height="58" rx="7" class="surface"/>
+    <text x="678" y="150" class="label">routes/products.js</text>
+    <text x="678" y="171" class="small muted">Catalog, active coupons</text>
+    <rect x="834" y="127" width="156" height="58" rx="7" class="surface"/>
+    <text x="844" y="150" class="label">routes/customers.js</text>
+    <text x="844" y="171" class="small muted">Accounts, settlements</text>
+    <rect x="1000" y="127" width="156" height="58" rx="7" class="surface"/>
+    <text x="1010" y="150" class="label">routes/reports.js</text>
+    <text x="1010" y="166" class="small muted">Dashboard, GST</text>
+    <text x="1010" y="180" class="small muted">Pricing preview, export</text>
+  </g>
+
+  <g aria-label="Checkout, steps in request order">
+    <rect x="32" y="216" width="710" height="474" rx="12" class="checkout-panel"/>
+    <text x="50" y="243" class="section blue">Checkout · place an order</text>
+    <text x="426" y="243" class="small muted">PRICING DEPENDENCIES AND STORAGE</text>
+
+    <g class="flow checkout-flow" marker-end="url(#arrow-blue)">
+      <path d="M68 313 V325"/>
+      <path d="M68 376 V388"/>
+      <path d="M68 454 V466"/>
+      <path d="M68 517 V529"/>
+      <path d="M68 580 V592"/>
+      <path d="M396 420 H426"/>
+      <path d="M396 627 H426"/>
+    </g>
+    <g class="flow dependency" marker-end="url(#arrow-gray)">
+      <path d="M396 399 H410 V327 H426"/>
+      <path d="M575 384 V365"/>
+      <path d="M575 464 V487"/>
+    </g>
+
+    <rect x="50" y="262" width="346" height="51" rx="8" class="checkout-card"/>
+    <circle cx="68" cy="280" r="11" fill="#17629f"/>
+    <text x="68" y="284" class="small white" text-anchor="middle">1</text>
+    <text x="86" y="282" class="label">Send cart from the Place Order button</text>
+    <text x="86" y="301" class="small">POST /api/orders → routes/orders.js</text>
+
+    <rect x="50" y="325" width="346" height="51" rx="8" class="checkout-card"/>
+    <circle cx="68" cy="343" r="11" fill="#17629f"/>
+    <text x="68" y="347" class="small white" text-anchor="middle">2</text>
+    <text x="86" y="342" class="label">Read catalog and check sellable stock</text>
+    <text x="86" y="357" class="small">lib/store.js · read()</text>
+    <text x="86" y="371" class="small">lib/inventory.js · find(), check()</text>
+
+    <rect x="50" y="388" width="346" height="66" rx="8" class="checkout-card"/>
+    <circle cx="68" cy="406" r="11" fill="#17629f"/>
+    <text x="68" y="410" class="small white" text-anchor="middle">3</text>
+    <text x="86" y="407" class="label">Validate coupon and price cart</text>
+    <text x="86" y="424" class="small">pricing.subtotal() → coupons.validate() if supplied</text>
+    <text x="86" y="442" class="small">Then pricing.computeTotals()</text>
+
+    <rect x="50" y="466" width="346" height="51" rx="8" class="checkout-card"/>
+    <circle cx="68" cy="484" r="11" fill="#17629f"/>
+    <text x="68" y="488" class="small white" text-anchor="middle">4</text>
+    <text x="86" y="483" class="label">Resolve customer and check Khata limit</text>
+    <text x="86" y="498" class="small">lib/ledger.js · findCustomer()</text>
+    <text x="86" y="512" class="small">chargeOrderToKhata() for Khata sales</text>
+
+    <rect x="50" y="529" width="346" height="51" rx="8" class="checkout-card"/>
+    <circle cx="68" cy="547" r="11" fill="#17629f"/>
+    <text x="68" y="551" class="small white" text-anchor="middle">5</text>
+    <text x="86" y="546" class="label">Deduct stock and add the order in memory</text>
+    <text x="86" y="561" class="small">inventory.reserve() reduces physical stock</text>
+    <text x="86" y="575" class="small">lib/orders.js · add() assigns ID and saves totals</text>
+
+    <rect x="50" y="592" width="346" height="72" rx="8" class="checkout-card"/>
+    <circle cx="68" cy="610" r="11" fill="#17629f"/>
+    <text x="68" y="614" class="small white" text-anchor="middle">6</text>
+    <text x="86" y="611" class="label">Persist changes and return the order</text>
+    <text x="86" y="627" class="small">store.appendAudit() → store.write()</text>
+    <text x="86" y="643" class="small">Writes order, stock, Khata updates, counter and audit</text>
+    <text x="86" y="658" class="small">HTTP 201 with saved order JSON</text>
+
+    <rect x="426" y="262" width="298" height="103" rx="8" class="surface"/>
+    <text x="440" y="284" class="label">lib/coupons.js</text>
+    <text x="440" y="302" class="small">normalizeCode(), validate() from the route</text>
+    <text x="440" y="319" class="small">calculateDiscount() from pricing</text>
+    <text x="440" y="336" class="small">Flat or capped percent on pre-tax subtotal</text>
+    <text x="440" y="353" class="small muted">Rules and minimums from config.js</text>
+
+    <rect x="426" y="384" width="298" height="80" rx="8" class="checkout-card"/>
+    <text x="440" y="405" class="label blue">lib/pricing.js</text>
+    <text x="440" y="423" class="small">subtotal(), computeTotals()</text>
+    <text x="440" y="440" class="small">Allocate coupon across lines before GST</text>
+    <text x="440" y="456" class="small">Total = subtotal − coupon + summed line GST</text>
+
+    <rect x="426" y="487" width="298" height="89" rx="8" class="surface"/>
+    <text x="440" y="509" class="label">lib/tax.js</text>
+    <text x="440" y="527" class="small">getRateForItem(), splitCgstSgst()</text>
+    <text x="440" y="545" class="small">Exact checkout HSN match: 5%, 12%, or 18%</text>
+    <text x="440" y="563" class="small muted">Slabs and 18% fallback from config.js</text>
+
+    <rect x="426" y="604" width="298" height="60" rx="8" class="surface"/>
+    <text x="440" y="628" class="label">data/db.json</text>
+    <text x="440" y="648" class="small muted">Products, orders, customers, settlements, audit</text>
+  </g>
+
+  <g aria-label="Printable invoice, pre-fix behavior">
+    <rect x="758" y="216" width="410" height="474" rx="12" class="invoice-panel"/>
+    <text x="776" y="243" class="section purple">Printable invoice · pre-fix behavior</text>
+    <path d="M963 337 V354" class="flow invoice-flow" marker-end="url(#arrow-purple)"/>
+    <path d="M963 547 V569" class="flow dependency" marker-end="url(#arrow-gray)"/>
+
+    <rect x="776" y="262" width="374" height="75" rx="8" class="surface"/>
+    <text x="791" y="285" class="label">GET /orders/:id/invoice</text>
+    <text x="791" y="305" class="small">server.js · store.read() → orders.get()</text>
+    <text x="791" y="322" class="small muted">Loads the saved order from data/db.json</text>
+
+    <rect x="776" y="354" width="374" height="193" rx="8" class="ticket-card"/>
+    <text x="791" y="378" class="label purple">lib/invoice.js</text>
+    <rect x="1066" y="365" width="70" height="23" rx="11.5" fill="#65338b"/>
+    <text x="1101" y="381" class="small white" text-anchor="middle">Ticket 1</text>
+    <text x="791" y="401" class="small">render() → computeInvoiceFigures()</text>
+    <path d="M791 412 H1135" fill="none" stroke="#ceb6de"/>
+    <text x="791" y="431" class="small">GST on gross lines at gstRate ÷ 100 or the 18% fallback</text>
+    <text x="791" y="449" class="small">HSN appears as a label. The rate comes from the line or fallback.</text>
+    <text x="791" y="467" class="small">Percent coupon uses subtotal + GST. Flat uses face value.</text>
+    <text x="791" y="485" class="small">Invoice total = gross subtotal + GST − coupon</text>
+    <text x="791" y="503" class="small">Skips coupon active status, minimum and cap checks.</text>
+    <text x="791" y="521" class="small">Printable HTML warns if totals differ by at least ₹0.01</text>
+
+    <rect x="776" y="569" width="374" height="95" rx="8" class="surface"/>
+    <text x="791" y="593" class="label">config.js</text>
+    <text x="791" y="613" class="small">Invoice reads the default GST rate and coupon values directly.</text>
+    <text x="791" y="631" class="small">Checkout uses tax slabs and coupon rules via its helpers.</text>
+    <text x="791" y="649" class="small muted">Also holds shop details, server settings and inventory defaults.</text>
+  </g>
+
+  <g aria-label="Other library modules and their callers">
+    <rect x="32" y="708" width="398" height="66" rx="9" class="surface"/>
+    <text x="47" y="732" class="label">lib/dates.js</text>
+    <text x="47" y="752" class="small">today() dates orders and Khata settlements.</text>
+    <text x="47" y="768" class="small muted">normalizeDateKey() is used by the order filters.</text>
+
+    <rect x="446" y="708" width="722" height="66" rx="9" class="surface"/>
+    <text x="461" y="732" class="label">lib/reports.js</text>
+    <text x="461" y="752" class="small">routes/reports.js calls getDashboardSummary() and getGstReconciliation().</text>
+    <text x="461" y="768" class="small muted">Reconciliation calls invoice.computeInvoiceFigures() and compares the result with saved order figures.</text>
+  </g>
+</svg>
