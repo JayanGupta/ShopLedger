@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+<defs><marker id="a" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0L10 4L0 8Z" fill="#526579"/></marker></defs>
+<style>text{font-family:Arial,sans-serif;fill:#172b4d}.title{font-size:24px;font-weight:bold}.h{font-size:16px;font-weight:bold}.t{font-size:13px}.small{font-size:12px}.box{fill:#f5f8fc;stroke:#8093aa;stroke-width:1.5}.focus{fill:#fff0d8;stroke:#d17b00;stroke-width:2}.edge{stroke:#526579;stroke-width:2;fill:none;marker-end:url(#a)}.dash{stroke-dasharray:6 5}</style>
+<text x="30" y="38" class="title">ShopLedger — architecture and order placement</text>
+<!-- browser and server -->
+<rect x="30" y="65" width="180" height="95" rx="10" class="box"/><text x="48" y="91" class="h">Browser UI</text><text x="48" y="113" class="t">public/index.html</text><text x="48" y="133" class="t">public/js/app.js · style.css</text>
+<rect x="270" y="65" width="210" height="95" rx="10" class="box"/><text x="290" y="91" class="h">server.js</text><text x="290" y="113" class="t">Express app · static public/</text><text x="290" y="133" class="t">invoice route /orders/:id/invoice</text>
+<path d="M210 110H270" class="edge"/><text x="225" y="99" class="small">HTTP</text>
+<!-- routers -->
+<rect x="30" y="210" width="250" height="160" rx="10" class="box"/><text x="48" y="237" class="h">routes/</text><text x="48" y="263" class="t">products.js</text><text x="48" y="284" class="t">orders.js</text><text x="48" y="305" class="t">customers.js</text><text x="48" y="326" class="t">reports.js</text>
+<path d="M360 160V190H155V210" class="edge"/>
+<!-- sequence -->
+<rect x="325" y="200" width="540" height="190" rx="10" class="box"/><text x="345" y="227" class="h">Order flow · POST /api/orders</text>
+<text x="345" y="253" class="t">1  routes/orders.js: read store; resolve product &amp; quantity</text><text x="345" y="278" class="t">2  inventory.find() → inventory.check() stock available?</text><text x="345" y="303" class="t">3  pricing.subtotal() → coupons.validate() → pricing.computeTotals()</text><text x="345" y="328" class="t">4  tax.getRateForItem() uses HSN slab; ledger.chargeOrderToKhata() if Khata</text><text x="345" y="353" class="t">5  inventory.reserve() → orders.add() → appendAudit() → store.write()</text>
+<path d="M280 284H325" class="edge"/>
+<!-- lib modules -->
+<rect x="30" y="430" width="700" height="255" rx="10" class="box"/><text x="50" y="458" class="h">lib/ modules</text>
+<text x="50" y="488" class="t">store.js · JSON read/write + audit</text><text x="50" y="512" class="t">orders.js · add / get / cancel / list</text><text x="50" y="536" class="t">inventory.js · find / check / reserve / release</text><text x="50" y="560" class="t">pricing.js · subtotal / computeTotals</text><text x="50" y="584" class="t">coupons.js · normalizeCode / validate / calculateDiscount</text><text x="50" y="608" class="t">ledger.js · Khata charges and settlements</text><text x="50" y="632" class="t">reports.js · dashboard and GST reconciliation</text><text x="50" y="656" class="t">dates.js · date helpers</text>
+<rect x="390" y="475" width="300" height="75" rx="8" class="focus"/><text x="410" y="503" class="h">tax.js ★</text><text x="410" y="526" class="t">getRateForItem · splitCgstSgst</text>
+<rect x="390" y="570" width="300" height="75" rx="8" class="focus"/><text x="410" y="598" class="h">invoice.js ★</text><text x="410" y="621" class="t">computeInvoiceFigures · render</text>
+<path d="M595 390V475" class="edge"/><path d="M595 390V570" class="edge dash"/>
+<!-- storage config -->
+<rect x="790" y="210" width="350" height="90" rx="10" class="box"/><text x="810" y="239" class="h">config.js</text><text x="810" y="263" class="t">port · shop metadata · GST slabs · coupons</text>
+<rect x="790" y="350" width="350" height="110" rx="10" class="box"/><text x="810" y="380" class="h">data/db.json</text><text x="810" y="405" class="t">products · customers · orders</text><text x="810" y="429" class="t">settlements · auditLog · ID counters</text>
+<path d="M480 250H790" class="edge dash"/><path d="M730 600H790V405" class="edge"/><text x="807" y="487" class="small">store.read() / store.write()</text>
+<path d="M730 515H790V275" class="edge dash"/><path d="M730 607H790V275" class="edge dash"/>
+<rect x="790" y="550" width="350" height="90" rx="10" fill="#fff" stroke="#bac5d1"/><text x="810" y="578" class="h">Legend</text><rect x="810" y="594" width="18" height="14" class="focus"/><text x="838" y="606" class="small">Ticket focus: invoice.js and tax.js</text>
+<text x="30" y="746" class="small">Solid arrows show primary request/data flow; dashed arrows show supporting dependencies. ★ Highlighted modules.</text>
+</svg>
