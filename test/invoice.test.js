@@ -32,18 +32,19 @@ test('#1001-style invoice uses the 5% and 12% HSN slabs', () => {
 });
 
 test('#1002-style SAVE10 invoice applies the discount before GST', () => {
-  const items = [{ name: 'Tea', price: 500, qty: 2, hsn: '0902', gstRate: 18 }];
+  const items = [{ name: 'Rice', price: 510, qty: 2, hsn: '1006' }];
   const coupon = 'SAVE10';
 
   const printed = invoice.computeInvoiceFigures({ items, coupon });
   const billed = pricing.computeTotals(items, coupon);
 
   assert.deepEqual(figures(printed), {
-    subtotal: 1000, discount: 100, tax: 162, cgst: 81, sgst: 81, total: 1062,
+    subtotal: 1020, discount: 102, tax: 45.90, cgst: 22.95, sgst: 22.95, total: 963.90,
   });
-  assert.equal(printed.rows[0].lineTax, 162);
+  assert.equal(printed.rows[0].gstPercent, 5);
+  assert.equal(printed.rows[0].lineTax, 45.90);
   assert.deepEqual(figures(billed), {
-    subtotal: 1000, discount: 100, tax: 162, cgst: 81, sgst: 81, total: 1062,
+    subtotal: 1020, discount: 102, tax: 45.90, cgst: 22.95, sgst: 22.95, total: 963.90,
   });
 });
 
