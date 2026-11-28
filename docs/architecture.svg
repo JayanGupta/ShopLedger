@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">ShopLedger architecture and order placement flow</title>
+  <desc id="desc">Browser UI calls the Express server. An order is validated, priced, stored and displayed as an invoice. Invoice modules are highlighted because the current ticket concerns invoice totals and GST.</desc>
+  <style>
+    text{font-family:Arial,sans-serif;fill:#172033}.title{font-size:26px;font-weight:bold}.label{font-size:17px;font-weight:bold}.small{font-size:13px}.node{fill:#f8fafc;stroke:#475569;stroke-width:2}.route{fill:#e0f2fe;stroke:#0369a1;stroke-width:2}.lib{fill:#f1f5f9;stroke:#475569;stroke-width:2}.ticket{fill:#fff1d6;stroke:#d97706;stroke-width:3}.data{fill:#ecfdf5;stroke:#047857;stroke-width:2}.flow{stroke:#2563eb;stroke-width:3;fill:none;marker-end:url(#arrow)}.muted{stroke:#64748b;stroke-width:2;fill:none;marker-end:url(#arrowGray)}
+  </style>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8z" fill="#2563eb"/></marker><marker id="arrowGray" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8z" fill="#64748b"/></marker></defs>
+  <text x="40" y="42" class="title">ShopLedger — architecture &amp; placing an order</text>
+  <text x="42" y="68" class="small">Blue arrows are the numbered POST /api/orders path. Amber modules are the invoice/GST ticket scope.</text>
+
+  <rect x="40" y="105" width="205" height="115" rx="10" class="node"/><text x="62" y="138" class="label">Browser UI</text><text x="62" y="164" class="small">public/index.html</text><text x="62" y="185" class="small">public/js/app.js</text><text x="62" y="206" class="small">public/css/style.css</text>
+  <rect x="310" y="105" width="220" height="115" rx="10" class="node"/><text x="332" y="138" class="label">Express server</text><text x="332" y="164" class="small">server.js</text><text x="332" y="186" class="small">config.js</text>
+  <rect x="600" y="85" width="240" height="160" rx="10" class="route"/><text x="622" y="116" class="label">routes/</text><text x="622" y="143" class="small">orders.js (POST /orders)</text><text x="622" y="166" class="small">products.js</text><text x="622" y="189" class="small">customers.js</text><text x="622" y="212" class="small">reports.js</text>
+  <rect x="910" y="105" width="245" height="115" rx="10" class="data"/><text x="932" y="138" class="label">Persistent data</text><text x="932" y="166" class="small">data/db.json</text><text x="932" y="188" class="small">through lib/store.js</text>
+
+  <rect x="75" y="330" width="205" height="215" rx="10" class="lib"/><text x="96" y="361" class="label">Order support</text><text x="96" y="390" class="small">lib/inventory.js</text><text x="96" y="414" class="small">lib/coupons.js</text><text x="96" y="438" class="small">lib/ledger.js</text><text x="96" y="462" class="small">lib/orders.js</text><text x="96" y="486" class="small">lib/dates.js</text><text x="96" y="510" class="small">lib/store.js</text>
+  <rect x="390" y="330" width="205" height="150" rx="10" class="lib"/><text x="412" y="361" class="label">Checkout pricing</text><text x="412" y="391" class="small">lib/pricing.js</text><text x="412" y="416" class="small">lib/tax.js</text><text x="412" y="445" class="small">subtotal → coupon → GST</text>
+  <rect x="705" y="330" width="210" height="150" rx="10" class="ticket"/><text x="727" y="361" class="label">Ticket: invoice</text><text x="727" y="391" class="small">lib/invoice.js</text><text x="727" y="416" class="small">computeInvoiceFigures()</text><text x="727" y="445" class="small">render() → printable HTML</text>
+  <rect x="980" y="330" width="165" height="150" rx="10" class="lib"/><text x="1002" y="361" class="label">Reporting</text><text x="1002" y="391" class="small">lib/reports.js</text><text x="1002" y="416" class="small">GST reconciliation</text>
+
+  <path d="M245 162 H310" class="flow"/><text x="258" y="148" class="small">1</text>
+  <path d="M530 162 H600" class="flow"/><text x="552" y="148" class="small">2</text>
+  <path d="M720 245 V300 H490 V330" class="flow"/><text x="705" y="280" class="small">3</text>
+  <path d="M650 245 V290 H180 V330" class="flow"/><text x="660" y="276" class="small">4</text>
+  <path d="M595 405 H705" class="flow"/><text x="642" y="393" class="small">5</text>
+  <path d="M280 520 H900 V220" class="flow"/><text x="730" y="507" class="small">6</text>
+  <path d="M840 175 H910" class="muted"/><text x="858" y="162" class="small">read/write</text>
+  <path d="M1030 220 V300 H810 V330" class="muted"/><text x="915" y="278" class="small">invoice route</text>
+  <path d="M915 405 H980" class="muted"/>
+
+  <rect x="40" y="615" width="1115" height="135" rx="10" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+  <text x="63" y="647" class="label">Order flow</text><text x="63" y="676" class="small">1 UI submits cart → 2 server mounts /api routes → 3 orders route resolves products and validates stock/coupon → 4 inventory/ledger helpers check state →</text><text x="63" y="701" class="small">5 pricing.computeTotals calculates checkout totals → 6 inventory reserve, orders.add, audit append, then store.write saves db.json. Printable invoice is separately served by server.js.</text>
+  <rect x="63" y="718" width="18" height="18" class="ticket"/><text x="90" y="732" class="small">Current ticket module</text><rect x="250" y="718" width="18" height="18" class="lib"/><text x="277" y="732" class="small">Other library module</text>
+</svg>
