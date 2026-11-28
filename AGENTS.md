@@ -1,39 +1,56 @@
 # Repository Guidelines
 
-## Project Structure & Module Organization
+## Stack
 
-ShopLedger is a Node/Express POS, Khata credit ledger, and GST invoicing app.
+ShopLedger is a Node.js/Express POS, Khata credit ledger, and GST invoicing app.
+It uses CommonJS JavaScript, body-parser, a plain HTML/CSS/JavaScript frontend,
+and synchronous JSON-file persistence. No frontend build or lint tool is configured.
+Follow existing two-space indentation, semicolons, single quotes, and camelCase names.
 
-- `server.js` configures Express, mounts `/api` routers, serves `public/`, and exposes printable invoices.
-- `routes/` contains product, order, customer/settlement, and report HTTP handlers.
-- `lib/` contains pricing, tax, coupons, inventory, orders, ledger, invoices, reports, dates, and persistence logic. Keep business rules here rather than in browser code.
-- `public/` contains `index.html`, `js/app.js`, and `css/style.css`; no frontend build is configured.
-- `config.js` holds shop details, GST slabs, coupons, and server settings.
-- `data/db.json` stores mutable application data. `docs/architecture.svg` maps the architecture and order flow.
+## Module Map
 
-## Build, Test, and Development Commands
+- `server.js`: Express setup, static public assets, API mounts, printable invoice route.
+- `config.js`: port, shop details, admin key, GST slabs, coupons, inventory settings.
+- `routes/products.js`: product catalog and active coupon endpoints.
+- `routes/orders.js`: order listing, lookup, placement, and cancellation endpoints.
+- `routes/customers.js`: customer listing and Khata settlement endpoint.
+- `routes/reports.js`: dashboard, GST reconciliation, pricing preview, and admin export.
+- `lib/pricing.js`: checkout totals, proportional pre-tax discount, rounded line GST.
+- `lib/tax.js`: item rate resolution, exact HSN lookup, CGST/SGST split.
+- `lib/coupons.js`: coupon normalization, validation, capped discount calculation.
+- `lib/inventory.js`: sellable stock, checks, deduction, release, inventory summary.
+- `lib/orders.js`: order creation, lookup, cancellation, filtering, sorting.
+- `lib/ledger.js`: customer lookup, credit checks, order debits, reversals, settlements.
+- `lib/invoice.js`: printable HTML and figures derived from checkout pricing.
+- `lib/reports.js`: dashboard aggregates and invoice/order GST reconciliation.
+- `lib/dates.js`: display dates, date normalization, fiscal-year labels.
+- `lib/store.js`: synchronous database reads/writes and bounded audit history.
 
-These commands are reference instructions; run them only within the authorized task scope.
+`public/` contains `index.html`, `js/app.js`, and `css/style.css`.
+`data/db.json` contains mutable business data; preserve it during development.
+`test/invoice.test.js` contains in-memory invoice tests; `docs/architecture.svg` maps the app.
 
-- `npm ci`: install dependencies from an available, synchronized lockfile.
-- `npm start`: run `node server.js` on port 3000 by default.
-- `PORT=3001 npm start`: select another port.
-- `npm test`: currently prints “Error: no test specified” and exits unsuccessfully.
+## Commands
 
-No build, lint, formatting, or development-watch scripts are configured.
+- `npm start`: run Express on port 3000; override with `PORT=3100 npm start`.
+- `node --test`: run the built-in Node test runner; tests use `node:assert/strict`.
+- `npm test`: still a failing placeholder, not the test runner.
 
-## Coding Style & Naming Conventions
+Run servers and dependency installation only when authorized. For this ticket,
+use a temporary project copy without node_modules, install there, and run on port 3100.
 
-Follow existing JavaScript: two-space indentation, semicolons, single-quoted strings, CommonJS `require`/exports, and `var` declarations. Use camelCase functions and variables, such as `computeTotals` and `customerId`, and lowercase module filenames. Keep route handlers focused on request validation and orchestration. Avoid unrelated style rewrites.
+## Rules
 
-## Testing Guidelines
+1. Write characterization tests before changing behavior; name them `CURRENT BEHAVIOUR:`.
+2. Change only the modules the ticket concerns; avoid unrelated style rewrites.
+3. Tests use in-memory data and never read or write `data/db.json`.
+4. Add no dependencies.
+5. Make the smallest fix that works; compare invoice and checkout monetary figures.
 
-No test framework, test directory, coverage threshold, or test naming convention is established. For new automated coverage, prefer `tests/<module>.test.js` and document its runner. Verify monetary changes with explicit expected subtotal, discount, tax, and total values. Cover mixed GST slabs, coupon limits, rounding, stock boundaries, cancellations, and Khata settlements. Use disposable data for checks that write orders or balances.
+## Current Ticket & Pull Requests
 
-## Commit & Pull Request Guidelines
-
-History uses short, lowercase descriptive subjects, such as `invoice page for accountant`; no Conventional Commits pattern is established. Keep commits focused. PRs should explain the behavior change, link an issue when applicable, list verification and limitations, and include screenshots for UI or invoice changes. Exclude incidental database mutations.
-
-## Data & Pricing Precautions
-
-`lib/store.js` rewrites the entire JSON database synchronously. Preserve existing data and unrelated changes. Checkout uses `lib/pricing.js`, `lib/tax.js`, and `lib/coupons.js`; invoices independently recalculate in `lib/invoice.js`. Compare both paths when changing totals. Treat the hardcoded admin key and customer records as sensitive.
+Ticket: invoice total and GST breakdown do not match what the customer was billed.
+Allowed production files: `lib/invoice.js`; `lib/tax.js` only if truly needed.
+Tests belong in `test/invoice.test.js`. Keep data and lockfile changes out of this ticket.
+Use focused, descriptive commits. PRs explain tests added first, cause, fix, and test results.
+Link the issue, review before opening, and do not merge without an explicit request.
