@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" font-family="Arial, Helvetica, sans-serif">
+  <rect x="0" y="0" width="1200" height="800" fill="#ffffff"/>
+  <text x="600" y="36" font-size="24" font-weight="bold" text-anchor="middle" fill="#0f172a">ShopLedger — Architecture</text>
+  <text x="600" y="58" font-size="13" text-anchor="middle" fill="#475569">Node.js + Express POS, Khata credit ledger and GST invoicing — one JSON file as database</text>
+  <rect x="40" y="90" width="340" height="120" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"/>
+  <text x="60" y="118" font-size="16" font-weight="bold" fill="#0c4a6e">Browser UI — public/</text>
+  <text x="60" y="142" font-size="13" fill="#0f172a">public/index.html — POS, Order History,</text>
+  <text x="60" y="162" font-size="13" fill="#0f172a">Khata and GST Audit screens</text>
+  <text x="60" y="182" font-size="13" fill="#0f172a">public/js/app.js — cart, orders, reports</text>
+  <text x="60" y="202" font-size="13" fill="#0f172a">public/css/style.css — styling</text>
+  <rect x="460" y="90" width="300" height="120" rx="8" fill="#dcfce7" stroke="#15803d" stroke-width="1.5"/>
+  <text x="480" y="118" font-size="16" font-weight="bold" fill="#14532d">server.js</text>
+  <text x="480" y="142" font-size="13" fill="#0f172a">Starts the Express server</text>
+  <text x="480" y="162" font-size="13" fill="#0f172a">Serves public/ and mounts /api routes</text>
+  <text x="480" y="182" font-size="13" fill="#0f172a">Listens on PORT (default 3000)</text>
+  <text x="480" y="202" font-size="13" fill="#0f172a">npm start</text>
+  <rect x="840" y="90" width="320" height="120" rx="8" fill="#fef9c3" stroke="#a16207" stroke-width="1.5"/>
+  <text x="860" y="118" font-size="16" font-weight="bold" fill="#713f12">config.js</text>
+  <text x="860" y="142" font-size="13" fill="#0f172a">Shop details and GSTIN</text>
+  <text x="860" y="162" font-size="13" fill="#0f172a">HSN GST slabs (5% / 12% / 18%)</text>
+  <text x="860" y="182" font-size="13" fill="#0f172a">Coupon definitions and caps</text>
+  <text x="860" y="202" font-size="13" fill="#0f172a">Default GST rate 18%</text>
+  <rect x="40" y="260" width="520" height="150" rx="8" fill="#ede9fe" stroke="#6d28d9" stroke-width="1.5"/>
+  <text x="60" y="288" font-size="16" font-weight="bold" fill="#4c1d95">API routes — routes/</text>
+  <text x="60" y="314" font-size="13" fill="#0f172a">routes/products.js — catalog and coupons</text>
+  <text x="60" y="336" font-size="13" fill="#0f172a">routes/orders.js — create, list, view, cancel orders</text>
+  <text x="60" y="358" font-size="13" fill="#0f172a">routes/customers.js — khata balances, settlements</text>
+  <text x="60" y="380" font-size="13" fill="#0f172a">routes/reports.js — dashboard, GST audit, export</text>
+  <rect x="640" y="260" width="520" height="150" rx="8" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.5"/>
+  <text x="660" y="288" font-size="16" font-weight="bold" fill="#7f1d1d">Data — data/db.json</text>
+  <text x="660" y="314" font-size="13" fill="#0f172a">Products, stock, orders, customers,</text>
+  <text x="660" y="336" font-size="13" fill="#0f172a">settlements and audit history</text>
+  <text x="660" y="358" font-size="13" fill="#0f172a">Read and written only through lib/store.js</text>
+  <text x="660" y="380" font-size="13" fill="#0f172a">Whole file rewritten on every save</text>
+  <rect x="40" y="450" width="1120" height="210" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+  <text x="60" y="478" font-size="16" font-weight="bold" fill="#0f172a">Business rules — lib/</text>
+  <text x="60" y="504" font-size="13" fill="#0f172a">lib/pricing.js — checkout totals: subtotal, coupon discount apportioned per line</text>
+  <text x="60" y="526" font-size="13" fill="#0f172a">lib/tax.js — GST rate per item from HSN slab or gstRate; CGST/SGST split</text>
+  <text x="60" y="548" font-size="13" fill="#0f172a">lib/coupons.js — coupon validation, discount with min-order and cap</text>
+  <text x="60" y="570" font-size="13" fill="#0f172a">lib/inventory.js — stock availability and changes  •  lib/orders.js — order create / list / cancel  •  lib/ledger.js — khata credit and repayments</text>
+  <text x="60" y="592" font-size="13" fill="#0f172a">lib/reports.js — dashboard and invoice-versus-ledger checks  •  lib/store.js — reads/writes data/db.json  •  lib/dates.js — date helpers</text>
+  <rect x="60" y="606" width="700" height="40" rx="6" fill="#fde68a" stroke="#b45309" stroke-width="2"/>
+  <text x="76" y="631" font-size="13" font-weight="bold" fill="#78350f">lib/invoice.js — printable GST invoice figures and HTML (Ticket 1 module)</text>
+  <text x="40" y="700" font-size="15" font-weight="bold" fill="#0f172a">Placing an order:</text>
+  <text x="40" y="724" font-size="13" fill="#0f172a">1. Browser sends POST /api/orders  →  2. routes/orders.js validates items  →  3. lib/inventory.js checks stock  →  4. lib/pricing.js + lib/tax.js + lib/coupons.js compute totals</text>
+  <text x="40" y="746" font-size="13" fill="#0f172a">5. Khata orders: lib/ledger.js checks credit limit  →  6. Stock reduced, order + audit entry created  →  7. lib/store.js writes data/db.json  →  8. 201 Created returned</text>
+  <rect x="880" y="690" width="280" height="56" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <rect x="896" y="706" width="22" height="14" fill="#fde68a" stroke="#b45309" stroke-width="2"/>
+  <text x="926" y="718" font-size="12" fill="#0f172a">Highlighted = my ticket's module</text>
+  <text x="896" y="738" font-size="12" fill="#475569">All labels verified against the code.</text>
+  <line x1="380" y1="150" x2="460" y2="150" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="610" y1="210" x2="300" y2="260" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="560" y1="335" x2="640" y2="335" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="300" y1="410" x2="300" y2="450" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#334155"/></marker>
+  </defs>
+</svg>
