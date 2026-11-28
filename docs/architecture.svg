@@ -43,8 +43,8 @@
 <text x="473" y="154">products.js · products, coupons</text>
 <rect x="460" y="178" width="270" height="43" rx="5" class="node"/>
 <text x="473" y="204">orders.js · place, list, cancel</text>
-<rect x="460" y="228" width="270" height="43" rx="5" class="ticket"/>
-<text x="473" y="254" font-weight="700">customers.js · settlements ★</text>
+<rect x="460" y="228" width="270" height="43" rx="5" class="node"/>
+<text x="473" y="254">customers.js · settlements</text>
 <rect x="460" y="278" width="270" height="43" rx="5" class="node"/>
 <text x="473" y="304">reports.js · preview, reports, export</text>
 <path d="M415 172 H445" class="flow"/>
@@ -64,12 +64,12 @@
 <text x="795" y="116" class="head">lib/ · application modules</text>
 <rect x="795" y="128" width="365" height="35" rx="5" class="node"/><text x="808" y="151">pricing.js · subtotal, computeTotals</text>
 <rect x="795" y="168" width="365" height="35" rx="5" class="node"/><text x="808" y="191">coupons.js · normalizeCode, validate, calculateDiscount</text>
-<rect x="795" y="208" width="365" height="35" rx="5" class="node"/><text x="808" y="231">inventory.js · find, check, reserve, release</text>
-<rect x="795" y="248" width="365" height="35" rx="5" class="ticket"/><text x="808" y="271" font-weight="700">orders.js · list ★ · add, get, cancel</text>
-<rect x="795" y="288" width="365" height="35" rx="5" class="ticket"/><text x="808" y="311" font-weight="700">ledger.js · recordSettlement, Khata balance ★</text>
+<rect x="795" y="208" width="365" height="35" rx="5" class="ticket"/><text x="808" y="231" font-weight="700">inventory.js · find, check, reserve, release ★</text>
+<rect x="795" y="248" width="365" height="35" rx="5" class="ticket"/><text x="808" y="271" font-weight="700">orders.js · cancel ★ · add, get, list</text>
+<rect x="795" y="288" width="365" height="35" rx="5" class="node"/><text x="808" y="311">ledger.js · recordSettlement, Khata balance</text>
 <rect x="795" y="328" width="365" height="35" rx="5" class="node"/><text x="808" y="351">store.js · read, write, appendAudit</text>
 <rect x="795" y="368" width="365" height="35" rx="5" class="node"/><text x="808" y="391">reports.js · getDashboardSummary, getGstReconciliation</text>
-<rect x="795" y="408" width="365" height="35" rx="5" class="ticket"/><text x="808" y="431" font-weight="700">dates.js · today, normalizeDateKey, getFiscalYear ★</text>
+<rect x="795" y="408" width="365" height="35" rx="5" class="node"/><text x="808" y="431">dates.js · today, normalizeDateKey, getFiscalYear</text>
 <rect x="795" y="448" width="365" height="35" rx="5" class="node"/><text x="808" y="471">invoice.js · render, computeInvoiceFigures</text>
 <rect x="795" y="488" width="365" height="35" rx="5" class="node"/><text x="808" y="511">tax.js · getRateForItem, splitCgstSgst</text>
 
@@ -80,9 +80,10 @@
 <rect x="25" y="548" width="1150" height="64" rx="9" fill="#fff" stroke="#cbd5e1" stroke-width="1.2"/>
 <rect x="42" y="560" width="20" height="20" rx="3" class="ticket"/>
 <text x="72" y="575" font-weight="700">Ticket scope</text>
-<text x="42" y="596" class="small">★ orders.js: list only</text>
-<text x="290" y="574" class="small">GET /api/orders → routes/orders.js → orders.list() → dates.normalizeDateKey()</text>
-<text x="290" y="596" class="small">POST /api/customers/:id/settle → routes/customers.js → ledger.recordSettlement()</text>
+<text x="42" y="596" class="small">orders.js scope: cancel only</text>
+<text x="290" y="570" class="small">Order stock: POST /api/orders → inventory.check() → inventory.reserve()</text>
+<text x="290" y="587" class="small">Cancel: POST /api/orders/:id/cancel → orders.cancel() → inventory.release()</text>
+<text x="290" y="604" class="small">Products use id/stock/reserved; saved order lines use id/qty; release() looks up productId</text>
 
 <!-- Numbered order creation flow -->
 <rect x="25" y="625" width="1150" height="145" rx="10" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.4"/>
@@ -104,4 +105,6 @@
 <text x="984" y="681" font-weight="700">Save order</text><text x="963" y="705" class="small">orders.add(), appendAudit()</text><text x="963" y="727" class="small">store.write() → db.json</text>
 <path d="M247 706 H266" class="flow"/><path d="M474 706 H493" class="flow"/><path d="M701 706 H720" class="flow"/><path d="M928 706 H947" class="flow"/>
 </svg>
+
+
 

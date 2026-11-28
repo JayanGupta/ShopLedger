@@ -12,11 +12,11 @@
 - `routes/products.js` — lists products and active coupons.
 - `routes/reports.js` — pricing preview, dashboard, GST reconciliation, and admin export.
 - `lib/coupons.js` — normalizes and validates coupon codes and calculates discounts.
-- `lib/dates.js` — formats today’s date, normalizes date keys, and derives fiscal years.
-- `lib/inventory.js` — finds products, checks/reserves/releases stock, and summarizes inventory.
+- `lib/dates.js` — formats today’s date, normalizes date keys, builds sortable date keys, and derives fiscal years.
+- `lib/inventory.js` — finds products, computes sellable stock, checks/reserves/releases stock, and summarizes inventory.
 - `lib/invoice.js` — computes invoice figures and renders printable invoice HTML.
 - `lib/ledger.js` — finds/lists customers, updates Khata balances, and records settlements.
-- `lib/orders.js` — adds, retrieves, cancels, and filters orders.
+- `lib/orders.js` — adds, retrieves, cancels, and filters orders; cancellation calls inventory release and reverses a Khata debit.
 - `lib/pricing.js` — computes subtotals, discounts, line GST, and checkout totals.
 - `lib/reports.js` — computes dashboard summaries and GST reconciliation.
 - `lib/store.js` — reads/writes JSON data and appends audit records.
@@ -34,4 +34,4 @@
 5. Make the smallest fix that works.
 
 ## Current ticket
-Order history sorting and date filter are broken, and Khata settlements corrupt customer balances. Allowed files: `lib/orders.js` (list only), `lib/dates.js`, `lib/ledger.js`, `routes/customers.js`.
+Cannot sell the last sellable unit in stock, and cancelling an order never restores stock. Allowed files: `lib/inventory.js`, and `lib/orders.js` (cancel only).
