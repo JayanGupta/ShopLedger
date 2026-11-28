@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+<title id="title">ShopLedger architecture and order placement</title>
+<desc id="desc">The left column follows the browser into Express and its four routers. The right column traces a successful checkout in eight steps. The bottom panel explains why cancellation fails to restore stock. Amber marks the inventory module and the cancel function only.</desc>
+<style>
+text{font:15px 'Segoe UI',Arial,sans-serif;fill:#223849}.title{font-size:34px;font-weight:700}.head{font-size:19px;font-weight:700}.name{font-weight:700}.small{font-size:13px}.sub{fill:#455f70}.tag{font-size:13px;font-weight:700;letter-spacing:1px;fill:#385b6d}.ticket{fill:#864100;font-weight:700}.box{fill:white;stroke:#b9cbd2}.line{fill:none;stroke:#588096;stroke-width:2}.num{font-size:13px;font-weight:700;fill:white;text-anchor:middle}.rule{stroke:#dae3e7}
+</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5 0 10Z" fill="#588096"/></marker></defs>
+<rect width="1200" height="800" fill="#f4f7f7"/>
+<text x="30" y="47" class="title">ShopLedger architecture</text>
+<text x="31" y="74" class="sub">Browser POS, customer credit and printable GST invoices</text>
+<rect x="842" y="23" width="328" height="49" rx="8" fill="#fff0d6" stroke="#d89a46"/>
+<text x="858" y="44" class="ticket small">LEGEND · TICKET SCOPE</text>
+<text x="858" y="62" class="small">lib/inventory.js and lib/orders.js · cancel() only</text>
+
+<text x="30" y="114" class="tag">APPLICATION STRUCTURE</text>
+<rect x="30" y="128" width="476" height="62" rx="8" class="box"/>
+<text x="48" y="153" class="head">public/ · Browser UI</text>
+<text x="48" y="175" class="sub">index.html, js/app.js and css/style.css</text>
+<path d="M63 190v24" class="line" marker-end="url(#arrow)"/>
+<text x="78" y="208" class="small sub">HTTP requests</text>
+<rect x="30" y="216" width="476" height="82" rx="8" class="box"/>
+<text x="48" y="241" class="head">server.js · Express</text>
+<text x="48" y="264">Serves public/ and mounts four routers under /api.</text>
+<text x="48" y="284" class="small sub">GET /orders/:id/invoice calls lib/invoice.js · render().</text>
+<path d="M63 298v23" class="line" marker-end="url(#arrow)"/>
+<rect x="30" y="323" width="476" height="168" rx="8" class="box"/>
+<text x="48" y="349" class="head">routes/ · HTTP handlers</text>
+<text x="48" y="377" class="name">products.js</text><text x="163" y="377">Catalogue, sellable stock and coupons</text>
+<text x="48" y="407" class="name">orders.js</text><text x="163" y="407">Create, list, look up and cancel orders</text>
+<text x="48" y="437" class="name">customers.js</text><text x="163" y="437">Customer balances and settlements</text>
+<text x="48" y="467" class="name">reports.js</text><text x="163" y="467">Dashboard, GST audit, preview and export</text>
+<path d="M506 402h32" class="line" marker-end="url(#arrow)"/>
+
+<rect x="30" y="508" width="476" height="161" rx="8" class="box"/>
+<text x="48" y="535" class="head">Configuration, reporting and storage</text>
+<text x="48" y="563" class="name">config.js</text><text x="165" y="563">Shop, port, tax, coupons and stock defaults</text>
+<text x="48" y="594" class="name">lib/reports.js</text><text x="165" y="594">Uses inventory, ledger and invoice figures</text>
+<text x="48" y="625" class="name">data/db.json</text><text x="165" y="625">Read and rewritten by lib/store.js</text>
+<text x="48" y="650" class="small sub">Products, orders, customers, settlements, audit log and ID counters</text>
+
+<text x="542" y="114" class="tag">ORDER PLACEMENT · SUCCESS PATH</text>
+<rect x="542" y="128" width="628" height="541" rx="8" class="box"/>
+<path d="M570 161v445" class="line"/>
+<circle cx="570" cy="153" r="12" fill="#315e71"/><text x="570" y="158" class="num">1</text><text x="597" y="157" class="name">Submit the cart</text><text x="597" y="180" class="sub">public/js/app.js posts the selected items to POST /api/orders.</text>
+<circle cx="570" cy="212" r="12" fill="#315e71"/><text x="570" y="217" class="num">2</text><text x="597" y="216" class="name">Read the shop records</text><text x="597" y="239" class="sub">routes/orders.js calls lib/store.js · read() to load data/db.json.</text>
+<circle cx="570" cy="274" r="12" fill="#315e71"/><text x="570" y="279" class="num">3</text><text x="597" y="278" class="name">Resolve and check stock</text><rect x="591" y="284" width="563" height="43" rx="5" fill="#fff0d6"/><text x="597" y="301" class="ticket small">lib/inventory.js · find() and check() use the product id from each line.</text><text x="597" y="320" class="small sub">Sellable = max(0, stock − reserved). A request at or above sellable fails.</text>
+<circle cx="570" cy="349" r="12" fill="#315e71"/><text x="570" y="354" class="num">4</text><text x="597" y="353" class="name">Validate the coupon and price the order</text><text x="597" y="376" class="sub">lib/coupons.js checks the code. lib/pricing.js · computeTotals() applies</text><text x="597" y="395" class="small sub">the discount and uses lib/tax.js for each line’s GST.</text>
+<circle cx="570" cy="421" r="12" fill="#315e71"/><text x="570" y="426" class="num">5</text><text x="597" y="425" class="name">Charge credit purchases</text><text x="597" y="448" class="sub">For khata, lib/ledger.js · chargeOrderToKhata() checks the credit limit</text><text x="597" y="467" class="small sub">and updates the customer’s balance in memory.</text>
+<circle cx="570" cy="494" r="12" fill="#315e71"/><text x="570" y="499" class="num">6</text><text x="597" y="498" class="name">Deduct physical stock</text><rect x="591" y="504" width="563" height="24" rx="5" fill="#fff0d6"/><text x="597" y="521" class="ticket small">lib/inventory.js · reserve() subtracts line.qty from product.stock.</text>
+<circle cx="570" cy="553" r="12" fill="#315e71"/><text x="570" y="558" class="num">7</text><text x="597" y="557" class="name">Append the order</text><text x="597" y="580" class="sub">lib/orders.js · add() assigns the next ID and uses lib/dates.js · today().</text>
+<circle cx="570" cy="614" r="12" fill="#315e71"/><text x="570" y="619" class="num">8</text><text x="597" y="618" class="name">Save and respond</text><text x="597" y="641" class="sub">lib/store.js · appendAudit() records ORDER_CREATED. write() saves</text><text x="597" y="660" class="small sub">data/db.json, then the router returns HTTP 201 with the order.</text>
+<rect x="30" y="689" width="1140" height="91" rx="8" fill="#fff" stroke="#b9cbd2"/>
+<text x="48" y="716" class="ticket">lib/orders.js · cancel()</text>
+<text x="246" y="716" class="sub">POST /api/orders/:id/cancel</text>
+<text x="48" y="741">Marks the order cancelled, calls inventory.release() and reverses the khata debit when applicable. The route audits and saves.</text>
+<text x="48" y="763">Checkout saves line.id and deducts product.stock. Release looks for line.productId and reduces product.reserved, so stock stays deducted.</text>
+</svg>
