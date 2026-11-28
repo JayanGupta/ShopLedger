@@ -5,7 +5,7 @@ const inventory = require('../lib/inventory');
 const orders = require('../lib/orders');
 
 function makeProduct(id, stock, reserved = 0) {
-  return { id, name: 'Test product', stock, reserved, price: 10 };
+  return { id, name: 'Test product ' + id, stock, reserved, price: 10 };
 }
 
 test('FIXED BEHAVIOUR: inventory.check accepts a quantity equal to sellable stock', () => {
@@ -29,25 +29,32 @@ test('FIXED BEHAVIOUR: reserved units are excluded and the exact remaining quant
   assert.equal(inventory.check(products, [{ id: 'P1', qty: 2 }]).ok, false);
 });
 
-test('FIXED BEHAVIOUR: cancelling a pending order restores stock exactly once', () => {
-  const product = makeProduct('P1', 8, 0);
+test('FIXED BEHAVIOUR: cancelling a multi-item pending order restores stock exactly once', () => {
+  const ghee = makeProduct('P1', 8, 0);
+  const oil = makeProduct('P2', 12, 2);
   const order = {
     id: 1007,
     status: 'pending',
     paymentMode: 'cash',
-    items: [{ id: 'P1', sku: 'SKU-P1', name: 'Test product', hsn: '1006', price: 10, qty: 2 }]
+    items: [
+      { id: 'P1', sku: 'SKU-P1', name: 'Test ghee', hsn: '0405', price: 10, qty: 2 },
+      { id: 'P2', sku: 'SKU-P2', name: 'Test oil', hsn: '1512', price: 10, qty: 2 }
+    ]
   };
-  const db = { products: [product], orders: [order], customers: [], settlements: [], auditLog: [] };
+  const db = { products: [ghee, oil], orders: [order], customers: [], settlements: [], auditLog: [] };
 
   inventory.reserve(db.products, order.items);
-  assert.equal(product.stock, 6);
+  assert.equal(ghee.stock, 6);
+  assert.equal(oil.stock, 10);
 
   const first = orders.cancel(db, 1007, 'test cancellation');
   assert.equal(first.ok, true);
-  assert.equal(product.stock, 8);
+  assert.equal(ghee.stock, 8);
+  assert.equal(oil.stock, 12);
+  assert.equal(oil.reserved, 2);
 
   const second = orders.cancel(db, 1007, 'repeat cancellation');
   assert.equal(second.ok, false);
-  assert.equal(product.stock, 8);
-  assert.equal(product.reserved, 0);
+  assert.equal(ghee.stock, 8);
+  assert.equal(oil.stock, 12);
 });
