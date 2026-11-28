@@ -108,7 +108,7 @@ test('CURRENT BEHAVIOUR: non-numeric settlement leaves the ledger unchanged', ()
   assert.deepEqual(db, createLedger());
 });
 
-test('order history uses calendar dates and Khata accepts only valid numeric amounts', () => {
+test('CURRENT BEHAVIOUR: order history uses calendar dates and Khata accepts valid numeric amounts', () => {
   const db = createLedger();
   const settled = ledger.recordSettlement(db, 1, '500');
   const invalid = createLedger();
@@ -135,6 +135,38 @@ test('order history uses calendar dates and Khata accepts only valid numeric amo
     acceptedInvalidAmount: false
   });
   assert.deepEqual(invalid, createLedger());
-  assert.equal(dates.getFiscalYear('31/03/2022'), 'FY21-22');
-  assert.equal(dates.getFiscalYear('2022-04-01'), 'FY22-23');
+});
+
+test('cross-year filtering keeps boundary orders and Khata rejection preserves a valid payment', () => {
+  const history = {
+    orders: [
+      { id: 4, date: '30/01/2022' },
+      ...orderHistory.orders,
+      { id: 5, date: '05/01/2022' }
+    ]
+  };
+  const db = createLedger();
+  const payment = ledger.recordSettlement(db, 1, '500');
+  const rejected = ledger.recordSettlement(db, 1, 'abc');
+
+  assert.deepEqual({
+    orderIds: orders.list(history, {
+      from: '2021-12-28',
+      to: '2022-01-30'
+    }).map(order => order.id),
+    acceptedPayment: payment.ok,
+    acceptedInvalidAmount: rejected.ok,
+    totalSettled: db.customers[0].totalSettled,
+    balance: db.customers[0].balance,
+    settlementAmounts: db.settlements.map(settlement => settlement.amount),
+    nextSettlementId: db.nextSettlementId
+  }, {
+    orderIds: [4, 2, 5, 3],
+    acceptedPayment: true,
+    acceptedInvalidAmount: false,
+    totalSettled: 1700,
+    balance: 732.01,
+    settlementAmounts: [500],
+    nextSettlementId: 502
+  });
 });

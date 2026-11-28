@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title description">
   <title id="title">ShopLedger architecture and order placement</title>
-  <desc id="description">The browser talks to the Express server and its four API routers. All ten library modules, shared configuration, and JSON storage are shown alongside seven numbered order steps. The separately rendered invoice is highlighted in purple.</desc>
+  <desc id="description">The browser talks to the Express server and its four API routers. All ten library modules, shared configuration, and JSON storage are shown alongside seven numbered order steps. Amber highlights the customers router, the ledger and dates modules, and only the list function in the orders library.</desc>
   <defs>
     <style>
       text { font-family: Arial, Helvetica, sans-serif; fill: #172842; }
@@ -13,11 +13,11 @@
       .panel { fill: #fff; stroke: #d3ddeb; }
       .card { fill: #f5f8fc; stroke: #c5d3e5; }
       .order { fill: #eaf4ff; stroke: #5c96cd; }
-      .ticket { fill: #f2e9ff; stroke: #8054b2; }
-      .purple { fill: #673b99; }
+      .ticket { fill: #fff0d5; stroke: #ab611b; }
+      .ticket-text { fill: #783e11; }
       .edge { fill: none; stroke: #6b829d; stroke-width: 1.5; }
       .flow { fill: none; stroke: #3275af; stroke-width: 2; }
-      .invoice-edge { fill: none; stroke: #8054b2; stroke-width: 1.7; stroke-dasharray: 5 4; }
+      .invoice-edge { stroke-dasharray: 5 4; }
       .number { fill: #24699f; }
       .number-text { font-size: 13px; font-weight: 700; fill: #fff; text-anchor: middle; }
     </style>
@@ -26,9 +26,6 @@
     </marker>
     <marker id="blue-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto">
       <path d="M0 0L8 4L0 8z" fill="#3275af"/>
-    </marker>
-    <marker id="purple-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
-      <path d="M0 0L8 4L0 8z" fill="#8054b2"/>
     </marker>
   </defs>
 
@@ -49,7 +46,7 @@
     <rect class="card" x="314" y="128" width="430" height="72" rx="8"/>
     <text x="326" y="151" class="label code">server.js</text>
     <text x="326" y="170" class="detail">Express · JSON body parsing · static files · /api mount</text>
-    <text x="326" y="187" class="detail code purple">GET /orders/:id/invoice → store.read() → orders.get()</text>
+    <text x="326" y="187" class="detail code">GET /orders/:id/invoice → store.read() → orders.get()</text>
   </g>
 
   <g aria-label="API routers">
@@ -68,11 +65,11 @@
     <rect class="order" x="228" y="250" width="164" height="89" rx="8"/>
     <text x="240" y="271" class="label code">orders.js</text>
     <text x="240" y="291" class="detail code">POST /orders</text>
-    <text x="240" y="307" class="detail">List, view, and cancel</text>
-    <text x="240" y="325" class="detail">Runs checkout</text>
+    <text x="240" y="307" class="detail code">GET /orders → list()</text>
+    <text x="240" y="325" class="detail">Order details and cancel</text>
 
-    <rect class="card" x="404" y="250" width="164" height="89" rx="8"/>
-    <text x="416" y="271" class="label code">customers.js</text>
+    <rect class="ticket" x="404" y="250" width="164" height="89" rx="8"/>
+    <text x="416" y="271" class="label code ticket-text">customers.js</text>
     <text x="416" y="291" class="detail code">GET /customers</text>
     <text x="416" y="307" class="detail">Customer balances</text>
     <text x="416" y="325" class="detail">and settlements</text>
@@ -87,7 +84,7 @@
   <g aria-label="Library modules">
     <text x="52" y="369" class="section code">lib/</text>
     <path class="flow" d="M310 339V382" marker-end="url(#blue-arrow)"/>
-    <path class="invoice-edge" d="M744 177H757V567H744" marker-end="url(#purple-arrow)"/>
+    <path class="edge invoice-edge" d="M744 177H757V567H744" marker-end="url(#arrow)"/>
 
     <rect class="card" x="52" y="382" width="164" height="66" rx="8"/>
     <text x="64" y="403" class="label code">inventory.js</text>
@@ -111,21 +108,23 @@
     <path class="edge" d="M392 415H404" marker-end="url(#arrow)"/>
     <path class="edge" d="M310 448V456H662V448" marker-end="url(#arrow)"/>
 
-    <rect class="card" x="52" y="466" width="164" height="66" rx="8"/>
-    <text x="64" y="487" class="label code">ledger.js</text>
+    <rect class="ticket" x="52" y="466" width="164" height="66" rx="8"/>
+    <text x="64" y="487" class="label code ticket-text">ledger.js</text>
     <text x="64" y="507" class="detail code">chargeOrderToKhata()</text>
     <text x="64" y="523" class="detail code">recordSettlement()</text>
 
     <rect class="card" x="228" y="466" width="164" height="66" rx="8"/>
     <text x="240" y="487" class="label code">orders.js</text>
-    <text x="240" y="507" class="detail code">add() · get() · list()</text>
+    <text x="240" y="507" class="detail code">add() · get()</text>
     <text x="240" y="523" class="detail code">cancel()</text>
+    <rect class="ticket" x="325" y="509" width="59" height="19" rx="4"/>
+    <text x="354.5" y="523" class="detail code ticket-text" text-anchor="middle">list()</text>
 
-    <rect class="card" x="404" y="466" width="164" height="66" rx="8"/>
-    <text x="416" y="487" class="label code">dates.js</text>
+    <rect class="ticket" x="404" y="466" width="164" height="66" rx="8"/>
+    <text x="416" y="487" class="label code ticket-text">dates.js</text>
     <text x="416" y="507" class="detail code">today()</text>
     <text x="416" y="523" class="detail code">normalizeDateKey()</text>
-    <path class="edge" d="M392 499H404" marker-end="url(#arrow)"/>
+    <path class="edge" d="M384 519H404" marker-end="url(#arrow)"/>
 
     <rect class="card" x="580" y="466" width="164" height="66" rx="8"/>
     <text x="592" y="487" class="label code">reports.js</text>
@@ -138,11 +137,15 @@
     <text x="64" y="586" class="detail code">read() · appendAudit()</text>
     <text x="64" y="602" class="detail code">write()</text>
 
-    <rect class="ticket" x="520" y="544" width="224" height="70" rx="8"/>
-    <text x="532" y="562" class="label code purple">invoice.js</text>
-    <text x="532" y="578" class="detail code purple">render()</text>
-    <text x="532" y="593" class="detail code purple">computeInvoiceFigures()</text>
-    <text x="532" y="608" class="detail purple">Recomputes GST on gross lines</text>
+    <text x="266" y="562" class="label ticket-text">Khata settlement</text>
+    <text x="266" y="582" class="detail code">POST /api/customers/:id/settle</text>
+    <text x="266" y="600" class="detail code">→ ledger.recordSettlement()</text>
+
+    <rect class="card" x="520" y="544" width="224" height="70" rx="8"/>
+    <text x="532" y="562" class="label code">invoice.js</text>
+    <text x="532" y="578" class="detail code">render()</text>
+    <text x="532" y="593" class="detail code">computeInvoiceFigures()</text>
+    <text x="532" y="608" class="detail">Recomputes GST on gross lines</text>
   </g>
 
   <g aria-label="Persistence and shared configuration">
@@ -152,8 +155,8 @@
     <text x="64" y="671" class="label code">data/db.json</text>
     <text x="64" y="691" class="detail">Products, customers, orders, settlements, audit, counters</text>
 
-    <path class="invoice-edge" d="M632 614V648" marker-end="url(#purple-arrow)"/>
-    <text x="644" y="635" class="detail purple">Live settings</text>
+    <path class="edge invoice-edge" d="M632 614V648" marker-end="url(#arrow)"/>
+    <text x="644" y="635" class="detail">Live settings</text>
     <rect class="card" x="404" y="648" width="340" height="60" rx="8"/>
     <text x="416" y="671" class="label code">config.js</text>
     <text x="416" y="691" class="detail">Shop details, GST slabs and default, coupons, port</text>
@@ -214,8 +217,8 @@
     <path class="edge" d="M244 766H270" marker-end="url(#arrow)"/>
     <text x="280" y="771" class="detail">Selected calls and data links</text>
     <rect class="ticket" x="468" y="757" width="18" height="17" rx="3"/>
-    <text x="496" y="771" class="detail">Ticket module</text>
-    <path class="invoice-edge" d="M603 766H629" marker-end="url(#purple-arrow)"/>
-    <text x="639" y="771" class="detail">Printable invoice path</text>
+    <text x="496" y="771" class="detail">Ticket module or function</text>
+    <path class="edge invoice-edge" d="M659 766H685" marker-end="url(#arrow)"/>
+    <text x="695" y="771" class="detail">Printable invoice path</text>
   </g>
 </svg>
