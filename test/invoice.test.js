@@ -18,17 +18,17 @@ var cases = [
     pricingExpected: { subtotal: 610, discount: 0, tax: 66.9, total: 676.9 }
   },
   {
-    name: 'CURRENT BEHAVIOUR: order 1002 invoice percent discount includes tax',
+    name: 'order 1002 invoice matches checkout percent discount and GST',
     items: [line(1, 'Rice', 640, 1, '1006', 5), line(4, 'Sunflower Oil', 190, 2, '1512', 5)],
     coupon: 'SAVE10',
-    invoiceExpected: { subtotal: 1020, discount: 107.1, tax: 51, cgst: 25.5, sgst: 25.5, total: 963.9, gst: [5, 5] },
+    invoiceExpected: { subtotal: 1020, discount: 102, tax: 45.9, cgst: 22.95, sgst: 22.95, total: 963.9, gst: [5, 5] },
     pricingExpected: { subtotal: 1020, discount: 102, tax: 45.9, total: 963.9 }
   },
   {
-    name: 'CURRENT BEHAVIOUR: order 1004 invoice ignores SAVE10 minimum cap and taxable allocation',
+    name: 'order 1004 invoice matches checkout SAVE10 cap and GST',
     items: [line(5, 'Groundnut Oil', 1120, 2, '1508', 5)],
     coupon: 'SAVE10',
-    invoiceExpected: { subtotal: 2240, discount: 235.2, tax: 112, cgst: 56, sgst: 56, total: 2116.8, gst: [5] },
+    invoiceExpected: { subtotal: 2240, discount: 150, tax: 104.5, cgst: 52.25, sgst: 52.25, total: 2194.5, gst: [5] },
     pricingExpected: { subtotal: 2240, discount: 150, tax: 104.5, total: 2194.5 }
   },
   {
@@ -60,5 +60,29 @@ cases.forEach(function (scenario) {
       tax: pricingResult.tax,
       total: pricingResult.total
     }, scenario.pricingExpected);
+  });
+});
+
+test('invoice matches checkout GST slabs and capped coupon discount for order 1004', function () {
+  var items = [line(5, 'Groundnut Oil', 1120, 2, '1508')];
+  var invoiceResult = invoice.computeInvoiceFigures({ items: items, coupon: 'SAVE10' });
+  var pricingResult = pricing.computeTotals(items, 'SAVE10');
+
+  assert.deepEqual({
+    subtotal: invoiceResult.subtotal,
+    discount: invoiceResult.discount,
+    tax: invoiceResult.tax,
+    cgst: invoiceResult.cgst,
+    sgst: invoiceResult.sgst,
+    total: invoiceResult.total,
+    gst: invoiceResult.rows.map(function (row) { return row.gstPercent; })
+  }, {
+    subtotal: pricingResult.subtotal,
+    discount: pricingResult.discount,
+    tax: pricingResult.tax,
+    cgst: pricingResult.cgst,
+    sgst: pricingResult.sgst,
+    total: pricingResult.total,
+    gst: pricingResult.lines.map(function (row) { return row.gstPercent; })
   });
 });
