@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">ShopLedger architecture and checkout flow</title>
+  <desc id="desc">A verified module map for ShopLedger. The top row shows browser to server to routes to libraries to JSON storage. The bottom row numbers the checkout steps. lib/invoice.js is highlighted as the workshop ticket.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#091510"/><stop offset="1" stop-color="#10241a"/></linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#14271e"/><stop offset="1" stop-color="#102019"/></linearGradient>
+    <linearGradient id="ticket" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#46391f"/><stop offset="1" stop-color="#332a19"/></linearGradient>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9z" fill="#66c893"/></marker>
+    <marker id="arrowMuted" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#67977a"/></marker>
+    <style>
+      text{font-family:Segoe UI,Arial,sans-serif;fill:#edf6ef}.eyebrow{font-size:12px;font-weight:700;letter-spacing:2px;fill:#79dfaa}.title{font-size:28px;font-weight:700;letter-spacing:-.4px}.subtitle{font-size:14px;fill:#a0b5a7}.zone{font-size:11px;font-weight:700;letter-spacing:1.45px;fill:#8ba997}.node{fill:url(#panel);stroke:#31553f;stroke-width:1.4}.nodeTitle{font-size:15px;font-weight:700}.nodeSub{font-size:12px;fill:#a3b8aa}.flowLine{fill:none;stroke:#66c893;stroke-width:2.2;marker-end:url(#arrow)}.smallLine{fill:none;stroke:#67977a;stroke-width:1.6;stroke-dasharray:5 5;marker-end:url(#arrowMuted)}.detailBox{fill:#0e1b14;stroke:#274633;stroke-width:1.2}.detailTitle{font-size:11px;font-weight:700;letter-spacing:1.2px;fill:#9bb6a4}.file{font-size:12px;fill:#d7e5da}.fileMuted{font-size:12px;fill:#a7baad}.ticketBox{fill:url(#ticket);stroke:#edc46d;stroke-width:1.8}.ticketFile{font-size:12px;font-weight:700;fill:#ffe5a1}.stepBox{fill:#12271b;stroke:#315a40;stroke-width:1.2}.stepNum{font-size:12px;font-weight:800;fill:#0a1a11;text-anchor:middle;dominant-baseline:central}.stepTitle{font-size:12px;font-weight:700;fill:#edf6ef}.stepSub{font-size:11px;fill:#a4b8aa}.legend{font-size:11px;fill:#cbdccf}
+    </style>
+  </defs>
+
+  <rect width="1200" height="800" rx="22" fill="url(#background)"/>
+  <text x="40" y="43" class="eyebrow">SHOPLEDGER  /  VERIFIED SYSTEM MAP</text>
+  <text x="40" y="82" class="title">From browser cart to saved order</text>
+  <text x="40" y="108" class="subtitle">Node.js + Express · CommonJS modules · JSON persistence · paths and responsibilities checked against source</text>
+  <rect x="929" y="37" width="14" height="14" rx="3" fill="#edc46d"/>
+  <text x="951" y="49" class="legend">workshop ticket</text>
+  <path d="M1044 44h24" stroke="#66c893" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="1074" y="49" class="legend">request flow</text>
+
+  <!-- Request path -->
+  <text x="40" y="145" class="zone">REQUEST PATH</text>
+  <path class="flowLine" d="M248 191H264"/>
+  <path class="flowLine" d="M470 191H486"/>
+  <path class="flowLine" d="M692 191H708"/>
+  <path class="flowLine" d="M914 191H930"/>
+  <rect class="node" x="40" y="156" width="208" height="70" rx="12"/>
+  <circle cx="61" cy="179" r="4" fill="#66c893"/>
+  <text x="74" y="184" class="nodeTitle">Browser UI</text>
+  <text x="58" y="207" class="nodeSub">public/</text>
+
+  <rect class="node" x="264" y="156" width="206" height="70" rx="12"/>
+  <circle cx="285" cy="179" r="4" fill="#66c893"/>
+  <text x="298" y="184" class="nodeTitle">Express server</text>
+  <text x="282" y="207" class="nodeSub">server.js</text>
+
+  <rect class="node" x="486" y="156" width="206" height="70" rx="12"/>
+  <circle cx="507" cy="179" r="4" fill="#66c893"/>
+  <text x="520" y="184" class="nodeTitle">API routes</text>
+  <text x="504" y="207" class="nodeSub">routes/orders.js · /api/orders</text>
+
+  <rect class="node" x="708" y="156" width="206" height="70" rx="12"/>
+  <circle cx="729" cy="179" r="4" fill="#66c893"/>
+  <text x="742" y="184" class="nodeTitle">Business modules</text>
+  <text x="726" y="207" class="nodeSub">lib/pricing.js · lib/inventory.js</text>
+
+  <rect class="node" x="930" y="156" width="230" height="70" rx="12"/>
+  <circle cx="951" cy="179" r="4" fill="#66c893"/>
+  <text x="964" y="184" class="nodeTitle">JSON store</text>
+  <text x="948" y="207" class="nodeSub">lib/store.js → data/db.json</text>
+
+  <!-- Verified module groups -->
+  <text x="40" y="269" class="zone">FILES AND MODULES</text>
+  <rect class="detailBox" x="40" y="284" width="208" height="244" rx="12"/>
+  <text x="58" y="310" class="detailTitle">CLIENT</text>
+  <text x="58" y="342" class="file">public/index.html</text>
+  <text x="58" y="369" class="file">public/css/style.css</text>
+  <text x="58" y="396" class="file">public/js/app.js</text>
+  <line x1="58" y1="420" x2="230" y2="420" stroke="#274633"/>
+  <text x="58" y="448" class="fileMuted">Cart UI calls</text>
+  <text x="58" y="470" class="fileMuted">POST /api/orders</text>
+  <text x="58" y="502" class="fileMuted">Static UI is served</text>
+  <text x="58" y="520" class="fileMuted">by server.js</text>
+
+  <rect class="detailBox" x="264" y="284" width="206" height="244" rx="12"/>
+  <text x="282" y="310" class="detailTitle">SERVER + ROUTERS</text>
+  <text x="282" y="342" class="file">server.js</text>
+  <text x="282" y="372" class="file">routes/orders.js</text>
+  <text x="282" y="399" class="fileMuted">checkout · list · cancel</text>
+  <text x="282" y="431" class="file">routes/customers.js</text>
+  <text x="282" y="458" class="file">routes/products.js</text>
+  <text x="282" y="485" class="file">routes/reports.js</text>
+  <text x="282" y="516" class="fileMuted">All routers mounted at /api</text>
+
+  <rect class="detailBox" x="486" y="284" width="206" height="244" rx="12"/>
+  <text x="504" y="310" class="detailTitle">SHARED RULES</text>
+  <text x="504" y="342" class="file">lib/pricing.js</text>
+  <text x="504" y="369" class="file">lib/coupons.js</text>
+  <text x="504" y="396" class="file">lib/tax.js</text>
+  <text x="504" y="423" class="file">lib/inventory.js</text>
+  <text x="504" y="450" class="file">lib/ledger.js</text>
+  <text x="504" y="477" class="file">lib/orders.js</text>
+  <text x="504" y="509" class="fileMuted">totals · coupons · GST</text>
+
+  <rect class="detailBox" x="708" y="284" width="206" height="244" rx="12"/>
+  <text x="726" y="310" class="detailTitle">INVOICE + SUPPORT</text>
+  <rect class="ticketBox" x="722" y="324" width="178" height="36" rx="8"/>
+  <text x="735" y="347" class="ticketFile">lib/invoice.js  ·  TICKET</text>
+  <text x="726" y="390" class="file">lib/reports.js</text>
+  <text x="726" y="417" class="file">lib/dates.js</text>
+  <text x="726" y="444" class="file">lib/store.js</text>
+  <text x="726" y="481" class="fileMuted">Invoice figures now share</text>
+  <text x="726" y="500" class="fileMuted">checkout pricing rules.</text>
+
+  <rect class="detailBox" x="930" y="284" width="230" height="110" rx="12"/>
+  <text x="948" y="310" class="detailTitle">SHARED CONFIG</text>
+  <text x="948" y="342" class="file">config.js</text>
+  <text x="948" y="369" class="fileMuted">GST slabs · coupon rules</text>
+  <path class="smallLine" d="M930 340C910 340 915 425 914 425"/>
+
+  <rect class="detailBox" x="930" y="408" width="230" height="120" rx="12"/>
+  <text x="948" y="434" class="detailTitle">PERSISTED SHOP STATE</text>
+  <text x="948" y="466" class="file">data/db.json</text>
+  <text x="948" y="493" class="fileMuted">orders · customers · stock</text>
+  <text x="948" y="515" class="fileMuted">read/write via lib/store.js</text>
+
+  <!-- Numbered checkout steps -->
+  <text x="40" y="570" class="zone">NUMBERED ORDER PLACEMENT</text>
+  <g>
+    <rect class="stepBox" x="40" y="588" width="208" height="88" rx="11"/>
+    <circle cx="62" cy="611" r="13" fill="#9ae8b8"/><text x="62" y="611" class="stepNum">1</text>
+    <text x="84" y="615" class="stepTitle">Browser</text><text x="58" y="644" class="stepSub">sends cart + coupon</text><text x="58" y="663" class="stepSub">to the order endpoint</text>
+
+    <path class="flowLine" d="M248 632H264"/>
+    <rect class="stepBox" x="264" y="588" width="206" height="88" rx="11"/>
+    <circle cx="286" cy="611" r="13" fill="#9ae8b8"/><text x="286" y="611" class="stepNum">2</text>
+    <text x="308" y="615" class="stepTitle">orders route</text><text x="282" y="644" class="stepSub">resolves products,</text><text x="282" y="663" class="stepSub">validates stock + coupon</text>
+
+    <path class="flowLine" d="M470 632H486"/>
+    <rect class="stepBox" x="486" y="588" width="206" height="88" rx="11"/>
+    <circle cx="508" cy="611" r="13" fill="#9ae8b8"/><text x="508" y="611" class="stepNum">3</text>
+    <text x="530" y="615" class="stepTitle">pricing + tax</text><text x="504" y="644" class="stepSub">apportion discount;</text><text x="504" y="663" class="stepSub">compute HSN GST + total</text>
+
+    <path class="flowLine" d="M692 632H708"/>
+    <rect class="stepBox" x="708" y="588" width="206" height="88" rx="11"/>
+    <circle cx="730" cy="611" r="13" fill="#9ae8b8"/><text x="730" y="611" class="stepNum">4</text>
+    <text x="752" y="615" class="stepTitle">reserve + charge</text><text x="726" y="644" class="stepSub">inventory reserves stock;</text><text x="726" y="663" class="stepSub">ledger charges Khata</text>
+
+    <path class="flowLine" d="M914 632H930"/>
+    <rect class="stepBox" x="930" y="588" width="230" height="88" rx="11"/>
+    <circle cx="952" cy="611" r="13" fill="#9ae8b8"/><text x="952" y="611" class="stepNum">5</text>
+    <text x="974" y="615" class="stepTitle">save + audit</text><text x="948" y="644" class="stepSub">orders.add() then</text><text x="948" y="663" class="stepSub">store writes data/db.json</text>
+  </g>
+
+  <line x1="40" y1="713" x2="1160" y2="713" stroke="#294633"/>
+  <text x="40" y="744" class="subtitle">Ticket focus: invoice totals must match checkout GST slabs, discount allocation, and coupon caps.</text>
+  <text x="40" y="773" class="zone">FILES SHOWN ARE PRESENT IN THE REPOSITORY · NO EXTERNAL FONTS OR IMAGES</text>
+</svg>
