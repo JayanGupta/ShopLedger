@@ -17,8 +17,35 @@ function assertFigures(order, expectedInvoice, expectedCheckout) {
   );
 }
 
+test('invoice matches checkout for mixed HSN slabs with a capped SAVE10 discount', () => {
+  const order = {
+    coupon: 'SAVE10',
+    items: [
+      { name: 'Rice', price: 560, qty: 2, hsn: '1006' },
+      { name: 'Ghee', price: 1120, qty: 1, hsn: '0405' },
+    ],
+  };
+  const expected = {
+    subtotal: 2240, discount: 150, tax: 177.65, cgst: 88.83, sgst: 88.82, total: 2267.65,
+    gstByLine: [[5, 52.25], [12, 125.4]],
+  };
+
+  assertFigures(order, expected, expected);
+
+  const reprint = invoice.computeInvoiceFigures({
+    ...order,
+    coupon: 'RETIRED-SAVE10',
+    discount: expected.discount,
+  });
+  const { rows, ...amounts } = reprint;
+  assert.deepEqual(
+    { ...amounts, gstByLine: rows.map(({ gstPercent, lineTax }) => [gstPercent, lineTax]) },
+    expected
+  );
+});
+
 // Omit gstRate on the mixed-slab lines to model snapshots carrying only HSN.
-test('CURRENT BEHAVIOUR: #1001-style invoice falls back to 18% for mixed HSN slabs', () => {
+test('#1001-style invoice uses each line’s HSN slab', () => {
   const order = {
     coupon: '',
     items: [
@@ -27,43 +54,37 @@ test('CURRENT BEHAVIOUR: #1001-style invoice falls back to 18% for mixed HSN sla
     ],
   };
 
-  assertFigures(order, {
-    subtotal: 500, discount: 0, tax: 90, cgst: 45, sgst: 45, total: 590,
-    gstByLine: [[18, 36], [18, 54]],
-  }, {
+  const expected = {
     subtotal: 500, discount: 0, tax: 46, cgst: 23, sgst: 23, total: 546,
     gstByLine: [[5, 10], [12, 36]],
-  });
+  };
+  assertFigures(order, expected, expected);
 });
 
-test('CURRENT BEHAVIOUR: #1002-style SAVE10 changes the GST and discount but the total matches', () => {
+test('#1002-style invoice applies SAVE10 before calculating GST', () => {
   const order = {
     coupon: 'SAVE10',
     items: [{ name: 'Tea', price: 300, qty: 2, hsn: '0902', gstRate: 18 }],
   };
 
-  assertFigures(order, {
-    subtotal: 600, discount: 70.8, tax: 108, cgst: 54, sgst: 54, total: 637.2,
-    gstByLine: [[18, 108]],
-  }, {
+  const expected = {
     subtotal: 600, discount: 60, tax: 97.2, cgst: 48.6, sgst: 48.6, total: 637.2,
     gstByLine: [[18, 97.2]],
-  });
+  };
+  assertFigures(order, expected, expected);
 });
 
-test('CURRENT BEHAVIOUR: #1004-style SAVE10 invoice ignores the 150 rupee cap', () => {
+test('#1004-style invoice honors the 150 rupee SAVE10 cap', () => {
   const order = {
     coupon: 'SAVE10',
     items: [{ name: 'Tea', price: 560, qty: 4, hsn: '0902' }],
   };
 
-  assertFigures(order, {
-    subtotal: 2240, discount: 264.32, tax: 403.2, cgst: 201.6, sgst: 201.6, total: 2378.88,
-    gstByLine: [[18, 403.2]],
-  }, {
+  const expected = {
     subtotal: 2240, discount: 150, tax: 376.2, cgst: 188.1, sgst: 188.1, total: 2466.2,
     gstByLine: [[18, 376.2]],
-  });
+  };
+  assertFigures(order, expected, expected);
 });
 
 test('CURRENT BEHAVIOUR: #1008-style all-18% order without a coupon matches checkout', () => {
