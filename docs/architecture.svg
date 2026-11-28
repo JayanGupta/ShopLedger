@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" font-family="Verdana, Arial, sans-serif">
+  <rect x="0" y="0" width="1200" height="800" fill="#ffffff"/>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#44566e"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="30" y="36" font-size="22" font-weight="bold" fill="#14202e">ShopLedger — Architecture</text>
+  <text x="30" y="58" font-size="13" fill="#44566e">Node/Express POS + billing + inventory + customer khata. Red numbers = flow of placing an order.</text>
+
+  <!-- Legend -->
+  <rect x="838" y="14" width="16" height="16" fill="#ffe3c2" stroke="#c2570b" stroke-width="1.5"/>
+  <text x="860" y="27" font-size="12" fill="#14202e">Ticket 3 file (may change)</text>
+  <rect x="838" y="38" width="16" height="16" fill="#eef4ff" stroke="#34558b" stroke-width="1.5"/>
+  <text x="860" y="51" font-size="12" fill="#14202e">Other file (read-only for Ticket 3)</text>
+
+  <!-- Browser UI -->
+  <rect x="30" y="80" width="250" height="120" fill="#f3eafd" stroke="#6b3fb8" stroke-width="1.5"/>
+  <text x="45" y="106" font-size="15" font-weight="bold" fill="#14202e">Browser UI — public/</text>
+  <text x="45" y="130" font-size="13" fill="#14202e">index.html — single-page UI</text>
+  <text x="45" y="152" font-size="13" fill="#14202e">js/app.js — fetch() calls to /api</text>
+  <text x="45" y="174" font-size="13" fill="#14202e">css/style.css</text>
+
+  <!-- server.js -->
+  <rect x="330" y="80" width="250" height="120" fill="#eef4ff" stroke="#34558b" stroke-width="1.5"/>
+  <text x="345" y="106" font-size="15" font-weight="bold" fill="#14202e">server.js — Express app</text>
+  <text x="345" y="130" font-size="13" fill="#14202e">body-parser JSON, static public/</text>
+  <text x="345" y="152" font-size="13" fill="#14202e">mounts 4 routers under /api</text>
+  <text x="345" y="174" font-size="13" fill="#14202e">GET /orders/:id/invoice (print)</text>
+
+  <!-- arrows row A -->
+  <line x1="280" y1="140" x2="324" y2="140" stroke="#44566e" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="284" y="130" font-size="12" fill="#44566e">HTTP</text>
+  <line x1="580" y1="140" x2="624" y2="140" stroke="#44566e" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="576" y="130" font-size="12" fill="#44566e">mounts</text>
+
+  <!-- Routers -->
+  <rect x="630" y="80" width="540" height="56" fill="#e9f7ee" stroke="#2e7d46" stroke-width="1.5"/>
+  <text x="645" y="104" font-size="15" font-weight="bold" fill="#14202e">routes/products.js</text>
+  <text x="645" y="124" font-size="12" fill="#14202e">GET /api/products · GET /api/coupons</text>
+
+  <rect x="630" y="146" width="540" height="56" fill="#e9f7ee" stroke="#2e7d46" stroke-width="1.5"/>
+  <text x="645" y="170" font-size="15" font-weight="bold" fill="#14202e">routes/orders.js</text>
+  <text x="645" y="190" font-size="12" fill="#14202e">GET /api/orders · POST /api/orders · POST /api/orders/:id/cancel</text>
+  <circle cx="1162" cy="146" r="11" fill="#c62828"/>
+  <text x="1162" y="151" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">1</text>
+
+  <rect x="630" y="212" width="540" height="56" fill="#e9f7ee" stroke="#2e7d46" stroke-width="1.5"/>
+  <text x="645" y="236" font-size="15" font-weight="bold" fill="#14202e">routes/customers.js</text>
+  <text x="645" y="256" font-size="12" fill="#14202e">GET /api/customers · POST /api/customers/:id/settle</text>
+
+  <rect x="630" y="278" width="540" height="66" fill="#e9f7ee" stroke="#2e7d46" stroke-width="1.5"/>
+  <text x="645" y="302" font-size="15" font-weight="bold" fill="#14202e">routes/reports.js</text>
+  <text x="645" y="322" font-size="12" fill="#14202e">GET /api/reports/dashboard · GET /api/reports/gst-reconciliation</text>
+  <text x="645" y="338" font-size="12" fill="#14202e">POST /api/pricing/preview · GET /api/admin/export</text>
+
+  <!-- UI badge note -->
+  <rect x="30" y="230" width="250" height="80" fill="#f3eafd" stroke="#6b3fb8" stroke-width="1.5"/>
+  <text x="45" y="254" font-size="14" font-weight="bold" fill="#14202e">Out-of-stock badge (UI only)</text>
+  <text x="45" y="276" font-size="12" fill="#14202e">app.js renders API sellable value:</text>
+  <text x="45" y="294" font-size="12" fill="#14202e">0 = Out of Stock · 1–2 = Low · else Available</text>
+
+  <!-- config.js -->
+  <rect x="330" y="230" width="250" height="80" fill="#eef4ff" stroke="#34558b" stroke-width="1.5"/>
+  <text x="345" y="254" font-size="14" font-weight="bold" fill="#14202e">config.js — constants</text>
+  <text x="345" y="276" font-size="12" fill="#14202e">port · adminKey · shop identity</text>
+  <text x="345" y="294" font-size="12" fill="#14202e">GST HSN slabs · coupons · reorder level</text>
+
+  <!-- config -> lib dashed -->
+  <line x1="455" y1="310" x2="455" y2="374" stroke="#44566e" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="465" y="348" font-size="12" fill="#44566e">read by tax, coupons, inventory, invoice</text>
+
+  <!-- routes -> lib -->
+  <line x1="900" y1="344" x2="900" y2="374" stroke="#44566e" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="910" y="366" font-size="12" fill="#44566e">routers call lib/ modules</text>
+
+  <!-- lib panel -->
+  <rect x="30" y="380" width="1140" height="185" fill="#f7f9fc" stroke="#b9c6d8" stroke-width="1.5"/>
+  <text x="45" y="404" font-size="14" font-weight="bold" fill="#14202e">lib/ — business logic (CommonJS modules)</text>
+
+  <!-- row 1 -->
+  <rect x="45" y="415" width="210" height="66" fill="#ffe3c2" stroke="#c2570b" stroke-width="2"/>
+  <text x="57" y="439" font-size="14" font-weight="bold" fill="#14202e">lib/inventory.js</text>
+  <text x="57" y="457" font-size="12" fill="#14202e">getSellableStock · check · reserve</text>
+  <text x="57" y="473" font-size="12" fill="#14202e">release · summarize · find</text>
+  <circle cx="247" cy="415" r="11" fill="#c62828"/>
+  <text x="247" y="420" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">3</text>
+  <circle cx="222" cy="415" r="11" fill="#c62828"/>
+  <text x="222" y="420" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">6</text>
+
+  <rect x="270" y="415" width="210" height="66" fill="#ffe3c2" stroke="#c2570b" stroke-width="2"/>
+  <text x="282" y="439" font-size="14" font-weight="bold" fill="#14202e">lib/orders.js</text>
+  <text x="282" y="457" font-size="12" fill="#14202e">add · get · cancel · list</text>
+  <text x="282" y="473" font-size="12" fill="#14202e">cancel: release stock + reverse khata</text>
+  <circle cx="472" cy="415" r="11" fill="#c62828"/>
+  <text x="472" y="420" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">7</text>
+
+  <rect x="495" y="415" width="210" height="66" fill="#eef4ff" stroke="#34558b" stroke-width="1.5"/>
+  <text x="507" y="439" font-size="14" font-weight="bold" fill="#14202e">lib/ledger.js</text>
+  <text x="507" y="457" font-size="12" fill="#14202e">chargeOrderToKhata · recordSettlement</text>
+  <text x="507" y="473" font-size="12" fill="#14202e">reverseOrderDebit · listCustomers</text>
+  <circle cx="697" cy="415" r="11" fill="#c62828"/>
+  <text x="697" y="420" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">5</text>
+
+  <rect x="720" y="415" width="210" height="66" fill="#eef4ff" stroke="#34558b" stroke-width="1.5"/>
+  <text x="732" y="439" font-size="14" font-weight="bold" fill="#14202e">lib/pricing.js</text>
+  <text x="732" y="457" font-size="12" fill="#14202e">subtotal · computeTotals · discount</text>
+  <text x="732" y="473" font-size="12" fill="#14202e">per-line GST after coupon split</text>
+  <circle cx="922" cy="415" r="11" fill="#c62828"/>
+  <text x="922" y="420" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">4</text>
+
+  <rect x="945" y="415" width="210" height="66" fill="#eef4ff" stroke="#34558b" stroke-width="1.5"/>
+  <text x="957" y="439" font-size="14" font-weight="bold" fill="#14202e">lib/invoice.js</text>
+  <text x="957" y="457" font-size="12" fill="#14202e">computeInvoiceFigures · render</text>
+  <text x="957" y="473" font-size="12" fill="#14202e">accountant invoice (derived)</text>
+
+  <!-- row 2 -->
+  <rect x="45" y="489" width="210" height="66" fill="#eef4ff" stroke="#34558b" stroke-width="1.5"/>
+  <text x="57" y="513" font-size="14" font-weight="bold" fill="#14202e">lib/store.js</text>
+  <text x="57" y="531" font-size="12" fill="#14202e">read · write · appendAudit</text>
+  <text x="57" y="547" font-size="12" fill="#14202e">only module that touches db.json</text>
+  <circle cx="247" cy="489" r="11" fill="#c62828"/>
+  <text x="247" y="494" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">2</text>
+  <circle cx="222" cy="489" r="11" fill="#c62828"/>
+  <text x="222" y="494" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">8</text>
+
+  <rect x="270" y="489" width="210" height="66" fill="#eef4ff" stroke="#34558b" stroke-width="1.5"/>
+  <text x="282" y="513" font-size="14" font-weight="bold" fill="#14202e">lib/tax.js</text>
+  <text x="282" y="531" font-size="12" fill="#14202e">getRateForItem · getSlabPercent</text>
+  <text x="282" y="547" font-size="12" fill="#14202e">splitCgstSgst</text>
+
+  <rect x="495" y="489" width="210" height="66" fill="#eef4ff" stroke="#34558b" stroke-width="1.5"/>
+  <text x="507" y="513" font-size="14" font-weight="bold" fill="#14202e">lib/coupons.js</text>
+  <text x="507" y="531" font-size="12" fill="#14202e">validate · calculateDiscount</text>
+  <text x="507" y="547" font-size="12" fill="#14202e">normalizeCode · getCoupon · listActive</text>
+
+  <rect x="720" y="489" width="210" height="66" fill="#eef4ff" stroke="#34558b" stroke-width="1.5"/>
+  <text x="732" y="513" font-size="14" font-weight="bold" fill="#14202e">lib/dates.js</text>
+  <text x="732" y="531" font-size="12" fill="#14202e">today · normalizeDateKey</text>
+  <text x="732" y="547" font-size="12" fill="#14202e">getFiscalYear</text>
+
+  <rect x="945" y="489" width="210" height="66" fill="#eef4ff" stroke="#34558b" stroke-width="1.5"/>
+  <text x="957" y="513" font-size="14" font-weight="bold" fill="#14202e">lib/reports.js</text>
+  <text x="957" y="531" font-size="12" fill="#14202e">getDashboardSummary</text>
+  <text x="957" y="547" font-size="12" fill="#14202e">getGstReconciliation</text>
+
+  <!-- store -> db.json -->
+  <line x1="150" y1="555" x2="150" y2="634" stroke="#44566e" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="160" y="592" font-size="12" fill="#44566e">read() / write()</text>
+  <text x="160" y="610" font-size="12" fill="#44566e">whole file, every request</text>
+
+  <!-- db.json -->
+  <rect x="45" y="640" width="330" height="70" fill="#fdf0c0" stroke="#a68b00" stroke-width="1.5"/>
+  <text x="60" y="664" font-size="14" font-weight="bold" fill="#14202e">data/db.json — the whole database</text>
+  <text x="60" y="684" font-size="12" fill="#14202e">products · orders · customers · settlements</text>
+  <text x="60" y="700" font-size="12" fill="#14202e">auditLog · nextOrderId · nextSettlementId</text>
+
+  <!-- Flow strip -->
+  <rect x="420" y="600" width="750" height="150" fill="#fff8e6" stroke="#d9a400" stroke-width="1.5"/>
+  <text x="435" y="626" font-size="14" font-weight="bold" fill="#14202e">Placing an order — POST /api/orders (follow the red numbers)</text>
+  <text x="435" y="652" font-size="13" fill="#14202e">1 — routes/orders.js receives the cart</text>
+  <text x="435" y="676" font-size="13" fill="#14202e">2 — store.read() loads db.json</text>
+  <text x="435" y="700" font-size="13" fill="#14202e">3 — inventory.check() verifies sellable stock</text>
+  <text x="435" y="724" font-size="13" fill="#14202e">4 — pricing.computeTotals() (coupons + tax)</text>
+  <text x="800" y="652" font-size="13" fill="#14202e">5 — ledger.chargeOrderToKhata() (khata only)</text>
+  <text x="800" y="676" font-size="13" fill="#14202e">6 — inventory.reserve() deducts product.stock</text>
+  <text x="800" y="700" font-size="13" fill="#14202e">7 — orders.add() appends the order</text>
+  <text x="800" y="724" font-size="13" fill="#14202e">8 — store.write() saves db.json</text>
+</svg>
